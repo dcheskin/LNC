@@ -1,0 +1,56 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import MediaSlot from '../../components/MediaSlot.astro';
+import BeforeAfter from '../../components/BeforeAfter.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Arrow from '../../components/Arrow.astro';
+import { builds } from '../../data/builds';
+
+export function getStaticPaths() {
+  return builds.map((b, i) => ({ params: { slug: b.slug }, props: { b, next: builds[(i + 1) % builds.length] } }));
+}
+const { b, next } = Astro.props;
+---
+<Base title={b.car} description={`${b.car} — ${b.title} ${b.summary}`}>
+  <PageHero eyebrow={b.division} title={b.car} lede={b.title} media={{ label: `${b.car} — hero: ${b.shotList.at(-1)}` }} />
+
+  <section class="bg-white py-20 md:py-28">
+    <div class="container-x grid gap-12 lg:grid-cols-12">
+      <p class="display text-[clamp(2rem,3.4vw,3.2rem)] lg:col-span-7" data-split>{b.summary}</p>
+      <div class="lg:col-span-4 lg:col-start-9" data-reveal>
+        <p class="eyebrow text-mute">Work performed</p>
+        <ul class="mt-5 border-t border-line">
+          {b.work.map((w) => <li class="border-b border-line py-3.5">{w}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white pb-24">
+    <div class="container-x grid gap-6 md:grid-cols-2">
+      {b.shotList.map((s, i) => (
+        <div class:list={['overflow-hidden', i === 0 ? 'aspect-[16/9] md:col-span-2' : 'aspect-[4/5]']} data-reveal>
+          <div class="size-full" data-zoom><MediaSlot label={s} tone={i % 2 ? 'dark' : 'light'} /></div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {b.division === 'Accident Repair' && (
+    <section class="bg-paper py-24">
+      <div class="container-x"><BeforeAfter class="aspect-[16/9]" /></div>
+    </section>
+  )}
+
+  <a href={`/builds/${next.slug}`} class="group block bg-night py-20 text-white md:py-28">
+    <div class="container-x flex items-end justify-between gap-6">
+      <div>
+        <p class="eyebrow text-white/50">Next build</p>
+        <p class="display mt-4 text-[clamp(2.8rem,7vw,6.6rem)]">{next.car}</p>
+      </div>
+      <span class="mb-4 grid size-14 shrink-0 place-items-center bg-white text-ink transition-transform group-hover:translate-x-2"><Arrow /></span>
+    </div>
+  </a>
+  <CtaBand />
+</Base>

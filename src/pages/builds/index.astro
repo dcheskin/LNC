@@ -1,0 +1,52 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import MediaSlot from '../../components/MediaSlot.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { builds } from '../../data/builds';
+const filters = ['All', 'Accident Repair', 'Customization'];
+---
+<Base title="Builds" description="Selected repairs and customization builds by LNC Auto Group, Laguna Niguel.">
+  <PageHero eyebrow="Selected work" title="The builds." lede="Repairs you can’t find and builds you can’t miss. Every project documented from arrival to handover." />
+  <section class="bg-white pb-28">
+    <div class="container-x">
+      <div class="flex flex-wrap gap-2 border-b border-line pb-6" role="tablist" aria-label="Filter builds">
+        {filters.map((f, i) => (
+          <button class:list={['eyebrow filter-btn px-4 py-2.5', i === 0 && 'is-on']} data-filter={f} role="tab" aria-selected={i === 0 ? 'true' : 'false'}>{f}</button>
+        ))}
+      </div>
+      <div class="mt-12 grid gap-x-6 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+        {builds.map((b, i) => (
+          <a href={`/builds/${b.slug}`} class="group block" data-division={b.division} data-reveal style={`--d:${(i % 3) * 80}ms`}>
+            <div class="aspect-[4/5] overflow-hidden"><div class="size-full transition-transform duration-[1.2s] group-hover:scale-[1.03]"><MediaSlot label={`${b.car} — ${b.shotList[0]}`} tone={b.division === 'Customization' ? 'dark' : 'light'} /></div></div>
+            <p class="eyebrow mt-5 text-mute">{String(i + 1).padStart(2, '0')} · {b.division}</p>
+            <p class="display mt-2 text-[2rem]">{b.car}</p>
+            <p class="lede mt-2 text-ink-2">{b.title}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  .filter-btn { border: 1px solid var(--color-line); }
+  .filter-btn.is-on { background: var(--color-ink); color: #fff; border-color: var(--color-ink); }
+</style>
+<script>
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  const btns = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('[data-division]');
+  btns.forEach((b) =>
+    b.addEventListener('click', () => {
+      btns.forEach((x) => (x.classList.toggle('is-on', x === b), x.setAttribute('aria-selected', String(x === b))));
+      cards.forEach((c) => {
+        const show = b.dataset.filter === 'All' || c.dataset.division === b.dataset.filter;
+        c.style.display = show ? '' : 'none';
+        if (show) (c.style.opacity = '1'), (c.style.transform = 'none');
+      });
+      ScrollTrigger.refresh();
+    }),
+  );
+</script>

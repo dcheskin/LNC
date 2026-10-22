@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import MediaSlot from '../components/MediaSlot.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Stripe from '../components/Stripe.astro';
+import { site } from '../data/site';
+
+const values = [
+  { t: 'Do it once.', d: 'We fix it properly the first time. No comebacks, no shortcuts the next owner will find.' },
+  { t: 'Every car matters.', d: 'A Hyundai gets the same paint match as a Ferrari. Our reviews say it better than we can.' },
+  { t: 'We work for you.', d: 'Not a volume shop, not part of any insurer’s network. Our client is the person who owns the car.' },
+];
+// CONFIRM names, roles and photos with the owner before launch.
+const team = [
+  { n: 'Ben', r: 'Estimates & client care', s: 'Portrait: Ben at the front desk' },
+  { n: 'Dmitriy Solovyev', r: 'Co-owner', s: 'Portrait: Dmitriy in the shop' },
+  { n: 'Vlad', r: 'LNC Motorsport · YouTube', s: 'Portrait: Vlad with camera rig' },
+];
+---
+<Base title="About" description={`LNC Auto Group is a family-owned body shop in Laguna Niguel, California, est. ${site.founded}. Accident repair and car customization.`}>
+  <PageHero
+    eyebrow={`About · Est. ${site.founded}`}
+    title="One family.|One standard."
+    lede="LNC started in Laguna Niguel as a small family body shop with one rule: do it once, do it right. More than a decade later the shop works on everything from daily drivers to hypercars — and the rule hasn’t changed."
+    media={{ label: 'The family / team in front of the shop', note: 'Group portrait, natural, not posed-corporate.' }}
+  />
+
+  <section class="bg-white py-24 md:py-36">
+    <div class="container-x grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <Stripe size="sm" />
+        <p class="display mt-8 text-[clamp(2.6rem,5vw,4.6rem)]" data-split>Accidents happen. Don’t accidentally choose the wrong shop.</p>
+      </div>
+      <div class="grid gap-10 lg:col-span-6 lg:col-start-7">
+        {values.map((v) => (
+          <div class="border-t border-line pt-6" data-reveal>
+            <h3 class="display text-[2.2rem]">{v.t}</h3>
+            <p class="lede mt-3 text-ink-2">{v.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-paper py-24 md:py-32">
+    <div class="container-x">
+      <p class="eyebrow text-mute" data-reveal>The people</p>
+      <h2 class="display mt-5 text-[clamp(2.6rem,5vw,4.6rem)]" data-split>Who you’ll meet.</h2>
+      <div class="mt-14 grid gap-6 md:grid-cols-3">
+        {team.map((m) => (
+          <figure data-reveal>
+            <div class="aspect-[4/5] overflow-hidden"><MediaSlot label={m.s} /></div>
+            <figcaption class="mt-5">
+              <p class="display text-[2rem]">{m.n}</p>
+              <p class="eyebrow mt-2 text-mute">{m.r}</p>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-24 md:py-32">
+    <div class="container-x grid gap-6 md:grid-cols-12">
+      <div class="aspect-[4/3] overflow-hidden md:col-span-7"><div class="size-full" data-zoom><MediaSlot label="The shop: booth, bays, tools in order" /></div></div>
+      <div class="aspect-[4/5] overflow-hidden md:col-span-5 md:mt-24"><div class="size-full" data-zoom><MediaSlot tone="dark" label="Detail: hands sanding / masking a panel" /></div></div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>

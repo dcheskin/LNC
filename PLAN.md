@@ -1,6 +1,19 @@
 # LNC Auto Group — Website Plan (draft v1)
 
-Status: **planning — nothing built yet.** Answer the questions in §6, then we execute.
+Status: **v1 built** (see README.md to run it). Decisions below supersede the proposal where they differ.
+
+## 0. Decisions (22 Oct 2026)
+| # | Question | Answer |
+|---|---|---|
+| 1 | Division name | **Accident Repair** (+ Customization) |
+| 2 | Light vs dark | Light pages, dark hero/film/footer |
+| 3 | Logo | New silver LNC AUTO GROUP mark is final. Asked for "3D / juicy", then revised: **keep it clean (Singer-style), no cheap 3D** → flat monochrome vector, traced from the render |
+| 4 | Claims | "OEM-level" (not "OEM-certified"). **Drop "10,000 families"** |
+| 5 | Merch | Placeholder ("LNC Supply — first drop coming soon") |
+| 6 | Media | Leave labelled slots with art direction for each photo/video |
+| 7 | Domain | LNCAutoGroup.com — yes |
+| — | Look & motion refs | Layout: Boden Autohaus · Restraint/type: Singer · Motion: Forge Automotive (smooth scroll, preloader, line reveals, pinned 01/03 sequence, horizontal build rail, scroll-scrub-ready video) |
+
 
 ---
 

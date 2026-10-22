@@ -1,0 +1,31 @@
+---
+import MediaSlot from './MediaSlot.astro';
+interface Props {
+  eyebrow: string;
+  title: string;
+  lede?: string;
+  tone?: 'light' | 'dark';
+  media?: { label: string; note?: string; kind?: 'photo' | 'video' };
+}
+const { eyebrow, title, lede, tone = 'light', media } = Astro.props;
+const dark = tone === 'dark';
+---
+<section data-hero class:list={['relative overflow-hidden', dark ? 'bg-night text-white' : 'bg-white']}>
+  <div class="container-x pt-36 pb-16 md:pt-48 md:pb-24">
+    <p class:list={['eyebrow', dark ? 'text-white/55' : 'text-mute']} data-hero-fade>{eyebrow}</p>
+    <h1 class="display mt-6 max-w-[18ch] text-[clamp(3.4rem,9vw,9rem)]">
+      {title.split('|').map((l) => <span class="block overflow-hidden"><span class="block" data-hero-line>{l.trim()}</span></span>)}
+    </h1>
+    {lede && <p class:list={['lede mt-8 max-w-[54ch]', dark ? 'text-white/70' : 'text-ink-2']} data-hero-fade>{lede}</p>}
+    <slot />
+  </div>
+  {media && (
+    <div class="container-x pb-4">
+      <div class="aspect-[16/9] overflow-hidden md:aspect-[21/9]">
+        <div class="size-full" data-hero-media>
+          <MediaSlot kind={media.kind ?? 'photo'} label={media.label} note={media.note} tone={dark ? 'dark' : 'light'} />
+        </div>
+      </div>
+    </div>
+  )}
+</section>

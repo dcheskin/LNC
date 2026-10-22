@@ -1,0 +1,8 @@
+---
+interface Props { class?: string; size?: 'sm' | 'md' }
+const { class: cls = '', size = 'md' } = Astro.props;
+const w = size === 'sm' ? 'w-[0.6rem] h-[0.2rem]' : 'w-[0.95rem] h-[0.3rem]';
+---
+<span class={`stripe ${cls}`} aria-hidden="true">
+  <i class={`${w} bg-teal`}></i><i class={`${w} bg-blue`}></i><i class={`${w} bg-red`}></i>
+</span>

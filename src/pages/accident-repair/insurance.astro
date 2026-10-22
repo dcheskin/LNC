@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import ServiceList from '../../components/ServiceList.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { faqs } from '../../data/site';
+
+const steps = [
+  { t: 'Make sure everyone is safe', d: 'Call 911 if anyone is hurt. Exchange insurance details and take photos of the scene, both cars and the other driver’s plate.' },
+  { t: 'Report the claim', d: 'Call your insurer with how it happened and the damage. Ask for a claim number — that’s all we need from you.' },
+  { t: 'Choose LNC', d: 'Tell the insurer you’ve chosen your shop. Text us photos and the claim number; we arrange towing if the car can’t be driven.' },
+  { t: 'We handle the insurer', d: 'Inspection, estimate, supplements for hidden damage and rental coordination — we deal with the adjuster directly.' },
+  { t: 'Repair & updates', d: 'Repaired to manufacturer procedures with photo updates along the way.' },
+  { t: 'Final walk-around', d: 'We go over the car with you in daylight. Pay your deductible, drive away.' },
+];
+---
+<Base title="Insurance Claims" description="How an insurance claim works at LNC Auto Group. We accept every insurance company and handle the adjuster, supplements, towing and rental for you.">
+  <PageHero
+    eyebrow="Accident Repair · Insurance claims"
+    title="A claim, without|the headache."
+    lede="Every insurance company accepted. You bring the claim number — we deal with the rest."
+  />
+  <section class="bg-white pb-24 md:pb-36">
+    <div class="container-x"><ServiceList items={steps} /></div>
+  </section>
+  <section class="bg-paper py-24 md:py-32">
+    <div class="container-x grid gap-12 lg:grid-cols-12">
+      <h2 class="display text-[clamp(2.6rem,5vw,4.6rem)] lg:col-span-4" data-split>Common questions.</h2>
+      <div class="lg:col-span-8">
+        {faqs.slice(0, 4).map((f) => (
+          <details class="group border-b border-line py-6" data-reveal>
+            <summary class="flex cursor-pointer list-none items-start justify-between gap-6 text-[1.15rem]">{f.q}<span class="mt-1 text-xl leading-none transition-transform group-open:rotate-45">+</span></summary>
+            <p class="lede mt-4 max-w-[60ch] text-ink-2">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CtaBand title="Start your claim." />
+</Base>

@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import MediaSlot from '../components/MediaSlot.astro';
+import Arrow from '../components/Arrow.astro';
+import { site } from '../data/site';
+const items = ['Heavyweight black tee', 'Suede cap', 'Plate frame', 'Beanie'];
+---
+<Base title="LNC Supply" overDark description="LNC Supply — apparel and accessories from LNC Auto Group. First drop coming soon.">
+  <PageHero tone="dark" eyebrow="LNC Supply" title="First drop.|Coming soon." lede="Heavyweight, considered, made to be worn — whether or not you own the car.">
+    <a href={site.social.instagram} target="_blank" rel="noopener" class="link-arrow mt-10" data-hero-fade>Follow @lnc_oc for the drop <Arrow /></a>
+  </PageHero>
+  <section class="bg-night pb-28 text-white">
+    <div class="container-x grid grid-cols-2 gap-4 md:grid-cols-4">
+      {items.map((p) => (
+        <div data-reveal>
+          <div class="aspect-[3/4]"><MediaSlot tone="dark" label={p} note="Product shot on neutral backdrop" /></div>
+          <p class="eyebrow mt-4 text-white/70">{p}</p>
+          <p class="eyebrow mt-1 text-white/40">Coming soon</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>

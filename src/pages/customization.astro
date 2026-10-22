@@ -1,0 +1,85 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ServiceList from '../components/ServiceList.astro';
+import CtaBand from '../components/CtaBand.astro';
+import MediaSlot from '../components/MediaSlot.astro';
+import Arrow from '../components/Arrow.astro';
+import { builds } from '../data/builds';
+
+const services = [
+  { t: 'Wide-body & body kits', d: 'Fender flares, full wide-body conversions and aero — fitted and finished like they left the factory that way.' },
+  { t: 'Custom paint', d: 'Full color changes, two-tones and details, laid down in the same booth that does our OEM-level repairs.' },
+  { t: 'Wheels & suspension', d: 'Fitment, stance and ride height chosen around how you actually drive the car.' },
+  { t: 'Exhaust', d: 'Sound and response with a purpose — not noise for its own sake.' },
+  { t: 'Conversions & styling', d: 'Facelifts, grilles, lighting and OEM+ details. Parts sourced, fitted and painted in-house.' },
+  { t: 'Tint & finishing', d: 'Window tint and the final details that pull a build together.' },
+];
+const process = [
+  { n: '01', t: 'Consult', d: 'We start with you — how you use the car, what you love, what you want people to notice.' },
+  { n: '02', t: 'Design', d: 'Parts, finishes and fitment specified up front, with a clear quote.' },
+  { n: '03', t: 'Build', d: 'Everything in-house: body, paint, fitment. Progress photos throughout.' },
+  { n: '04', t: 'Deliver', d: 'Final detail and handover — on a trailer anywhere in the country if needed.' },
+];
+const custom = builds.filter((b) => b.division === 'Customization');
+---
+<Base title="Customization" overDark description="Car customization in Orange County — wide-body, body kits, custom paint, wheels, suspension and exhaust, built in-house by LNC Auto Group.">
+  <PageHero
+    tone="dark"
+    eyebrow="02 · Customization"
+    title="Built around|the driver."
+    lede="Wide-body, paint, wheels, suspension and exhaust — designed with you and built in-house with the same factory discipline as our repairs."
+    media={{ kind: 'video', label: 'Build film: wide-body fitment, paint, reveal', note: '20–30s, moody studio lighting, slow macro moves.' }}
+  >
+    <div class="mt-10 flex flex-wrap gap-3" data-hero-fade>
+      <a href="/contact?type=build" class="btn btn-light">Plan a build</a>
+      <a href="/builds" class="btn btn-ghost">See builds</a>
+    </div>
+  </PageHero>
+
+  <section class="bg-night pb-24 text-white md:pb-36">
+    <div class="container-x grid gap-12 pt-12 lg:grid-cols-12">
+      <div class="lg:col-span-4">
+        <p class="eyebrow text-white/50" data-reveal>Services</p>
+        <h2 class="display mt-5 text-[clamp(2.6rem,5vw,4.6rem)]" data-split>Every detail chosen.</h2>
+      </div>
+      <div class="lg:col-span-8"><ServiceList items={services} dark /></div>
+    </div>
+  </section>
+
+  <section class="bg-white py-24 md:py-36">
+    <div class="container-x">
+      <p class="eyebrow text-mute" data-reveal>Process</p>
+      <h2 class="display mt-5 max-w-[14ch] text-[clamp(2.6rem,5vw,4.6rem)]" data-split>From idea to handover.</h2>
+      <div class="mt-16 grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-4">
+        {process.map((p) => (
+          <div class="bg-white py-8 sm:p-8 lg:first:pl-0" data-reveal>
+            <p class="eyebrow text-mute">{p.n}</p>
+            <h3 class="display mt-6 text-[2.4rem]">{p.t}</h3>
+            <p class="lede mt-4 text-ink-2">{p.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-paper py-24 md:py-32">
+    <div class="container-x">
+      <div class="flex items-end justify-between gap-6">
+        <h2 class="display text-[clamp(2.6rem,5vw,4.6rem)]" data-split>Recent builds.</h2>
+        <a href="/builds" class="link-arrow" data-reveal>All builds <Arrow /></a>
+      </div>
+      <div class="mt-12 grid gap-6 md:grid-cols-2">
+        {custom.map((b) => (
+          <a href={`/builds/${b.slug}`} class="group block" data-reveal>
+            <div class="aspect-[16/10] overflow-hidden"><div class="size-full transition-transform duration-[1.2s] group-hover:scale-[1.03]"><MediaSlot label={`${b.car} — ${b.shotList[0]}`} /></div></div>
+            <p class="eyebrow mt-5 text-mute">{b.division}</p>
+            <p class="display mt-2 text-[2rem]">{b.car}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Let’s plan your build." text="Tell us the car and what you have in mind. Photos and inspiration help." />
+</Base>

@@ -1,0 +1,123 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+
+// Set PUBLIC_FORM_ENDPOINT (e.g. a Formspree URL) in .env to make the form live.
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
+const field = 'mt-2 w-full border-0 border-b border-line bg-transparent py-3 text-[1.05rem] outline-none transition-colors focus:border-ink';
+---
+<Base title="Get a Quote" description="Request a quote or start an insurance claim with LNC Auto Group in Laguna Niguel. Call or text (949) 367-1080.">
+  <PageHero eyebrow="Contact" title="Get a quote." lede="The fastest way: text photos to (949) 367-1080. Or fill this in and we’ll reply the same business day." />
+
+  <section class="bg-white pb-28">
+    <div class="container-x grid gap-16 lg:grid-cols-12">
+      <form id="quote" class="lg:col-span-7" action={endpoint || undefined} method="POST" enctype="multipart/form-data" novalidate data-reveal>
+        <fieldset>
+          <legend class="eyebrow text-mute">I need help with</legend>
+          <div class="mt-4 flex flex-wrap gap-2">
+            {[['accident', 'Accident repair'], ['build', 'Customization'], ['other', 'Something else']].map(([v, l], i) => (
+              <label class="type-chip eyebrow cursor-pointer border border-line px-4 py-3">
+                <input type="radio" name="type" value={v} class="sr-only" checked={i === 0} />{l}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <div class="mt-12 grid gap-x-8 gap-y-8 sm:grid-cols-2">
+          <label class="block"><span class="eyebrow text-mute">Name *</span><input name="name" required autocomplete="name" class={field} /></label>
+          <label class="block"><span class="eyebrow text-mute">Phone *</span><input name="phone" type="tel" required autocomplete="tel" class={field} /></label>
+          <label class="block"><span class="eyebrow text-mute">Email</span><input name="email" type="email" autocomplete="email" class={field} /></label>
+          <label class="block"><span class="eyebrow text-mute">Best way to reach you</span>
+            <select name="contact_pref" class={field}><option>Text</option><option>Call</option><option>Email</option></select>
+          </label>
+          <label class="block"><span class="eyebrow text-mute">Vehicle (year, make, model) *</span><input name="vehicle" required class={field} placeholder="2021 Porsche 911 Carrera S" /></label>
+          <label class="block" data-claim><span class="eyebrow text-mute">Insurance company</span><input name="insurer" class={field} /></label>
+          <label class="block sm:col-span-2" data-claim><span class="eyebrow text-mute">Claim number (if you have one)</span><input name="claim" class={field} /></label>
+          <label class="block sm:col-span-2"><span class="eyebrow text-mute">Tell us what happened / what you have in mind</span><textarea name="message" rows="4" class={field + ' resize-y'}></textarea></label>
+          <label class="block cursor-pointer border border-dashed border-line px-6 py-8 text-center transition-colors hover:border-ink sm:col-span-2">
+            <span class="eyebrow text-mute">Photos (up to 10)</span>
+            <span id="file-label" class="mt-2 block text-ink-2">Drop images here or tap to choose</span>
+            <input id="files" name="photos" type="file" accept="image/*" multiple class="sr-only" />
+          </label>
+        </div>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+        <div class="mt-10 flex flex-wrap items-center gap-6">
+          <button type="submit" class="btn btn-ink">Send request</button>
+          <p id="form-status" class="text-sm text-ink-2" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+
+      <aside class="lg:col-span-4 lg:col-start-9" data-reveal>
+        <div class="border-t border-ink pt-6">
+          <p class="eyebrow text-mute">Call or text</p>
+          <a href={site.phoneHref} class="display mt-3 block text-[2.6rem]">{site.phone}</a>
+          <a href={`mailto:${site.email}`} class="mt-2 block text-ink-2 hover:underline">{site.email}</a>
+        </div>
+        <div class="mt-10 border-t border-line pt-6">
+          <p class="eyebrow text-mute">Shop</p>
+          <a href={site.mapsHref} target="_blank" rel="noopener" class="mt-3 block leading-relaxed hover:underline">{site.address.street}<br />{site.address.city}, {site.address.region} {site.address.zip}</a>
+        </div>
+        <div class="mt-10 border-t border-line pt-6">
+          <p class="eyebrow text-mute">Hours</p>
+          <ul class="mt-3 grid gap-1.5">{site.hours.map((h) => <li class="flex justify-between"><span>{h.days}</span><span class="text-ink-2">{h.time}</span></li>)}</ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .type-chip:has(input:checked) { background: var(--color-ink); color: #fff; border-color: var(--color-ink); }
+  .type-chip:has(input:focus-visible) { outline: 2px solid var(--color-teal); outline-offset: 2px; }
+</style>
+
+<script>
+  const form = document.getElementById('quote') as HTMLFormElement;
+  const status = document.getElementById('form-status')!;
+  const files = document.getElementById('files') as HTMLInputElement;
+  const fileLabel = document.getElementById('file-label')!;
+
+  const preset = new URLSearchParams(location.search).get('type');
+  if (preset) form.querySelector<HTMLInputElement>(`input[name=type][value=${CSS.escape(preset)}]`)?.click();
+
+  const syncClaim = () => {
+    const accident = form.querySelector<HTMLInputElement>('input[name=type]:checked')?.value === 'accident';
+    form.querySelectorAll<HTMLElement>('[data-claim]').forEach((el) => (el.style.display = accident ? '' : 'none'));
+  };
+  form.addEventListener('change', syncClaim);
+  syncClaim();
+
+  files.addEventListener('change', () => {
+    if (files.files && files.files.length > 10) {
+      fileLabel.textContent = 'Please choose up to 10 photos.';
+      files.value = '';
+      return;
+    }
+    fileLabel.textContent = files.files?.length ? `${files.files.length} photo(s) selected` : 'Drop images here or tap to choose';
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    if (!form.action || form.getAttribute('action') === null) {
+      status.textContent = 'Online form is being connected — please call or text (949) 367-1080 for now.';
+      return;
+    }
+    status.textContent = 'Sending…';
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+      if (!res.ok) throw new Error(String(res.status));
+      form.reset();
+      syncClaim();
+      fileLabel.textContent = 'Drop images here or tap to choose';
+      status.textContent = 'Thanks — we’ll be in touch shortly.';
+    } catch {
+      status.textContent = 'Something went wrong. Please call or text (949) 367-1080.';
+    }
+  });
+</script>

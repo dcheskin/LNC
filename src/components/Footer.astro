@@ -1,0 +1,66 @@
+---
+import Logo from './Logo.astro';
+import Stripe from './Stripe.astro';
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+const cols = [
+  { h: 'Services', links: [['Accident Repair', '/accident-repair'], ['Insurance claims', '/accident-repair/insurance'], ['Customization', '/customization'], ['Builds', '/builds']] },
+  { h: 'Company', links: [['About', '/about'], ['Reviews', '/reviews'], ['LNC Supply', '/shop'], ['FAQ', '/faq'], ['Contact', '/contact']] },
+  { h: 'Follow', links: [['Instagram', site.social.instagram], ['YouTube', site.social.youtube], ['Facebook', site.social.facebook], ['Yelp', site.ratings.yelp.href]] },
+];
+---
+<footer class="relative overflow-hidden bg-night text-white">
+  <div class="container-x grid gap-12 pt-20 pb-10 md:grid-cols-12 md:pt-28">
+    <div class="md:col-span-5">
+      <Stripe />
+      <p class="eyebrow mt-6 text-white/45">LNC Auto Group · Est. {site.founded}</p>
+      <p class="display mt-5 max-w-[16ch] text-[clamp(2.6rem,5vw,4.6rem)]" data-split>Do it once. Do it right.</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href={site.smsHref} class="btn btn-light">Text {site.phone}</a>
+        <a href="/contact" class="btn btn-ghost text-white">Get a quote</a>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-10 sm:grid-cols-3 md:col-span-7 md:pl-10">
+      {cols.map((c) => (
+        <div>
+          <p class="eyebrow text-white/45">{c.h}</p>
+          <ul class="mt-4 space-y-2.5">
+            {c.links.map(([l, href]) => (
+              <li><a href={href} class="text-[0.95rem] text-white/80 transition-colors hover:text-white" {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {})}>{l}</a></li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      <div class="col-span-2 sm:col-span-3 grid gap-8 border-t border-white/10 pt-8 sm:grid-cols-2">
+        <div>
+          <p class="eyebrow text-white/45">Visit</p>
+          <a href={site.mapsHref} target="_blank" rel="noopener" class="mt-3 block text-white/85 hover:text-white">
+            {site.address.street}<br />{site.address.city}, {site.address.region} {site.address.zip}
+          </a>
+        </div>
+        <div>
+          <p class="eyebrow text-white/45">Hours</p>
+          <ul class="mt-3 space-y-1 text-white/85">
+            {site.hours.map((h) => <li class="flex justify-between gap-4"><span>{h.days}</span><span class="text-white/55">{h.time}</span></li>)}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-x" aria-hidden="true">
+    <Logo class="footer-logo w-full text-white/[0.07]" />
+  </div>
+
+  <div class="container-x flex flex-col gap-2 border-t border-white/10 py-6 text-xs text-white/45 sm:flex-row sm:justify-between">
+    <p>© {year} LNC Auto Group · {site.legalName}. Family owned since {site.founded}.</p>
+    <p>Laguna Niguel, Orange County, California</p>
+  </div>
+</footer>
+
+<style>
+  .footer-logo {
+    margin-bottom: -2%;
+    mask-image: linear-gradient(to bottom, #000 30%, transparent 95%);
+  }
+</style>

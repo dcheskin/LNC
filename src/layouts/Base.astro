@@ -1,0 +1,86 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Preloader from '../components/Preloader.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  overDark?: boolean;
+  preloader?: boolean;
+  schema?: Record<string, unknown>;
+}
+const {
+  title,
+  description = 'LNC Auto Group — family-owned accident repair and car customization in Laguna Niguel, Orange County. OEM-level repairs, undetectable paintwork, all insurance claims accepted.',
+  overDark = false,
+  preloader = false,
+  schema,
+} = Astro.props;
+const fullTitle = title ? `${title} · LNC Auto Group` : 'LNC Auto Group — Accident Repair & Customization · Orange County';
+const canonical = new URL(Astro.url.pathname, site.url).href;
+
+const business = {
+  '@context': 'https://schema.org',
+  '@type': 'AutoBodyShop',
+  name: 'LNC Auto Group',
+  alternateName: ['Laguna Niguel Collision', 'LNC Collision & Car Customization'],
+  url: site.url,
+  telephone: '+1-949-367-1080',
+  email: site.email,
+  foundingDate: String(site.founded),
+  priceRange: '$$$',
+  image: `${site.url}/og.png`,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    addressLocality: site.address.city,
+    addressRegion: site.address.region,
+    postalCode: site.address.zip,
+    addressCountry: 'US',
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
+  openingHoursSpecification: [
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '08:00', closes: '17:30' },
+  ],
+  sameAs: Object.values(site.social),
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#08090b" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${site.url}/og.png`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline>
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-motion');
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(business)} />
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+  </head>
+  <body class="min-h-dvh">
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-white">Skip to content</a>
+    {preloader && <Preloader />}
+    <Header overDark={overDark} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import { initMotion } from '../scripts/motion';
+      initMotion();
+    </script>
+  </body>
+</html>

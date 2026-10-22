@@ -1,0 +1,116 @@
+---
+import Logo from './Logo.astro';
+import { nav, site } from '../data/site';
+interface Props { overDark?: boolean }
+const { overDark = false } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, '');
+---
+<header
+  id="site-header"
+  data-over-dark={overDark ? 'true' : 'false'}
+  class="group/h fixed inset-x-0 top-0 z-50 transition-[background-color,color,box-shadow,backdrop-filter] duration-500"
+>
+  <div class="container-x flex h-16 items-center justify-between gap-6 md:h-[4.5rem]">
+    <a href="/" class="block w-[78px] md:w-[88px]" aria-label="LNC Auto Group — home">
+      <Logo class="block h-auto w-full" />
+    </a>
+
+    <nav class="hidden items-center gap-1 lg:flex" aria-label="Primary">
+      {nav.map((n) => (
+        <a
+          href={n.href}
+          class:list={[
+            'nav-link eyebrow px-3 py-2 transition-opacity',
+            path.startsWith(n.href) && 'is-active',
+          ]}
+        >{n.label}</a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a href={site.smsHref} class="eyebrow hidden items-center gap-2.5 px-3 py-2 md:inline-flex" aria-label={`Call or text ${site.phone}`}>
+        <span class="relative flex size-2"><span class="absolute inline-flex size-full animate-ping rounded-full bg-teal opacity-60"></span><span class="relative inline-flex size-2 rounded-full bg-teal"></span></span>
+        {site.phone}
+      </a>
+      <a href="/contact" class="btn cta-btn hidden !px-5 !py-3 sm:inline-flex">Get a quote</a>
+      <button
+        id="menu-btn"
+        class="grid size-10 place-items-center rounded-full lg:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="flex w-5 flex-col gap-[5px]"><i class="block h-[1.5px] w-full bg-current"></i><i class="block h-[1.5px] w-3/4 self-end bg-current"></i></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div id="mobile-menu" class="fixed inset-0 z-[60] hidden flex-col bg-night text-white" aria-hidden="true">
+  <div class="container-x flex h-16 items-center justify-between">
+    <Logo class="w-[78px]" />
+    <button id="menu-close" class="grid size-10 place-items-center rounded-full border border-white/20" aria-label="Close menu">
+      <svg viewBox="0 0 16 16" class="size-4" stroke="currentColor" stroke-width="1.6"><path d="M3 3l10 10M13 3 3 13" /></svg>
+    </button>
+  </div>
+  <nav class="container-x mt-8 flex flex-col" aria-label="Mobile">
+    {[{ label: 'Home', href: '/' }, ...nav, { label: 'Reviews', href: '/reviews' }, { label: 'FAQ', href: '/faq' }, { label: 'Contact', href: '/contact' }].map((n, i) => (
+      <a href={n.href} class="display border-b border-white/10 py-3.5 text-[2.3rem]" style={`--i:${i}`}>{n.label}</a>
+    ))}
+  </nav>
+  <div class="container-x mt-auto grid grid-cols-2 gap-3 pb-8">
+    <a href={site.phoneHref} class="btn btn-light justify-center">Call</a>
+    <a href={site.smsHref} class="btn btn-ghost justify-center">Text photos</a>
+  </div>
+</div>
+
+<style>
+  #site-header { color: var(--color-ink); }
+  #site-header .cta-btn { background: var(--color-ink); color: #fff; }
+  #site-header .nav-link { opacity: 0.72; }
+  #site-header .nav-link:hover,
+  #site-header .nav-link.is-active { opacity: 1; }
+  #site-header .nav-link.is-active { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px; }
+
+  #site-header[data-over-dark='true']:not([data-scrolled='true']) { color: #fff; }
+  #site-header[data-over-dark='true']:not([data-scrolled='true']) .cta-btn { background: #fff; color: var(--color-ink); }
+
+  #site-header[data-scrolled='true'] {
+    background: color-mix(in srgb, #ffffff 88%, transparent);
+    backdrop-filter: saturate(1.4) blur(14px);
+    box-shadow: 0 1px 0 var(--color-line);
+  }
+  #site-header[data-hidden='true'] { transform: translateY(-100%); }
+  #site-header { transition: transform 0.6s var(--ease-out-expo), background-color 0.4s, color 0.4s, box-shadow 0.4s; }
+
+  #mobile-menu.is-open { display: flex; }
+  #mobile-menu.is-open nav a { animation: menuIn 0.7s var(--ease-out-expo) both; animation-delay: calc(var(--i) * 45ms); }
+  @keyframes menuIn { from { opacity: 0; transform: translateY(18px); } }
+</style>
+
+<script>
+  const h = document.getElementById('site-header')!;
+  let last = 0;
+  const onScroll = () => {
+    const y = window.scrollY;
+    h.setAttribute('data-scrolled', String(y > 24));
+    h.setAttribute('data-hidden', String(y > 400 && y > last));
+    last = y;
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const menu = document.getElementById('mobile-menu')!;
+  const btn = document.getElementById('menu-btn')!;
+  const close = document.getElementById('menu-close')!;
+  const set = (open: boolean) => {
+    menu.classList.toggle('is-open', open);
+    menu.setAttribute('aria-hidden', String(!open));
+    btn.setAttribute('aria-expanded', String(open));
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    if (open) close.focus();
+  };
+  btn.addEventListener('click', () => set(true));
+  close.addEventListener('click', () => set(false));
+  document.addEventListener('keydown', (e) => e.key === 'Escape' && set(false));
+</script>

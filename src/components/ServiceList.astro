@@ -1,0 +1,13 @@
+---
+interface Props { items: { t: string; d: string }[]; dark?: boolean }
+const { items, dark = false } = Astro.props;
+---
+<ol class:list={['border-t', dark ? 'border-white/15' : 'border-line']}>
+  {items.map((it, i) => (
+    <li class:list={['group grid gap-3 border-b py-8 md:grid-cols-12 md:gap-8 md:py-10', dark ? 'border-white/15' : 'border-line']} data-reveal>
+      <span class:list={['eyebrow pt-2 md:col-span-1', dark ? 'text-white/45' : 'text-mute']}>{String(i + 1).padStart(2, '0')}</span>
+      <h3 class="display text-[clamp(1.9rem,3vw,2.8rem)] md:col-span-5">{it.t}</h3>
+      <p class:list={['lede md:col-span-6 md:pt-2', dark ? 'text-white/65' : 'text-ink-2']}>{it.d}</p>
+    </li>
+  ))}
+</ol>

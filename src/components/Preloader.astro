@@ -1,0 +1,20 @@
+---
+import Logo from './Logo.astro';
+---
+<div id="preloader" class="fixed inset-0 z-[90] hidden flex-col items-center justify-between bg-night py-10 text-white" aria-hidden="true">
+  <Logo word={false} class="pl-logo w-[52px]" />
+  <p class="pl-line eyebrow max-w-[46ch] px-6 text-center leading-[2.1] text-white/85">
+    Accident repair &amp; customization.<br />Family owned in Orange County since 2012.
+  </p>
+  <div class="h-px w-[200px] bg-white/15"><div class="pl-bar h-px w-0 bg-white"></div></div>
+</div>
+<script is:inline>
+  // Show the preloader once per session, before first paint of content.
+  try {
+    var r = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!r && !sessionStorage.getItem('lnc-pl')) {
+      document.documentElement.classList.add('has-preloader');
+      document.getElementById('preloader').style.display = 'flex';
+    }
+  } catch (e) {}
+</script>
