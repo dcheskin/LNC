@@ -3,7 +3,7 @@
 // browser); without YELP_API_KEY the site falls back to the figures in
 // src/data/site.ts, so local builds and previews still work.
 //
-// Keep it fresh by rebuilding on a schedule (see .github/workflows/refresh.yml).
+// Kept fresh by the daily rebuild in .github/workflows/deploy.yml.
 import { site, reviews as curated } from '../data/site';
 
 export interface Review {

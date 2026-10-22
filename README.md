@@ -38,13 +38,22 @@ Replace it with media of the same aspect ratio, e.g.
 ## Contact form
 Set `PUBLIC_FORM_ENDPOINT` (e.g. a Formspree form URL) in `.env`. Without it the form validates and tells visitors to call/text.
 
+## Hosting (GitHub Pages)
+
+`.github/workflows/deploy.yml` builds and publishes the site on every push, once a day (fresh Yelp data) and on demand (Actions → Deploy site → Run workflow).
+
+- One-time: Settings → Pages → Source: **GitHub Actions**. Pages on a private repo needs a paid GitHub plan; otherwise make the repo public.
+- Live at `https://<user>.github.io/<repo>/` until a custom domain is added (Settings → Pages → Custom domain, e.g. `lncautogroup.com`, plus the DNS records GitHub lists).
+- `scripts/relativize.mjs` makes every link relative after the build, so the same output works on the Pages sub-path and on a custom domain.
+- Secrets (Settings → Secrets and variables → Actions): `YELP_API_KEY`, `PUBLIC_FORM_ENDPOINT`.
+
 ## Live Yelp numbers & reviews
 
 `src/lib/yelp.ts` pulls the Yelp rating, review count and the 3 newest reviews at build time through the [Yelp Fusion API](https://docs.developer.yelp.com/docs/fusion-intro). Every page that shows Yelp figures (home hero strip, the big review counter, reviews section, /reviews) reads from it.
 
 1. Create a Yelp Fusion app and copy its API key (Yelp's plans are paid after the free trial; a daily rebuild uses ~60 calls a month).
-2. Add `YELP_API_KEY` to the host's environment variables (and to `.env` for local builds — see `.env.example`). Never expose it as `PUBLIC_`.
-3. Create a build hook on the host and save it as the GitHub secret `DEPLOY_HOOK_URL`. `.github/workflows/refresh.yml` calls it daily, so the numbers update on their own.
+2. For local builds, put it in `.env` (see `.env.example`). Never expose it as `PUBLIC_`.
+3. Save the key as the GitHub repository secret `YELP_API_KEY`. The deploy workflow rebuilds the site every morning, so the numbers update on their own.
 
 Without a key the site uses the figures in `src/data/site.ts` (last checked 22 Oct 2026: 5.0 ★, 202 reviews) and the hand-picked reviews. Yelp's API returns review excerpts (not full text); each card links to the full review on Yelp.
 

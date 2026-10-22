@@ -1,0 +1,58 @@
+# Builds the site and publishes it to GitHub Pages.
+# Runs on every push (so edits go live in ~1–2 minutes), once a day (to pull
+# fresh Yelp numbers and reviews), and on demand from the Actions tab.
+#
+# One-time setup: repo Settings → Pages → Build and deployment → Source:
+# "GitHub Actions". Optional repo secrets: YELP_API_KEY, PUBLIC_FORM_ENDPOINT.
+name: Deploy site
+
+on:
+  push:
+    branches: [claude/wonderful-cray-1brbac, main]
+  schedule:
+    - cron: '17 13 * * *' # daily, ~6am Pacific
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - id: pages
+        uses: actions/configure-pages@v5
+      - run: npm ci
+      - name: Build
+        run: npm run build
+        env:
+          YELP_API_KEY: ${{ secrets.YELP_API_KEY }}
+          PUBLIC_FORM_ENDPOINT: ${{ secrets.PUBLIC_FORM_ENDPOINT }}
+      - name: Make links work under the Pages path
+        run: node scripts/relativize.mjs dist
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
