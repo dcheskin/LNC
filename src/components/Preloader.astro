@@ -1,13 +1,13 @@
 ---
 import Logo from './Logo.astro';
 ---
-<div id="preloader" class="glow-navy fixed inset-0 z-[90] hidden flex-col items-center justify-center text-white" aria-hidden="true" style="clip-path: inset(0 0 0 0)">
+<div id="preloader" class="bg-night fixed inset-0 z-[90] hidden flex-col items-center justify-center text-white" aria-hidden="true" style="clip-path: inset(0 0 0 0)">
   <div class="overflow-hidden"><Logo class="pl-logo block w-[min(56vw,300px)]" /></div>
   <div class="absolute inset-x-0 bottom-0 flex items-end justify-between px-[clamp(1rem,4vw,3rem)] pb-8">
     <p class="pl-cap tag">Loading LNC</p>
     <div class="overflow-hidden"><p class="pl-num display-c text-[clamp(4rem,12vw,10rem)] tabular-nums">000</p></div>
   </div>
-  <div class="pl-bar absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 bg-volt"></div>
+  <div class="pl-bar absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 bg-white"></div>
 </div>
 <script is:inline>
   try {

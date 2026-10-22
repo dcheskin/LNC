@@ -9,25 +9,22 @@
   --font-mono: 'Geist Mono Variable', 'Geist Mono', ui-monospace, monospace;
 
   /* Neutral base */
-  --color-paper: #f2f2ef;
+  --color-paper: #f5f4f0;
   --color-surface: #ffffff;
   --color-ink: #0b0c0e;
   --color-ink-2: #3d4046;
   --color-mute: #7a7d83;
   --color-line: #dfdfda;
-  --color-night: #0a0b10;
-  --color-night-2: #13151d;
-  --color-navy: #1b2756;
+  --color-night: #08090b;
+  --color-night-2: #121418;
   --color-chrome: #c7ccd2;
 
   /* LNC OG colour DNA — used sparingly */
   --color-teal: #11a39d;
   --color-blue: #1b3a8c;
   --color-red: #d4212d;
-  /* Signal accent on dark — LNC teal, pushed bright */
-  --color-volt: #23d6c6;
 
-  --radius-card: 6px;
+  --radius-card: 2px;
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -67,55 +64,50 @@
 }
 
 @layer components {
-  /* Extra-wide, black-weight grotesk — racing-livery energy. */
+  /* Tall, condensed, light uppercase — Forge / Singer restraint. */
   .display {
     font-family: var(--font-display);
-    font-variation-settings: 'wdth' 125;
-    font-weight: 900;
+    font-variation-settings: 'wdth' 62;
+    font-weight: 300;
     text-transform: uppercase;
-    letter-spacing: -0.012em;
-    line-height: 0.88;
+    letter-spacing: 0.005em;
+    line-height: 0.94;
   }
-  /* Condensed heavy for giant numbers (timing-screen feel). */
+  .display-b {
+    font-weight: 500;
+  }
+  /* Thin condensed numerals for big figures and the clock. */
   .display-c {
     font-family: var(--font-display);
     font-variation-settings: 'wdth' 62;
-    font-weight: 800;
+    font-weight: 200;
     text-transform: uppercase;
-    line-height: 0.8;
-    letter-spacing: -0.02em;
+    line-height: 0.82;
+    letter-spacing: -0.01em;
     font-variant-numeric: tabular-nums;
   }
   .outline-text {
     color: transparent;
     -webkit-text-stroke: 1.5px currentColor;
   }
-  /* Black → navy glow, like a pit lane under lights. */
-  .glow-navy {
-    background:
-      radial-gradient(70% 60% at 20% 110%, color-mix(in srgb, var(--color-navy) 95%, transparent), transparent 70%),
-      radial-gradient(50% 50% at 90% 0%, color-mix(in srgb, var(--color-navy) 55%, transparent), transparent 70%),
-      var(--color-night);
-  }
-  /* Chamfered (cut-corner) frame. */
-  .chamfer {
-    --c: 18px;
-    clip-path: polygon(var(--c) 0, 100% 0, 100% calc(100% - var(--c)), calc(100% - var(--c)) 100%, 0 100%, 0 var(--c));
-  }
+  /* Section label: hairline + wide-tracked micro caps. */
   .tag {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.32rem 0.55rem;
-    background: var(--color-volt);
-    color: var(--color-night);
-    font-family: var(--font-display);
-    font-variation-settings: 'wdth' 125;
-    font-weight: 800;
-    font-size: 0.62rem;
-    letter-spacing: 0.08em;
+    gap: 0.75rem;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
     line-height: 1;
+    opacity: 0.6;
+  }
+  .tag::before {
+    content: '';
+    width: 1.75rem;
+    height: 1px;
+    background: currentColor;
   }
   /* Wide-tracked micro caps — Forge-style labels. */
   .eyebrow {
@@ -142,13 +134,11 @@
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    border-radius: 6px;
-    padding: 1.05rem 1.5rem;
-    font-family: var(--font-display);
-    font-variation-settings: 'wdth' 125;
-    font-weight: 800;
-    font-size: 0.72rem;
-    letter-spacing: 0.06em;
+    border-radius: 0;
+    padding: 1rem 1.5rem;
+    font-weight: 500;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     overflow: hidden;
     transition:
@@ -175,22 +165,13 @@
   .btn-light:hover {
     background: #e9e9e6;
   }
-  .btn-volt {
-    background: var(--color-volt);
-    color: var(--color-night);
-  }
-  .btn-volt:hover {
-    background: #4ff0e2;
-  }
   .link-arrow {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    font-family: var(--font-display);
-    font-variation-settings: 'wdth' 125;
     font-size: 0.7rem;
-    font-weight: 800;
-    letter-spacing: 0.06em;
+    font-weight: 500;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     padding-bottom: 0.35rem;
     background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
@@ -293,7 +274,7 @@ button:hover > .roll > span,
   height: 10px;
   margin: -5px 0 0 -5px;
   border-radius: 999px;
-  background: var(--color-volt);
+  background: #fff;
   mix-blend-mode: difference;
   transition:
     width 0.45s var(--ease-out-expo),
@@ -304,18 +285,19 @@ button:hover > .roll > span,
   place-items: center;
 }
 .cursor.is-big {
-  width: 92px;
-  height: 92px;
-  margin: -46px 0 0 -46px;
+  width: 88px;
+  height: 88px;
+  margin: -44px 0 0 -44px;
   mix-blend-mode: normal;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(4px);
 }
 .cursor .cursor-label {
-  font-family: var(--font-display);
-  font-variation-settings: 'wdth' 125;
-  font-weight: 800;
-  font-size: 0.62rem;
-  letter-spacing: 0.06em;
-  color: var(--color-night);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ink);
   opacity: 0;
   transition: opacity 0.3s;
 }

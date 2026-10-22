@@ -18,9 +18,9 @@ const filters = ['All', 'Accident Repair', 'Customization'];
       <div class="mt-12 grid gap-x-6 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
         {builds.map((b, i) => (
           <a href={`/builds/${b.slug}`} class="group block" data-cursor="View" data-division={b.division} data-reveal style={`--d:${(i % 3) * 80}ms`}>
-            <div class="chamfer aspect-[4/5] overflow-hidden"><div class="size-full transition-transform duration-[1.2s] group-hover:scale-[1.03]"><MediaSlot label={`${b.car} — ${b.shotList[0]}`} tone={b.division === 'Customization' ? 'dark' : 'light'} /></div></div>
+            <div class="aspect-[4/5] overflow-hidden"><div class="size-full transition-transform duration-[1.2s] group-hover:scale-[1.03]"><MediaSlot label={`${b.car} — ${b.shotList[0]}`} tone={b.division === 'Customization' ? 'dark' : 'light'} /></div></div>
             <p class="eyebrow mt-5 text-mute">{String(i + 1).padStart(2, '0')} · {b.division}</p>
-            <p class="display mt-2 text-[1.35rem]">{b.car}</p>
+            <p class="display mt-2 text-[1.96rem]">{b.car}</p>
             <p class="lede mt-2 text-ink-2">{b.title}</p>
           </a>
         ))}

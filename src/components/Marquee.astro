@@ -5,7 +5,7 @@ const { items, class: cls = '' } = Astro.props;
 <div data-marquee class:list={['overflow-hidden whitespace-nowrap select-none', cls]} aria-hidden="true">
   <div data-marquee-track class="inline-flex will-change-transform">
     {[0, 1].map(() => items.map((t, i) => (
-      <span class:list={['display px-[0.35em] text-[clamp(3rem,8vw,7.5rem)]', i % 2 && 'outline-text']}>{t}<span class="mx-[0.35em] inline-block text-volt">/</span></span>
+      <span class:list={['display px-[0.35em] text-[clamp(4rem,11vw,10rem)]', i % 2 && 'outline-text']}>{t}<span class="mx-[0.35em] inline-block opacity-30">/</span></span>
     )))}
   </div>
 </div>

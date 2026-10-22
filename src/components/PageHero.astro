@@ -6,13 +6,13 @@ interface Props {
   lede?: string;
   media?: { label: string; note?: string; kind?: 'photo' | 'video' };
 }
-// Header is always white-on-dark now, so heroes default to the navy glow.
+// Header is white-on-dark, so heroes open on night.
 const { eyebrow, title, lede, media } = Astro.props;
 ---
-<section data-hero class="glow-navy relative overflow-hidden text-white">
+<section data-hero class="bg-night relative overflow-hidden text-white">
   <div class="container-x pt-36 pb-14 md:pt-48 md:pb-20">
     <span class="tag" data-hero-fade>{eyebrow}</span>
-    <h1 class="display mt-7 max-w-[16ch] text-[clamp(2.3rem,6.2vw,6.6rem)]">
+    <h1 class="display mt-7 max-w-[16ch] text-[clamp(3.33rem,8.99vw,9.57rem)]">
       {title.split('|').map((l) => <span class="block overflow-hidden pb-[0.04em]"><span class="block" data-hero-line>{l.trim()}</span></span>)}
     </h1>
     {lede && <p class="lede mt-8 max-w-[54ch] text-white/70" data-hero-fade>{lede}</p>}
@@ -20,7 +20,7 @@ const { eyebrow, title, lede, media } = Astro.props;
   </div>
   {media && (
     <div class="container-x pb-10 md:pb-14">
-      <div class="chamfer aspect-[16/10] overflow-hidden md:aspect-[21/9]">
+      <div class="aspect-[16/10] overflow-hidden md:aspect-[21/9]">
         <div class="size-full" data-hero-media>
           <MediaSlot kind={media.kind ?? 'photo'} label={media.label} note={media.note} tone="dark" />
         </div>

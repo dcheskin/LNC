@@ -31,7 +31,7 @@ const custom = builds.filter((b) => b.division === 'Customization');
     media={{ kind: 'video', label: 'Build film: wide-body fitment, paint, reveal', note: '20–30s, moody studio lighting, slow macro moves.' }}
   >
     <div class="mt-10 flex flex-wrap gap-3" data-hero-fade>
-      <a href="/contact?type=build" class="btn btn-volt" data-magnetic>Plan a build</a>
+      <a href="/contact?type=build" class="btn btn-light" data-magnetic>Plan a build</a>
       <a href="/builds" class="btn btn-ghost">See builds</a>
     </div>
   </PageHero>
@@ -40,7 +40,7 @@ const custom = builds.filter((b) => b.division === 'Customization');
     <div class="container-x grid gap-12 pt-12 lg:grid-cols-12">
       <div class="lg:col-span-4">
         <p class="eyebrow text-white/50" data-reveal>Services</p>
-        <h2 class="display mt-5 text-[clamp(1.9rem,4vw,3.6rem)]" data-split>Every detail chosen.</h2>
+        <h2 class="display mt-5 text-[clamp(2.75rem,5.8vw,5.22rem)]" data-split>Every detail chosen.</h2>
       </div>
       <div class="lg:col-span-8"><ServiceList items={services} dark /></div>
     </div>
@@ -49,12 +49,12 @@ const custom = builds.filter((b) => b.division === 'Customization');
   <section class="bg-white py-24 md:py-36">
     <div class="container-x">
       <p class="eyebrow text-mute" data-reveal>Process</p>
-      <h2 class="display mt-5 max-w-[14ch] text-[clamp(1.9rem,4vw,3.6rem)]" data-split>From idea to handover.</h2>
+      <h2 class="display mt-5 max-w-[14ch] text-[clamp(2.75rem,5.8vw,5.22rem)]" data-split>From idea to handover.</h2>
       <div class="mt-16 grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-4">
         {process.map((p) => (
           <div class="bg-white py-8 sm:p-8 lg:first:pl-0" data-reveal>
             <p class="eyebrow text-mute">{p.n}</p>
-            <h3 class="display mt-6 text-[1.6rem]">{p.t}</h3>
+            <h3 class="display mt-6 text-[2.32rem]">{p.t}</h3>
             <p class="lede mt-4 text-ink-2">{p.d}</p>
           </div>
         ))}
@@ -65,7 +65,7 @@ const custom = builds.filter((b) => b.division === 'Customization');
   <section class="bg-paper py-24 md:py-32">
     <div class="container-x">
       <div class="flex items-end justify-between gap-6">
-        <h2 class="display text-[clamp(1.9rem,4vw,3.6rem)]" data-split>Recent builds.</h2>
+        <h2 class="display text-[clamp(2.75rem,5.8vw,5.22rem)]" data-split>Recent builds.</h2>
         <a href="/builds" class="link-arrow" data-reveal>All builds <Arrow /></a>
       </div>
       <div class="mt-12 grid gap-6 md:grid-cols-2">
@@ -73,7 +73,7 @@ const custom = builds.filter((b) => b.division === 'Customization');
           <a href={`/builds/${b.slug}`} class="group block" data-reveal>
             <div class="aspect-[16/10] overflow-hidden"><div class="size-full transition-transform duration-[1.2s] group-hover:scale-[1.03]"><MediaSlot label={`${b.car} — ${b.shotList[0]}`} /></div></div>
             <p class="eyebrow mt-5 text-mute">{b.division}</p>
-            <p class="display mt-2 text-[1.35rem]">{b.car}</p>
+            <p class="display mt-2 text-[1.96rem]">{b.car}</p>
           </a>
         ))}
       </div>
