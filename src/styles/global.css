@@ -38,6 +38,7 @@
     scroll-behavior: smooth;
   }
   body {
+    background: var(--color-paper);
     font-family: var(--font-sans);
     font-feature-settings: 'ss01', 'cv11';
   }

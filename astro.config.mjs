@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://lncautogroup.com',
+  build: { assets: 'assets' },
   integrations: [sitemap()],
   vite: { plugins: [tailwindcss()] },
 });
