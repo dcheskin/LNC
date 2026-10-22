@@ -2,12 +2,10 @@
 @import '@fontsource-variable/archivo/wdth.css';
 @import '@fontsource-variable/geist';
 @import '@fontsource-variable/geist-mono';
-@import '@fontsource/libre-caslon-display/latin-400.css';
 
 @theme {
   --font-display: 'Archivo Variable', 'Archivo', ui-sans-serif, system-ui, sans-serif;
   --font-sans: 'Geist Variable', 'Geist', ui-sans-serif, system-ui, sans-serif;
-  --font-serif: 'Libre Caslon Display', 'Times New Roman', serif;
   --font-mono: 'Geist Mono Variable', 'Geist Mono', ui-monospace, monospace;
 
   /* Neutral base */
