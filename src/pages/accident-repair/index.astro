@@ -25,7 +25,7 @@ const services = [
     media={{ label: 'Wide: car on the frame bench, technician measuring', note: 'Clean shop, natural light. Shows precision, not damage.' }}
   >
     <div class="mt-10 flex flex-wrap gap-3" data-hero-fade>
-      <a href="/contact?type=accident" class="btn btn-ink">Start a claim</a>
+      <a href="/contact?type=accident" class="btn btn-volt" data-magnetic>Start a claim</a>
       <a href={site.smsHref} class="btn btn-ghost">Text photos</a>
     </div>
   </PageHero>
@@ -34,7 +34,7 @@ const services = [
     <div class="container-x grid gap-12 lg:grid-cols-12">
       <div class="lg:col-span-4">
         <p class="eyebrow text-mute" data-reveal>What we repair</p>
-        <h2 class="display mt-5 text-[clamp(2.6rem,5vw,4.6rem)]" data-split>Every make. Every insurer.</h2>
+        <h2 class="display mt-5 text-[clamp(1.9rem,4vw,3.6rem)]" data-split>Every make. Every insurer.</h2>
       </div>
       <div class="lg:col-span-8"><ServiceList items={services} /></div>
     </div>
@@ -45,7 +45,7 @@ const services = [
       <div class="aspect-[4/5] overflow-hidden lg:col-span-5"><div class="size-full" data-zoom><MediaSlot tone="dark" label="Portrait: Ben with a client at drop-off" /></div></div>
       <div class="lg:col-span-6 lg:col-start-7">
         <p class="eyebrow text-white/50" data-reveal>California law</p>
-        <h2 class="display mt-5 text-[clamp(2.8rem,6vw,5.4rem)]" data-split>Your car. Your choice of shop.</h2>
+        <h2 class="display mt-5 text-[clamp(1.9rem,4.2vw,3.8rem)]" data-split>Your car. Your choice of shop.</h2>
         <p class="lede mt-8 max-w-[48ch] text-white/70" data-reveal>
           Your insurer may recommend a shop from its network — but in California the choice is yours. LNC isn’t part of any direct-repair program, so our only job is to fix your car properly and to argue for the repair it actually needs.
         </p>
@@ -63,7 +63,7 @@ const services = [
     <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-center">
       <div class="lg:col-span-4">
         <p class="eyebrow text-mute" data-reveal>The finish</p>
-        <h2 class="display mt-5 text-[clamp(2.6rem,5vw,4.6rem)]" data-split>If you can find it, we’re not done.</h2>
+        <h2 class="display mt-5 text-[clamp(1.9rem,4vw,3.6rem)]" data-split>If you can find it, we’re not done.</h2>
       </div>
       <div class="lg:col-span-8" data-reveal><BeforeAfter class="aspect-[16/10]" /></div>
     </div>

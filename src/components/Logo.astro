@@ -1,15 +1,17 @@
 ---
-// Flat, monochrome mark — inherits text colour (ink on light, white on dark).
-import { MARK, WORD } from '../assets/logo-paths';
+// LNC wordmark: letters only + tracked "AUTO GROUP" — no speed lines.
+// Flat, inherits text colour.
+import { LETTERS, WORD } from '../assets/logo-paths';
 interface Props {
   word?: boolean;
   class?: string;
   title?: string;
 }
 const { word = true, class: cls = '', title = 'LNC Auto Group' } = Astro.props;
-const h = word ? MARK.h + WORD.h + 18 : MARK.h;
+const GAP = 46;
+const h = word ? LETTERS.h + GAP + WORD.h : LETTERS.h;
 ---
-<svg viewBox={`0 0 ${MARK.w} ${h}`} class={cls} role="img" aria-label={title} xmlns="http://www.w3.org/2000/svg">
-  <path d={MARK.d} fill="currentColor" fill-rule="evenodd" />
-  {word && <path d={WORD.d} fill="currentColor" fill-rule="evenodd" transform={`translate(0 ${MARK.h + 18})`} />}
+<svg viewBox={`0 0 ${LETTERS.w} ${h}`} class={cls} role="img" aria-label={title} xmlns="http://www.w3.org/2000/svg">
+  <path d={LETTERS.d} fill="currentColor" fill-rule="evenodd" />
+  {word && <path d={WORD.d} fill="currentColor" fill-rule="evenodd" transform={`translate(0 ${LETTERS.h + GAP})`} />}
 </svg>

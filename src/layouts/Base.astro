@@ -8,14 +8,12 @@ import { site } from '../data/site';
 interface Props {
   title?: string;
   description?: string;
-  overDark?: boolean;
   preloader?: boolean;
   schema?: Record<string, unknown>;
 }
 const {
   title,
   description = 'LNC Auto Group — family-owned accident repair and car customization in Laguna Niguel, Orange County. OEM-level repairs, undetectable paintwork, all insurance claims accepted.',
-  overDark = false,
   preloader = false,
   schema,
 } = Astro.props;
@@ -73,7 +71,7 @@ const business = {
   <body class="min-h-dvh">
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-white">Skip to content</a>
     {preloader && <Preloader />}
-    <Header overDark={overDark} />
+    <Header />
     <main id="main">
       <slot />
     </main>

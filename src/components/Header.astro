@@ -1,91 +1,69 @@
 ---
 import Logo from './Logo.astro';
 import { nav, site } from '../data/site';
-interface Props { overDark?: boolean }
-const { overDark = false } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, '');
 ---
-<header
-  id="site-header"
-  data-over-dark={overDark ? 'true' : 'false'}
-  class="group/h fixed inset-x-0 top-0 z-50 transition-[background-color,color,box-shadow,backdrop-filter] duration-500"
->
-  <div class="container-x flex h-16 items-center justify-between gap-6 md:h-[4.5rem]">
-    <a href="/" class="block w-[78px] md:w-[88px]" aria-label="LNC Auto Group — home">
+<header id="site-header" class="fixed inset-x-0 top-0 z-50 text-white">
+  <div class="container-x flex h-[4.5rem] items-center justify-between gap-6 md:h-20">
+    <a href="/" class="block w-[84px] md:w-[100px]" aria-label="LNC Auto Group — home">
       <Logo class="block h-auto w-full" />
     </a>
 
-    <nav class="hidden items-center gap-1 lg:flex" aria-label="Primary">
+    <nav class="hidden items-center gap-1 rounded-md border border-white/10 bg-white/[0.04] p-1 backdrop-blur-md lg:flex" aria-label="Primary">
       {nav.map((n) => (
-        <a
-          href={n.href}
-          class:list={[
-            'nav-link eyebrow px-3 py-2 transition-opacity',
-            path.startsWith(n.href) && 'is-active',
-          ]}
-        >{n.label}</a>
+        <a href={n.href} class:list={['nav-link eyebrow rounded px-3.5 py-2.5 transition-colors', path.startsWith(n.href) && 'is-active']}>{n.label}</a>
       ))}
     </nav>
 
     <div class="flex items-center gap-2">
-      <a href={site.smsHref} class="eyebrow hidden items-center gap-2.5 px-3 py-2 md:inline-flex" aria-label={`Call or text ${site.phone}`}>
-        <span class="relative flex size-2"><span class="absolute inline-flex size-full animate-ping rounded-full bg-teal opacity-60"></span><span class="relative inline-flex size-2 rounded-full bg-teal"></span></span>
-        {site.phone}
+      <a href={site.smsHref} class="eyebrow hidden items-center gap-2 px-3 py-2 xl:inline-flex" data-shop-status aria-label={`Call or text ${site.phone}`}>
+        <span class="st-dot relative flex size-2"><span class="absolute inline-flex size-full animate-ping rounded-full opacity-60"></span><span class="relative inline-flex size-2 rounded-full"></span></span>
+        <span data-st-short>{site.phone}</span>
       </a>
-      <a href="/contact" class="btn cta-btn hidden !px-5 !py-3 sm:inline-flex">Get a quote</a>
-      <button
-        id="menu-btn"
-        class="grid size-10 place-items-center rounded-full lg:hidden"
-        aria-label="Open menu"
-        aria-expanded="false"
-        aria-controls="mobile-menu"
-      >
-        <span class="flex w-5 flex-col gap-[5px]"><i class="block h-[1.5px] w-full bg-current"></i><i class="block h-[1.5px] w-3/4 self-end bg-current"></i></span>
+      <a href="/contact" class="btn btn-volt hidden !px-5 !py-3.5 sm:inline-flex" data-magnetic>Get a quote</a>
+      <button id="menu-btn" class="grid size-12 place-items-center rounded-md border border-white/15 bg-white/[0.06] backdrop-blur-md" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="flex w-5 flex-col gap-[6px]"><i class="block h-[2px] w-full bg-current"></i><i class="block h-[2px] w-3/5 self-end bg-current"></i></span>
       </button>
     </div>
   </div>
 </header>
 
-<div id="mobile-menu" class="fixed inset-0 z-[60] hidden flex-col bg-night text-white" aria-hidden="true">
-  <div class="container-x flex h-16 items-center justify-between">
-    <Logo class="w-[78px]" />
-    <button id="menu-close" class="grid size-10 place-items-center rounded-full border border-white/20" aria-label="Close menu">
-      <svg viewBox="0 0 16 16" class="size-4" stroke="currentColor" stroke-width="1.6"><path d="M3 3l10 10M13 3 3 13" /></svg>
+<div id="mobile-menu" class="glow-navy fixed inset-0 z-[60] hidden flex-col text-white" aria-hidden="true">
+  <div class="container-x flex h-[4.5rem] items-center justify-between md:h-20">
+    <Logo class="w-[84px] md:w-[100px]" />
+    <button id="menu-close" class="grid size-12 place-items-center rounded-md border border-white/20" aria-label="Close menu">
+      <svg viewBox="0 0 16 16" class="size-4" stroke="currentColor" stroke-width="1.8"><path d="M3 3l10 10M13 3 3 13" /></svg>
     </button>
   </div>
-  <nav class="container-x mt-8 flex flex-col" aria-label="Mobile">
+  <nav class="container-x mt-6 flex flex-col" aria-label="Menu">
     {[{ label: 'Home', href: '/' }, ...nav, { label: 'Reviews', href: '/reviews' }, { label: 'FAQ', href: '/faq' }, { label: 'Contact', href: '/contact' }].map((n, i) => (
-      <a href={n.href} class="display border-b border-white/10 py-3.5 text-[2.3rem]" style={`--i:${i}`}>{n.label}</a>
+      <a href={n.href} class="menu-item group flex items-baseline justify-between border-b border-white/10 py-3" style={`--i:${i}`}>
+        <span class="display text-[clamp(1.9rem,5.4vw,4rem)] transition-colors group-hover:text-volt">{n.label}</span>
+        <span class="eyebrow text-white/40">{String(i + 1).padStart(2, '0')}</span>
+      </a>
     ))}
   </nav>
-  <div class="container-x mt-auto grid grid-cols-2 gap-3 pb-8">
-    <a href={site.phoneHref} class="btn btn-light justify-center">Call</a>
-    <a href={site.smsHref} class="btn btn-ghost justify-center">Text photos</a>
+  <div class="container-x mt-auto flex flex-wrap items-center justify-between gap-4 pb-8 pt-8">
+    <p class="eyebrow text-white/60">{site.address.street}, {site.address.city}</p>
+    <div class="flex gap-3">
+      <a href={site.phoneHref} class="btn btn-volt">Call {site.phone}</a>
+      <a href={site.smsHref} class="btn btn-ghost">Text photos</a>
+    </div>
   </div>
 </div>
 
 <style>
-  #site-header { color: var(--color-ink); }
-  #site-header .cta-btn { background: var(--color-ink); color: #fff; }
-  #site-header .nav-link { opacity: 0.72; }
-  #site-header .nav-link:hover,
-  #site-header .nav-link.is-active { opacity: 1; }
-  #site-header .nav-link.is-active { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px; }
-
-  #site-header[data-over-dark='true']:not([data-scrolled='true']) { color: #fff; }
-  #site-header[data-over-dark='true']:not([data-scrolled='true']) .cta-btn { background: #fff; color: var(--color-ink); }
-
-  #site-header[data-scrolled='true'] {
-    background: color-mix(in srgb, #ffffff 88%, transparent);
-    backdrop-filter: saturate(1.4) blur(14px);
-    box-shadow: 0 1px 0 var(--color-line);
-  }
-  #site-header[data-hidden='true'] { transform: translateY(-100%); }
-  #site-header { transition: transform 0.6s var(--ease-out-expo), background-color 0.4s, color 0.4s, box-shadow 0.4s; }
-
+  #site-header { transition: transform 0.6s var(--ease-out-expo), background-color 0.4s; }
+  #site-header .nav-link { color: rgb(255 255 255 / 0.72); }
+  #site-header .nav-link:hover { color: #fff; background: rgb(255 255 255 / 0.08); }
+  #site-header .nav-link.is-active { color: var(--color-night); background: #fff; }
+  #site-header[data-scrolled='true'] { background: color-mix(in srgb, var(--color-night) 78%, transparent); backdrop-filter: blur(14px) saturate(1.3); }
+  #site-header[data-hidden='true'] { transform: translateY(-110%); }
+  #site-header .st-dot span { background: #9aa0a6; }
+  #site-header [data-open='true'] .st-dot span { background: var(--color-volt); }
   #mobile-menu.is-open { display: flex; }
-  #mobile-menu.is-open nav a { animation: menuIn 0.7s var(--ease-out-expo) both; animation-delay: calc(var(--i) * 45ms); }
-  @keyframes menuIn { from { opacity: 0; transform: translateY(18px); } }
+  #mobile-menu.is-open .menu-item { animation: menuIn 0.8s var(--ease-out-expo) both; animation-delay: calc(var(--i) * 45ms); }
+  @keyframes menuIn { from { opacity: 0; transform: translateY(40px); } }
 </style>
 
 <script>
@@ -108,6 +86,8 @@ const path = Astro.url.pathname.replace(/\/$/, '');
     menu.setAttribute('aria-hidden', String(!open));
     btn.setAttribute('aria-expanded', String(open));
     document.documentElement.style.overflow = open ? 'hidden' : '';
+    const l = (window as any).__lenis;
+    if (l) open ? l.stop() : l.start();
     if (open) close.focus();
   };
   btn.addEventListener('click', () => set(true));

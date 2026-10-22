@@ -1,15 +1,15 @@
 ---
 import Logo from './Logo.astro';
 ---
-<div id="preloader" class="fixed inset-0 z-[90] hidden flex-col items-center justify-between bg-night py-10 text-white" aria-hidden="true">
-  <Logo word={false} class="pl-logo w-[52px]" />
-  <p class="pl-line eyebrow max-w-[46ch] px-6 text-center leading-[2.1] text-white/85">
-    Accident repair &amp; customization.<br />Family owned in Orange County since 2012.
-  </p>
-  <div class="h-px w-[200px] bg-white/15"><div class="pl-bar h-px w-0 bg-white"></div></div>
+<div id="preloader" class="glow-navy fixed inset-0 z-[90] hidden flex-col items-center justify-center text-white" aria-hidden="true" style="clip-path: inset(0 0 0 0)">
+  <div class="overflow-hidden"><Logo class="pl-logo block w-[min(56vw,300px)]" /></div>
+  <div class="absolute inset-x-0 bottom-0 flex items-end justify-between px-[clamp(1rem,4vw,3rem)] pb-8">
+    <p class="pl-cap tag">Loading LNC</p>
+    <div class="overflow-hidden"><p class="pl-num display-c text-[clamp(4rem,12vw,10rem)] tabular-nums">000</p></div>
+  </div>
+  <div class="pl-bar absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 bg-volt"></div>
 </div>
 <script is:inline>
-  // Show the preloader once per session, before first paint of content.
   try {
     var r = matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!r && !sessionStorage.getItem('lnc-pl')) {

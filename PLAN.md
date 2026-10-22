@@ -13,6 +13,9 @@ Status: **v1 built** (see README.md to run it). Decisions below supersede the pr
 | 6 | Media | Leave labelled slots with art direction for each photo/video |
 | 7 | Domain | LNCAutoGroup.com — yes |
 | — | Look & motion refs | Layout: Boden Autohaus · Restraint/type: Singer · Motion: Forge Automotive (smooth scroll, preloader, line reveals, pinned 01/03 sequence, horizontal build rail, scroll-scrub-ready video) |
+| v2 | Type | Extra-wide black grotesk (Archivo wdth 125 / 900) for headlines; condensed Archivo for big numbers; Geist body. Black → navy glow sections |
+| v2 | Logo | Speed lines removed — **LNC letters + AUTO GROUP only**. Small in the header, full-width in the footer (Gomez Sim Industries-style) |
+| v2 | Motion refs | Lando Norris "On Track" (rolling hover labels, odometer stats, results table with hover preview, countdown, custom cursor, magnetic buttons, loader counter, glowing footer slogan) + Nick Ho Motorsports (giant bleed titles, calendar rows, volt tags). LNC version: live open/closed countdown (Pacific) + week "calendar" with today highlighted |
 
 
 ---

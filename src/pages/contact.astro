@@ -10,7 +10,7 @@ const field = 'mt-2 w-full border-0 border-b border-line bg-transparent py-3 tex
 <Base title="Get a Quote" description="Request a quote or start an insurance claim with LNC Auto Group in Laguna Niguel. Call or text (949) 367-1080.">
   <PageHero eyebrow="Contact" title="Get a quote." lede="The fastest way: text photos to (949) 367-1080. Or fill this in and we’ll reply the same business day." />
 
-  <section class="bg-white pb-28">
+  <section class="bg-paper pt-16 pb-28 md:pt-24">
     <div class="container-x grid gap-16 lg:grid-cols-12">
       <form id="quote" class="lg:col-span-7" action={endpoint || undefined} method="POST" enctype="multipart/form-data" novalidate data-reveal>
         <fieldset>
@@ -52,7 +52,7 @@ const field = 'mt-2 w-full border-0 border-b border-line bg-transparent py-3 tex
       <aside class="lg:col-span-4 lg:col-start-9" data-reveal>
         <div class="border-t border-ink pt-6">
           <p class="eyebrow text-mute">Call or text</p>
-          <a href={site.phoneHref} class="display mt-3 block text-[2.6rem]">{site.phone}</a>
+          <a href={site.phoneHref} class="display-c mt-3 block text-[3.4rem]">{site.phone}</a>
           <a href={`mailto:${site.email}`} class="mt-2 block text-ink-2 hover:underline">{site.email}</a>
         </div>
         <div class="mt-10 border-t border-line pt-6">

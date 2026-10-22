@@ -1,0 +1,8 @@
+---
+// Nick Ho-style giant section word that bleeds past the viewport edges.
+interface Props { text: string; dir?: 'left' | 'right'; class?: string }
+const { text, dir = 'left', class: cls = '' } = Astro.props;
+---
+<div class:list={['pointer-events-none overflow-x-clip select-none', cls]} aria-hidden="true">
+  <p data-bleed={dir} class="display whitespace-nowrap text-center text-[clamp(5rem,19vw,20rem)] leading-[0.8]">{text}</p>
+</div>

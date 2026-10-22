@@ -1,0 +1,23 @@
+---
+// Live Pacific-time countdown to the shop opening/closing (Lando "next race begins in…").
+interface Props { class?: string; size?: 'lg' | 'sm' }
+const { class: cls = '', size = 'lg' } = Astro.props;
+const units = [['d', 'D'], ['h', 'H'], ['m', 'M'], ['s', 'S']];
+---
+<div data-shop-status class={cls}>
+  <p class="eyebrow flex items-center gap-2.5">
+    <span class="st-dot relative flex size-2"><span class="absolute inline-flex size-full animate-ping rounded-full opacity-60"></span><span class="relative inline-flex size-2 rounded-full"></span></span>
+    <span data-st-label>Shop hours · Mon–Fri 8:00–5:30</span>
+  </p>
+  <p class:list={['display-c mt-4 flex flex-wrap items-baseline', size === 'lg' ? 'text-[clamp(4.5rem,13vw,12rem)]' : 'text-[clamp(2.6rem,6vw,4rem)]']} aria-live="off">
+    {units.map(([k, u]) => (
+      <span class="mr-[0.12em] inline-flex items-baseline">
+        <span data-st={k} {...{ [`data-st-${k}`]: '' }}>00</span><span class="text-white/35 text-[0.55em] ml-[0.04em]">{u}</span>
+      </span>
+    ))}
+  </p>
+</div>
+<style>
+  [data-shop-status] .st-dot span { background: #9aa0a6; }
+  [data-shop-status][data-open='true'] .st-dot span { background: var(--color-volt); }
+</style>

@@ -8,7 +8,7 @@ const filters = ['All', 'Accident Repair', 'Customization'];
 ---
 <Base title="Builds" description="Selected repairs and customization builds by LNC Auto Group, Laguna Niguel.">
   <PageHero eyebrow="Selected work" title="The builds." lede="Repairs you can’t find and builds you can’t miss. Every project documented from arrival to handover." />
-  <section class="bg-white pb-28">
+  <section class="bg-paper pt-16 pb-28 md:pt-24">
     <div class="container-x">
       <div class="flex flex-wrap gap-2 border-b border-line pb-6" role="tablist" aria-label="Filter builds">
         {filters.map((f, i) => (
@@ -17,10 +17,10 @@ const filters = ['All', 'Accident Repair', 'Customization'];
       </div>
       <div class="mt-12 grid gap-x-6 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
         {builds.map((b, i) => (
-          <a href={`/builds/${b.slug}`} class="group block" data-division={b.division} data-reveal style={`--d:${(i % 3) * 80}ms`}>
-            <div class="aspect-[4/5] overflow-hidden"><div class="size-full transition-transform duration-[1.2s] group-hover:scale-[1.03]"><MediaSlot label={`${b.car} — ${b.shotList[0]}`} tone={b.division === 'Customization' ? 'dark' : 'light'} /></div></div>
+          <a href={`/builds/${b.slug}`} class="group block" data-cursor="View" data-division={b.division} data-reveal style={`--d:${(i % 3) * 80}ms`}>
+            <div class="chamfer aspect-[4/5] overflow-hidden"><div class="size-full transition-transform duration-[1.2s] group-hover:scale-[1.03]"><MediaSlot label={`${b.car} — ${b.shotList[0]}`} tone={b.division === 'Customization' ? 'dark' : 'light'} /></div></div>
             <p class="eyebrow mt-5 text-mute">{String(i + 1).padStart(2, '0')} · {b.division}</p>
-            <p class="display mt-2 text-[2rem]">{b.car}</p>
+            <p class="display mt-2 text-[1.35rem]">{b.car}</p>
             <p class="lede mt-2 text-ink-2">{b.title}</p>
           </a>
         ))}

@@ -3,130 +3,134 @@ import Base from '../layouts/Base.astro';
 import MediaSlot from '../components/MediaSlot.astro';
 import BeforeAfter from '../components/BeforeAfter.astro';
 import Arrow from '../components/Arrow.astro';
-import Stripe from '../components/Stripe.astro';
+import Marquee from '../components/Marquee.astro';
+import BleedTitle from '../components/BleedTitle.astro';
+import ShopClock from '../components/ShopClock.astro';
 import { site, reviews } from '../data/site';
 import { builds } from '../data/builds';
 
 const steps = [
-  {
-    t: 'Text us photos & your claim number.',
-    d: 'Send a few photos of the damage to (949) 367-1080. In California, you choose the shop — not your insurer.',
-    m: 'Phone in hand, texting damage photos',
-  },
-  {
-    t: 'We deal with the insurance company.',
-    d: 'Adjuster, inspection, supplements, rental and towing — handled. We work for you, not the insurer.',
-    m: 'Ben walking the car with an adjuster',
-  },
-  {
-    t: 'Pick it up. Find nothing.',
-    d: 'OEM-level repair, color-matched in the booth. If you can find the repair, we aren’t done.',
-    m: 'Finished car, paint reflections in sunlight',
-  },
+  { t: 'Text us photos & your claim number.', d: 'Send a few photos of the damage to (949) 367-1080. In California, you choose the shop — not your insurer.', m: 'Phone in hand, texting damage photos' },
+  { t: 'We deal with the insurance company.', d: 'Adjuster, inspection, supplements, rental and towing — handled. We work for you, not the insurer.', m: 'Ben walking the car with an adjuster' },
+  { t: 'Pick it up. Find nothing.', d: 'OEM-level repair, color-matched in the booth. If you can find the repair, we aren’t done.', m: 'Finished car, paint reflections in sunlight' },
 ];
-const featured = builds.slice(0, 5);
+const week = [
+  { d: 1, n: 'Monday', t: '08:00 – 17:30' },
+  { d: 2, n: 'Tuesday', t: '08:00 – 17:30' },
+  { d: 3, n: 'Wednesday', t: '08:00 – 17:30' },
+  { d: 4, n: 'Thursday', t: '08:00 – 17:30' },
+  { d: 5, n: 'Friday', t: '08:00 – 17:30' },
+  { d: 6, n: 'Saturday', t: 'By appointment' },
+  { d: 0, n: 'Sunday', t: 'Closed' },
+];
 ---
-<Base overDark preloader>
+<Base preloader>
   <!-- HERO -->
-  <section data-hero class="relative h-[100svh] min-h-[640px] overflow-hidden bg-night text-white">
-    <div data-hero-media class="absolute inset-0 origin-center">
-      <MediaSlot
-        kind="video"
-        tone="dark"
-        align="top-right"
-        label="Hero film · 15–20s loop"
-        note="Slow rolling shot of a finished build at golden hour, cut to the paint booth. No logos, no text."
-      />
+  <section data-hero class="glow-navy relative flex min-h-[100svh] flex-col overflow-hidden text-white">
+    <div data-hero-media class="absolute inset-0 opacity-40 mix-blend-luminosity">
+      <MediaSlot kind="video" tone="dark" align="top-right" label="Hero film · 15–20s loop" note="Rolling shot of a finished build at night under shop lights, cut to the paint booth." />
     </div>
-    <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-night via-night/30 to-night/50"></div>
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-night via-transparent to-night/60"></div>
 
-    <div class="container-x relative flex h-full flex-col justify-end pb-10 md:pb-14">
-      <p class="eyebrow text-white/70" data-hero-fade>Laguna Niguel · Orange County · Est. {site.founded}</p>
-      <h1 class="display mt-5 text-[clamp(4.2rem,13vw,13.5rem)]">
-        <span class="block overflow-hidden"><span class="block" data-hero-line>Do it once.</span></span>
-        <span class="block overflow-hidden"><span class="block" data-hero-line>Do it right.</span></span>
+    <div class="container-x relative mt-auto pt-36 pb-8">
+      <p class="tag" data-hero-fade>Accident repair · Customization</p>
+      <h1 class="display mt-6 text-[clamp(2.7rem,10.4vw,11.5rem)]">
+        <span class="block overflow-hidden pb-[0.04em]"><span class="block" data-hero-line>Do it once.</span></span>
+        <span class="block overflow-hidden pb-[0.04em]"><span class="block text-volt" data-hero-line>Do it right.</span></span>
       </h1>
-      <div class="mt-8 grid gap-8 border-t border-white/15 pt-7 md:grid-cols-12 md:items-end">
-        <p class="lede max-w-[44ch] text-white/75 md:col-span-5" data-hero-fade>
-          Family-owned accident repair and customization for every make — from daily drivers to the exotics we're known for.
-        </p>
-        <div class="flex flex-wrap gap-3 md:col-span-4 md:col-start-6" data-hero-fade>
-          <a href="/accident-repair" class="btn btn-light">Start a claim</a>
-          <a href="/customization" class="btn btn-ghost">Plan a build</a>
+      <div class="mt-10 grid border-t border-white/15 sm:grid-cols-2 lg:grid-cols-4" data-hero-fade>
+        {[
+          { k: 'Based in', v: `${site.address.city}, CA` },
+          { k: 'Family owned', v: `Since ${site.founded}` },
+          { k: 'Yelp', v: `★ ${site.ratings.yelp.score} · ${site.ratings.yelp.count} reviews` },
+        ].map((c) => (
+          <div class="border-b border-white/15 py-4 sm:pr-6 lg:border-b-0 lg:border-r">
+            <p class="eyebrow text-white/50">{c.k}</p>
+            <p class="display mt-2 text-[0.95rem] tracking-normal">{c.v}</p>
+          </div>
+        ))}
+        <div class="py-4 lg:pl-6" data-shop-status>
+          <p class="eyebrow text-white/50">Shop status</p>
+          <p class="display mt-2 text-[0.95rem] tracking-normal"><span data-st-short>Mon–Fri 8:00–5:30</span></p>
         </div>
-        <a href={site.ratings.yelp.href} target="_blank" rel="noopener" class="flex items-center gap-3 md:col-span-3 md:justify-end" data-hero-fade>
-          <span class="flex gap-0.5 text-white" aria-hidden="true">{[0, 1, 2, 3, 4].map(() => <svg viewBox="0 0 20 20" class="size-3.5" fill="currentColor"><path d="m10 1.5 2.6 5.6 6.1.7-4.5 4.2 1.2 6L10 15l-5.4 3 1.2-6L1.3 7.8l6.1-.7z" /></svg>)}</span>
-          <span class="eyebrow text-white/70">{site.ratings.yelp.score} · {site.ratings.yelp.count} Yelp reviews</span>
-        </a>
+      </div>
+      <div class="mt-8 flex flex-wrap gap-3" data-hero-fade>
+        <a href="/accident-repair" class="btn btn-volt" data-magnetic>Start a claim <Arrow /></a>
+        <a href="/customization" class="btn btn-ghost">Plan a build</a>
       </div>
     </div>
   </section>
 
-  <!-- INTRO -->
-  <section class="bg-white py-28 md:py-44">
-    <div class="container-x text-center">
-      <p class="eyebrow text-mute" data-reveal>LNC Auto Group</p>
-      <h2 class="display mx-auto mt-6 max-w-[16ch] text-[clamp(2.8rem,6.4vw,6.2rem)]" data-split>
-        Repaired to factory. Built to be yours.
-      </h2>
-      <p class="lede mx-auto mt-8 max-w-[56ch] text-ink-2" data-reveal>
-        Since {site.founded}, one family has run this shop on a simple rule: every car leaves as if it had never been touched — or exactly the way its owner imagined it. We are not a volume shop, and we are not part of any insurer’s network.
-      </p>
-      <ul class="mx-auto mt-14 flex max-w-4xl flex-wrap justify-center gap-x-8 gap-y-3" data-reveal>
-        {['Family owned & operated', 'All insurance accepted', 'OEM-level repairs', 'Undetectable paintwork', 'Nationwide transport'].map((p) => (
-          <li class="eyebrow flex items-center gap-3 text-ink-2"><span class="size-1 bg-ink"></span>{p}</li>
+  <!-- MARQUEE -->
+  <section class="border-y border-ink/10 bg-paper py-6 text-ink">
+    <Marquee items={['Accident repair', 'Customization', 'All insurance accepted', 'OEM-level', 'Undetectable paint']} />
+  </section>
+
+  <!-- INTRO + DIVISIONS -->
+  <section class="bg-paper pt-24 pb-28 md:pt-36 md:pb-40">
+    <div class="container-x">
+      <div class="grid gap-10 lg:grid-cols-12">
+        <p class="tag self-start lg:col-span-2">Since {site.founded}</p>
+        <div class="lg:col-span-10">
+          <h2 class="display max-w-[18ch] text-[clamp(2.1rem,5vw,5rem)]" data-split>Repaired to factory. Built to be yours.</h2>
+          <p class="lede mt-8 max-w-[58ch] text-ink-2" data-reveal>
+            One family has run this shop on a simple rule: every car leaves as if it had never been touched — or exactly the way its owner imagined it. We are not a volume shop, and we are not part of any insurer’s network.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-20 grid gap-6 md:grid-cols-2">
+        {[
+          { n: '01', name: 'Accident Repair', href: '/accident-repair', text: 'Collision and body repair to manufacturer standards, with every insurance company. Towing, rental and the adjuster — handled.', items: ['Collision & structural', 'Paint & color match', 'Aluminum & frame', 'Dent & scratch'], slot: 'Booth shot: car mid-refinish, technician in suit', cta: 'Start a claim', tone: 'light' },
+          { n: '02', name: 'Customization', href: '/customization', text: 'Wide-body, wheels, suspension, exhaust and custom paint — designed with you and built in-house with the same factory discipline.', items: ['Wide-body & body kits', 'Wheels & suspension', 'Exhaust', 'Custom paint'], slot: 'Detail shot: wide-body fender & wheel, dark studio', cta: 'Plan a build', tone: 'dark' },
+        ].map((d) => (
+          <a href={d.href} class:list={['group chamfer relative flex flex-col overflow-hidden', d.tone === 'dark' ? 'bg-night text-white' : 'bg-white text-ink']} data-reveal data-cursor="Enter">
+            <div class="aspect-[16/11] overflow-hidden"><div class="size-full transition-transform duration-[1.4s] ease-[var(--ease-out-expo)] group-hover:scale-[1.05]"><MediaSlot label={d.slot} tone={d.tone as 'light' | 'dark'} /></div></div>
+            <div class="flex flex-1 flex-col p-7 md:p-10">
+              <div class="flex items-center justify-between">
+                <span class="tag">{d.n}</span>
+                <span class:list={['grid size-11 place-items-center rounded-md transition-transform duration-500 group-hover:translate-x-1', d.tone === 'dark' ? 'bg-white text-ink' : 'bg-ink text-white']}><Arrow /></span>
+              </div>
+              <h3 class="display mt-8 text-[clamp(1.4rem,3.2vw,3.4rem)]">{d.name}</h3>
+              <p class:list={['lede mt-4 max-w-[46ch]', d.tone === 'dark' ? 'text-white/70' : 'text-ink-2']}>{d.text}</p>
+              <ul class:list={['mt-8 grid grid-cols-2 gap-y-2 border-t pt-5', d.tone === 'dark' ? 'border-white/15' : 'border-line']}>
+                {d.items.map((it) => <li class:list={['eyebrow', d.tone === 'dark' ? 'text-white/70' : 'text-ink-2']}>{it}</li>)}
+              </ul>
+            </div>
+          </a>
         ))}
-      </ul>
+      </div>
     </div>
   </section>
 
-  <!-- DIVISIONS -->
-  <section class="bg-white pb-28 md:pb-40">
-    <div class="container-x grid gap-14 md:grid-cols-2 md:gap-6">
-      {[
-        {
-          n: '01',
-          name: 'Accident Repair',
-          href: '/accident-repair',
-          text: 'Collision and body repair to manufacturer standards, with every insurance company. Towing, rental and the adjuster — handled.',
-          items: ['Collision & structural', 'Paint & color match', 'Aluminum & frame', 'Dent & scratch'],
-          slot: 'Booth shot: car mid-refinish, technician in suit',
-          cta: 'Start a claim',
-        },
-        {
-          n: '02',
-          name: 'Customization',
-          href: '/customization',
-          text: 'Wide-body, wheels, suspension, exhaust and custom paint — designed with you and built in-house with the same factory discipline.',
-          items: ['Wide-body & body kits', 'Wheels & suspension', 'Exhaust', 'Custom paint'],
-          slot: 'Detail shot: wide-body fender & wheel, dark studio',
-          cta: 'Plan a build',
-        },
-      ].map((d, i) => (
-        <article class:list={['group', i === 1 && 'md:mt-32']} data-reveal>
-          <a href={d.href} class="block overflow-hidden">
-            <div class="aspect-[4/5] overflow-hidden"><div class="size-full" data-zoom><MediaSlot label={d.slot} tone={i === 1 ? 'dark' : 'light'} /></div></div>
-          </a>
-          <div class="mt-7 grid gap-5 md:grid-cols-[auto_1fr] md:gap-8">
-            <p class="eyebrow pt-2 text-mute">{d.n}</p>
-            <div>
-              <h3 class="display text-[clamp(2.4rem,4vw,3.8rem)]"><a href={d.href}>{d.name}</a></h3>
-              <p class="lede mt-4 max-w-[46ch] text-ink-2">{d.text}</p>
-              <ul class="mt-6 grid grid-cols-2 gap-y-2 border-t border-line pt-5">
-                {d.items.map((it) => <li class="eyebrow text-ink-2">{it}</li>)}
-              </ul>
-              <a href={d.href} class="link-arrow mt-8">{d.cta} <Arrow /></a>
-            </div>
+  <!-- STATS (Lando "49 PODIUMS") -->
+  <section class="glow-navy relative overflow-hidden py-24 text-white md:py-36">
+    <div class="container-x grid gap-14 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-7">
+        <p class="tag" data-reveal>On record</p>
+        <p class="display-c mt-6 text-[clamp(10rem,34vw,30rem)] leading-[0.78]"><span data-odo={String(site.ratings.yelp.count)}>{site.ratings.yelp.count}</span></p>
+        <p class="display mt-4 text-[clamp(1.6rem,3.4vw,3.2rem)]">Yelp reviews. <span class="text-volt">{site.ratings.yelp.score} ★</span></p>
+      </div>
+      <div class="grid grid-cols-2 border-t border-white/15 lg:col-span-5">
+        {[
+          { v: site.ratings.google.score, k: 'Google rating' },
+          { v: String(site.founded), k: 'Family owned since' },
+          { v: site.youtubeReach, k: 'On YouTube' },
+          { v: '100', k: 'Percent of insurers accepted', suffix: '%' },
+        ].map((s, i) => (
+          <div class:list={['border-b border-white/15 py-8', i % 2 && 'border-l pl-6']}>
+            <p class="display-c text-[clamp(3.4rem,6vw,5.6rem)]"><span data-odo={s.v}>{s.v}</span>{s.suffix}</p>
+            <p class="eyebrow mt-3 text-white/55">{s.k}</p>
           </div>
-        </article>
-      ))}
+        ))}
+      </div>
     </div>
   </section>
 
   <!-- CLAIM SEQUENCE (pinned, 01/03) -->
   <section data-sequence class="relative bg-paper lg:h-screen">
     <div class="container-x grid h-full gap-12 py-24 lg:grid-cols-12 lg:items-center lg:gap-10 lg:py-0">
-      <div class="relative aspect-[4/5] overflow-hidden lg:col-span-6 lg:aspect-auto lg:h-[76vh]">
+      <div class="chamfer relative aspect-[4/5] overflow-hidden lg:col-span-6 lg:aspect-auto lg:h-[76vh]">
         {steps.map((s, i) => (
           <div data-step-media class:list={['absolute inset-0', i > 0 && 'hidden lg:block']}>
             <MediaSlot label={s.m} tone={i === 1 ? 'dark' : 'light'} />
@@ -134,16 +138,16 @@ const featured = builds.slice(0, 5);
         ))}
       </div>
       <div class="lg:col-span-5 lg:col-start-8">
-        <p class="eyebrow text-mute">Insurance claims · How it works</p>
+        <p class="tag">Insurance claims</p>
         <div class="mt-6 flex items-center gap-5">
-          <span class="eyebrow tabular-nums"><span data-step-num>01</span> / {String(steps.length).padStart(2, '0')}</span>
-          <span class="h-px flex-1 bg-line"><span data-step-bar class="block h-px origin-left bg-ink" style="transform:scaleX(0.333)"></span></span>
+          <span class="display-c text-[2.6rem] tabular-nums"><span data-step-num>01</span><span class="text-ink/30"> / {String(steps.length).padStart(2, '0')}</span></span>
+          <span class="h-[3px] flex-1 bg-ink/10"><span data-step-bar class="block h-[3px] origin-left bg-ink" style="transform:scaleX(0.333)"></span></span>
         </div>
         <div class="mt-10 grid gap-12 lg:gap-0">
           {steps.map((s, i) => (
             <div data-step class="lg:[grid-area:1/1]">
               <p class="eyebrow text-mute lg:hidden">{String(i + 1).padStart(2, '0')}</p>
-              <h3 class="display mt-3 text-[clamp(2.4rem,4.2vw,4.4rem)] lg:mt-0">{s.t}</h3>
+              <h3 class="display mt-3 text-[clamp(1.9rem,3.2vw,3.2rem)] lg:mt-0">{s.t}</h3>
               <p class="lede mt-6 max-w-[42ch] text-ink-2">{s.d}</p>
             </div>
           ))}
@@ -153,168 +157,143 @@ const featured = builds.slice(0, 5);
     </div>
   </section>
 
-  <!-- BUILDS RAIL -->
-  <section data-rail class="relative overflow-hidden bg-night text-white lg:h-screen">
-    <div class="flex h-full flex-col justify-center py-24 lg:py-0">
-      <div class="container-x flex items-end justify-between gap-6">
+  <!-- BUILDS: results table with hover preview -->
+  <section class="relative overflow-hidden bg-night pt-24 pb-28 text-white md:pt-32 md:pb-36">
+    <BleedTitle text="The builds" class="text-white/[0.06]" />
+    <div class="container-x relative -mt-[clamp(3rem,9vw,9rem)]">
+      <div class="flex flex-wrap items-end justify-between gap-6">
         <div>
-          <p class="eyebrow text-white/50">Selected work</p>
-          <h2 class="display mt-4 text-[clamp(2.8rem,6vw,5.6rem)]" data-split>The builds.</h2>
+          <p class="tag">Selected work</p>
+          <h2 class="display mt-5 text-[clamp(2.1rem,5vw,4.6rem)]" data-split>Hall of fame.</h2>
         </div>
-        <a href="/builds" class="link-arrow hidden text-white md:inline-flex">All builds <Arrow /></a>
+        <a href="/builds" class="link-arrow">All builds <Arrow /></a>
       </div>
-      <div data-rail-track class="mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto px-[clamp(1rem,4vw,3rem)] pb-4 [scrollbar-width:none] lg:overflow-visible">
-        {featured.map((b, i) => (
-          <a href={`/builds/${b.slug}`} class="group w-[78vw] shrink-0 snap-start sm:w-[46vw] lg:w-[30vw]">
-            <div class="aspect-[4/5] overflow-hidden">
-              <div class="size-full transition-transform duration-[1.2s] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]">
-                <MediaSlot label={`${b.car} — ${b.shotList[0]}`} tone="dark" />
-              </div>
-            </div>
-            <div class="mt-5 flex items-start justify-between gap-4">
-              <div>
-                <p class="eyebrow text-white/50">{String(i + 1).padStart(2, '0')} · {b.division}</p>
-                <p class="display mt-2 text-[1.9rem]">{b.car}</p>
-              </div>
-              <span class="mt-1 grid size-9 shrink-0 place-items-center bg-white text-ink transition-transform group-hover:translate-x-1"><Arrow /></span>
-            </div>
+
+      <div data-preview-table class="relative mt-14">
+        <div class="eyebrow hidden grid-cols-12 border-b border-white/15 pb-3 text-white/45 md:grid">
+          <span class="col-span-1">No.</span><span class="col-span-5">Car</span><span class="col-span-3">Division</span><span class="col-span-3 text-right">Work</span>
+        </div>
+        {builds.map((b, i) => (
+          <a href={`/builds/${b.slug}`} data-preview-row data-cursor="View" class="group grid grid-cols-12 items-center gap-y-2 border-b border-white/15 py-6 transition-colors hover:bg-white/[0.03] md:py-7">
+            <span class="display-c col-span-2 text-[2rem] text-white/40 transition-colors group-hover:text-volt md:col-span-1">{String(i + 1).padStart(2, '0')}</span>
+            <span class="display col-span-10 text-[clamp(1.25rem,2.6vw,2.3rem)] transition-transform duration-500 group-hover:translate-x-2 md:col-span-5">{b.car}</span>
+            <span class="eyebrow col-span-6 col-start-3 text-white/60 md:col-span-3 md:col-start-auto">{b.division}</span>
+            <span class="col-span-4 text-right text-sm text-white/60 md:col-span-3">{b.work[0]}</span>
           </a>
         ))}
-        <a href="/builds" class="flex w-[60vw] shrink-0 snap-start flex-col justify-end border border-white/15 p-8 sm:w-[36vw] lg:w-[22vw]">
-          <p class="display text-[2.4rem]">View all builds</p>
-          <span class="link-arrow mt-6 self-start">Gallery <Arrow /></span>
-        </a>
-        <span class="w-px shrink-0"></span>
+        <div data-preview-box class="chamfer pointer-events-none absolute top-0 left-0 z-10 hidden h-[260px] w-[340px] -translate-x-1/2 -translate-y-1/2 scale-[0.6] overflow-hidden opacity-0 md:block" aria-hidden="true">
+          {builds.map((b, i) => (
+            <div data-preview-slide class="absolute inset-0" style={`transform:translateY(${i * 100}%)`}>
+              <MediaSlot label={`${b.car} — ${b.shotList[0]}`} tone={i % 2 ? 'light' : 'dark'} />
+            </div>
+          ))}
+        </div>
       </div>
-      <div class="container-x mt-10 hidden lg:block"><div class="h-px bg-white/15"><div data-rail-progress class="h-px origin-left scale-x-0 bg-white"></div></div></div>
     </div>
   </section>
 
   <!-- BEFORE / AFTER -->
-  <section class="bg-white py-28 md:py-40">
+  <section class="bg-paper py-24 md:py-36">
     <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-center">
-      <div class="lg:col-span-4">
-        <p class="eyebrow text-mute" data-reveal>Paint & body</p>
-        <h2 class="display mt-5 text-[clamp(2.6rem,5vw,4.8rem)]" data-split>Undetectable is the standard.</h2>
-        <p class="lede mt-6 max-w-[40ch] text-ink-2" data-reveal>
-          Computer-matched color, factory procedures and a downdraft booth. Drag the line — then try to find the repair.
-        </p>
+      <div class="lg:col-span-5">
+        <p class="tag" data-reveal>Paint & body</p>
+        <h2 class="display mt-5 text-[clamp(1.9rem,3vw,2.7rem)]" data-split>Undetectable is the standard.</h2>
+        <p class="lede mt-6 max-w-[40ch] text-ink-2" data-reveal>Computer-matched color, factory procedures and a downdraft booth. Drag the line — then try to find the repair.</p>
       </div>
-      <div class="lg:col-span-8" data-reveal>
-        <BeforeAfter class="aspect-[16/10]" />
-      </div>
+      <div class="lg:col-span-7" data-reveal data-cursor="Drag"><BeforeAfter class="chamfer aspect-[16/10]" /></div>
     </div>
   </section>
 
-  <!-- NUMBERS -->
-  <section class="border-y border-line bg-paper">
-    <div class="container-x grid grid-cols-2 md:grid-cols-4">
-      {[
-        { v: String(site.founded), k: 'Family owned since', count: false },
-        { v: site.ratings.yelp.score, k: 'Yelp rating', count: true },
-        { v: String(site.ratings.yelp.count), k: 'Yelp reviews', count: true },
-        { v: site.youtubeReach, k: 'On YouTube', count: false },
-      ].map((s, i) => (
-        <div class:list={['border-line py-14 md:py-20', i % 2 === 1 && 'border-l pl-6', i >= 2 && 'max-md:border-t', i > 0 && 'md:border-l md:pl-8']}>
-          <p class="display text-[clamp(3rem,6vw,5.6rem)] tabular-nums">
-            {s.count ? <span data-count={s.v}>{s.v}</span> : s.v}
-          </p>
-          <p class="eyebrow mt-3 text-mute">{s.k}</p>
+  <!-- SHOP CLOCK + WEEK (Lando countdown × Nick Ho calendar) -->
+  <section class="glow-navy relative overflow-hidden py-24 text-white md:py-36">
+    <div class="container-x">
+      <p class="tag">Pit lane hours · Pacific time</p>
+      <ShopClock class="mt-8" />
+      <div class="mt-16 grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-4">
+          <h2 class="display text-[clamp(2rem,4vw,3.6rem)]" data-split>Drop in. Or text first.</h2>
+          <p class="lede mt-6 max-w-[38ch] text-white/70" data-reveal>{site.address.street}, {site.address.city}, {site.address.region} {site.address.zip}. Estimates by appointment or by text — send photos to {site.phone}.</p>
+          <div class="mt-8 flex flex-wrap gap-3" data-reveal>
+            <a href={site.mapsHref} target="_blank" rel="noopener" class="btn btn-light">Directions</a>
+            <a href={site.smsHref} class="btn btn-ghost">Text {site.phone}</a>
+          </div>
         </div>
-      ))}
+        <ol class="lg:col-span-7 lg:col-start-6">
+          {week.map((w, i) => (
+            <li data-day={w.d} class="week-row group grid grid-cols-12 items-center border-b border-white/15 py-5 first:border-t" data-reveal style={`--d:${i * 40}ms`}>
+              <span class="display-c col-span-2 text-[1.8rem] text-white/35">{String(i + 1).padStart(2, '0')}</span>
+              <span class="display col-span-6 text-[clamp(1.1rem,2.2vw,1.9rem)]">{w.n}</span>
+              <span class="col-span-4 flex items-center justify-end gap-3 text-right">
+                <span class="today tag hidden">Today</span>
+                <span class="eyebrow text-white/70">{w.t}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+      </div>
     </div>
   </section>
 
   <!-- FILM -->
-  <section class="relative h-[90svh] min-h-[560px] overflow-hidden bg-night text-white">
+  <section class="relative h-[85svh] min-h-[540px] overflow-hidden bg-night text-white">
     <div class="absolute inset-x-0 -top-[10%] h-[120%]" data-parallax="14">
       <MediaSlot kind="video" tone="dark" align="top-right" label="Film band · YouTube cut-down" note="10–15s montage from the LNC Motorsport channel: sparks, sanding, clear coat, reveal." />
     </div>
-    <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-night/90 via-transparent to-night/40"></div>
+    <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-night via-night/20 to-night/50"></div>
     <div class="container-x relative flex h-full flex-col justify-end pb-14">
-      <p class="eyebrow text-white/60" data-reveal>LNC Motorsport · YouTube</p>
-      <h2 class="display mt-4 max-w-[14ch] text-[clamp(3rem,7vw,7rem)]" data-split>Every build, on film.</h2>
-      <a href={site.social.youtube} target="_blank" rel="noopener" class="link-arrow mt-8 self-start" data-reveal>Watch the channel <Arrow /></a>
+      <p class="tag self-start" data-reveal>LNC Motorsport · YouTube</p>
+      <h2 class="display mt-5 max-w-[14ch] text-[clamp(2.4rem,6.6vw,6.6rem)]" data-split>Every build, on film.</h2>
+      <a href={site.social.youtube} target="_blank" rel="noopener" class="btn btn-volt mt-8 self-start" data-magnetic>Watch the channel <Arrow /></a>
     </div>
   </section>
 
   <!-- REVIEWS -->
-  <section class="bg-white py-28 md:py-40">
-    <div class="container-x">
+  <section class="relative overflow-hidden bg-paper pt-24 pb-28 md:pt-32 md:pb-36">
+    <BleedTitle text="Reviews" dir="right" class="text-ink/[0.05]" />
+    <div class="container-x relative -mt-[clamp(3rem,9vw,9rem)]">
       <div class="flex flex-wrap items-end justify-between gap-6">
         <div>
-          <p class="eyebrow text-mute" data-reveal>{site.ratings.yelp.score} on Yelp · {site.ratings.google.score} on Google</p>
-          <h2 class="display mt-5 text-[clamp(2.6rem,5vw,4.8rem)]" data-split>In their words.</h2>
+          <p class="tag">{site.ratings.yelp.score} Yelp · {site.ratings.google.score} Google</p>
+          <h2 class="display mt-5 text-[clamp(2.1rem,5vw,4.6rem)]" data-split>In their words.</h2>
         </div>
-        <a href="/reviews" class="link-arrow" data-reveal>All reviews <Arrow /></a>
+        <a href="/reviews" class="link-arrow">All reviews <Arrow /></a>
       </div>
-      <div class="mt-16 grid gap-px bg-line md:grid-cols-3">
-        {reviews.slice(0, 3).map((r) => (
-          <figure class="flex flex-col justify-between gap-10 bg-white p-0 md:p-10 md:first:pl-0 md:last:pr-0 max-md:py-10" data-reveal>
-            <blockquote class="text-[1.15rem] leading-[1.6] font-light text-ink">“{r.quote}”</blockquote>
-            <figcaption class="eyebrow text-mute">{r.name} · {r.car} · {r.source}</figcaption>
+      <div class="mt-14 grid gap-5 md:grid-cols-3">
+        {reviews.slice(0, 3).map((r, i) => (
+          <figure class:list={['chamfer flex flex-col justify-between gap-10 p-8', i === 1 ? 'bg-night text-white' : 'bg-white']} data-reveal style={`--d:${i * 80}ms`}>
+            <div>
+              <p class="text-volt" aria-label="5 stars">★★★★★</p>
+              <blockquote class="mt-5 text-[1.08rem] leading-[1.6]">“{r.quote}”</blockquote>
+            </div>
+            <figcaption class:list={['eyebrow', i === 1 ? 'text-white/55' : 'text-mute']}>{r.name} · {r.car}</figcaption>
           </figure>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- SUPPLY (merch plug) -->
-  <section class="bg-paper py-28 md:py-36">
-    <div class="container-x grid gap-12 lg:grid-cols-12">
+  <!-- SUPPLY (placeholder) -->
+  <section class="bg-night py-24 text-white md:py-32">
+    <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-end">
       <div class="lg:col-span-4">
-        <Stripe size="sm" />
-        <p class="eyebrow mt-6 text-mute">LNC Supply</p>
-        <h2 class="display mt-4 text-[clamp(2.6rem,5vw,4.6rem)]" data-split>First drop. Coming soon.</h2>
-        <p class="lede mt-6 max-w-[38ch] text-ink-2" data-reveal>Heavyweight tees, caps and plate frames — made to be worn, not handed out.</p>
+        <p class="tag">LNC Supply</p>
+        <h2 class="display mt-5 text-[clamp(2.1rem,4.4vw,4.2rem)]" data-split>First drop. Coming soon.</h2>
+        <p class="lede mt-6 max-w-[38ch] text-white/70" data-reveal>Heavyweight tees, caps and plate frames — made to be worn, not handed out.</p>
         <a href={site.social.instagram} target="_blank" rel="noopener" class="link-arrow mt-8" data-reveal>Follow for the drop <Arrow /></a>
       </div>
       <div class="grid grid-cols-3 gap-4 lg:col-span-8">
         {['Heavyweight black tee', 'Suede cap', 'Plate frame'].map((p, i) => (
           <div data-reveal style={`--d:${i * 80}ms`}>
-            <div class="aspect-[3/4]"><MediaSlot label={p} /></div>
-            <p class="eyebrow mt-4 text-ink-2">{p}</p>
+            <div class="chamfer aspect-[3/4] overflow-hidden"><MediaSlot tone="dark" label={p} /></div>
+            <p class="eyebrow mt-4 text-white/70">{p}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
-
-  <!-- VISIT -->
-  <section class="bg-white">
-    <div class="grid lg:grid-cols-2">
-      <div class="aspect-[4/3] bg-paper lg:aspect-auto lg:min-h-[640px]">
-        <iframe
-          src={site.mapsEmbed}
-          title="Map to LNC Auto Group in Laguna Niguel"
-          class="size-full grayscale contrast-[1.05]"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-      <div class="flex flex-col justify-center px-[clamp(1rem,4vw,3rem)] py-20 lg:px-20">
-        <p class="eyebrow text-mute" data-reveal>Visit the shop</p>
-        <h2 class="display mt-5 text-[clamp(2.6rem,5vw,4.6rem)]" data-split>Laguna Niguel, California.</h2>
-        <dl class="mt-10 grid gap-8 sm:grid-cols-2" data-reveal>
-          <div>
-            <dt class="eyebrow text-mute">Address</dt>
-            <dd class="mt-3 leading-relaxed"><a href={site.mapsHref} target="_blank" rel="noopener" class="hover:underline">{site.address.street}<br />{site.address.city}, {site.address.region} {site.address.zip}</a></dd>
-          </div>
-          <div>
-            <dt class="eyebrow text-mute">Call or text</dt>
-            <dd class="mt-3"><a href={site.phoneHref} class="hover:underline">{site.phone}</a><br /><a href={`mailto:${site.email}`} class="text-ink-2 hover:underline">{site.email}</a></dd>
-          </div>
-          <div class="sm:col-span-2">
-            <dt class="eyebrow text-mute">Hours</dt>
-            <dd class="mt-3 grid gap-1.5">
-              {site.hours.map((h) => <span class="flex justify-between border-b border-line pb-1.5"><span>{h.days}</span><span class="text-ink-2">{h.time}</span></span>)}
-            </dd>
-          </div>
-        </dl>
-        <div class="mt-10 flex flex-wrap gap-3" data-reveal>
-          <a href={site.mapsHref} target="_blank" rel="noopener" class="btn btn-ink">Get directions</a>
-          <a href="/contact" class="btn btn-ghost">Request a quote</a>
-        </div>
-      </div>
-    </div>
-  </section>
 </Base>
+
+<style>
+  .week-row[data-today] { color: var(--color-volt); }
+  .week-row[data-today] .today { display: inline-flex; }
+</style>
