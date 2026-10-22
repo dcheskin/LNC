@@ -22,32 +22,34 @@ const path = Astro.url.pathname.replace(/\/$/, '');
       </a>
       <a href="/contact" class="btn btn-light hidden !px-5 !py-3.5 sm:inline-flex" data-magnetic>Get a quote</a>
       <button id="menu-btn" class="grid size-11 place-items-center" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
-        <span class="flex w-5 flex-col gap-[6px]"><i class="block h-[1.5px] w-full bg-current"></i><i class="block h-[1.5px] w-3/4 self-end bg-current"></i></span>
+        <span class="burger flex w-5 flex-col gap-[6px]"><i class="block h-[1.5px] w-full bg-current"></i><i class="block h-[1.5px] w-3/4 self-end bg-current"></i></span>
       </button>
     </div>
   </div>
 </header>
 
-<div id="mobile-menu" class="bg-night fixed inset-0 z-[60] hidden flex-col text-white" aria-hidden="true">
-  <div class="container-x flex h-[4.5rem] items-center justify-between md:h-20">
-    <Logo class="w-[84px] md:w-[100px]" />
-    <button id="menu-close" class="grid size-11 place-items-center rounded-full border border-white/20" aria-label="Close menu">
-      <svg viewBox="0 0 16 16" class="size-4" stroke="currentColor" stroke-width="1.4"><path d="M3 3l10 10M13 3 3 13" /></svg>
-    </button>
-  </div>
-  <nav class="container-x mt-6 flex flex-col" aria-label="Menu">
-    {[{ label: 'Home', href: '/' }, ...nav, { label: 'Reviews', href: '/reviews' }, { label: 'FAQ', href: '/faq' }, { label: 'Contact', href: '/contact' }].map((n, i) => (
-      <a href={n.href} class="menu-item group flex items-baseline justify-between border-b border-white/10 py-3" style={`--i:${i}`}>
-        <span class="display text-[clamp(1.9rem,5.4vw,4rem)] transition-opacity group-hover:opacity-60">{n.label}</span>
-        <span class="eyebrow text-white/40">{String(i + 1).padStart(2, '0')}</span>
-      </a>
-    ))}
-  </nav>
-  <div class="container-x mt-auto flex flex-wrap items-center justify-between gap-4 pb-8 pt-8">
-    <p class="eyebrow text-white/60">{site.address.street}, {site.address.city}</p>
-    <div class="flex gap-3">
-      <a href={site.phoneHref} class="btn btn-light">Call {site.phone}</a>
-      <a href={site.smsHref} class="btn btn-ghost">Text photos</a>
+<!-- Full-screen menu: night panel wipes out from the burger, links spread down line by line. -->
+<div id="mobile-menu" class="fixed inset-0 z-[45] flex flex-col text-white" aria-hidden="true" inert>
+  <div class="menu-under absolute inset-0 bg-night-2"></div>
+  <div class="menu-panel absolute inset-0 bg-night"></div>
+  <div class="relative flex min-h-0 flex-1 flex-col overflow-y-auto pt-[4.5rem] md:pt-20">
+    <nav class="container-x mt-6 flex flex-col md:mt-10" aria-label="Menu">
+      {[{ label: 'Home', href: '/' }, ...nav, { label: 'Reviews', href: '/reviews' }, { label: 'FAQ', href: '/faq' }, { label: 'Contact', href: '/contact' }].map((n, i) => (
+        <a href={n.href} class:list={['menu-item group relative flex items-baseline justify-between py-2.5 md:py-3', path === n.href.replace(/\/$/, '') && 'is-current']}>
+          <span class="menu-rule absolute inset-x-0 bottom-0 h-px origin-left bg-white/12"></span>
+          <span class="block overflow-hidden pb-[0.06em]">
+            <span class="menu-label display block text-[clamp(2rem,min(5.6vw,5.2vh),4.4rem)] transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:translate-x-3">{n.label}</span>
+          </span>
+          <span class="menu-num eyebrow text-white/40 transition-colors group-hover:text-white">{String(i + 1).padStart(2, '0')}</span>
+        </a>
+      ))}
+    </nav>
+    <div class="menu-foot container-x mt-auto flex flex-wrap items-center justify-between gap-4 pt-10 pb-8">
+      <p class="eyebrow text-white/60">{site.address.street}, {site.address.city}</p>
+      <div class="flex gap-3">
+        <a href={site.phoneHref} class="btn btn-light">Call {site.phone}</a>
+        <a href={site.smsHref} class="btn btn-ghost">Text photos</a>
+      </div>
     </div>
   </div>
 </div>
@@ -61,12 +63,17 @@ const path = Astro.url.pathname.replace(/\/$/, '');
   #site-header[data-hidden='true'] { transform: translateY(-110%); }
   #site-header .st-dot span { background: #9aa0a6; }
   #site-header [data-open='true'] .st-dot span { background: var(--color-teal); }
-  #mobile-menu.is-open { display: flex; }
-  #mobile-menu.is-open .menu-item { animation: menuIn 0.8s var(--ease-out-expo) both; animation-delay: calc(var(--i) * 45ms); }
-  @keyframes menuIn { from { opacity: 0; transform: translateY(40px); } }
+  #mobile-menu { visibility: hidden; }
+  #mobile-menu .menu-panel, #mobile-menu .menu-under { clip-path: circle(0px at var(--mx, 100%) var(--my, 0%)); }
+  #mobile-menu .menu-item.is-current .menu-label { opacity: 0.45; }
+  .burger i { transition: transform 0.6s var(--ease-out-expo), width 0.6s var(--ease-out-expo); }
+  :global(html[data-menu-open]) .burger i:first-child { transform: translateY(3.75px) rotate(45deg); }
+  :global(html[data-menu-open]) .burger i:last-child { width: 100%; transform: translateY(-3.75px) rotate(-45deg); }
+  :global(html[data-menu-open]) #site-header { background: transparent !important; backdrop-filter: none !important; transform: none !important; }
 </style>
 
 <script>
+  import { gsap } from 'gsap';
   const h = document.getElementById('site-header')!;
   let last = 0;
   const onScroll = () => {
@@ -80,17 +87,70 @@ const path = Astro.url.pathname.replace(/\/$/, '');
 
   const menu = document.getElementById('mobile-menu')!;
   const btn = document.getElementById('menu-btn')!;
-  const close = document.getElementById('menu-close')!;
+  const root = document.documentElement;
+  const q = <T extends Element>(sel: string) => [...menu.querySelectorAll<T>(sel)];
+  const layers = q<HTMLElement>('.menu-under, .menu-panel');
+  const labels = q<HTMLElement>('.menu-label');
+  const rules = q<HTMLElement>('.menu-rule');
+  const nums = q<HTMLElement>('.menu-num');
+  const foot = q<HTMLElement>('.menu-foot');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let tl: gsap.core.Timeline | null = null;
+  let isOpen = false;
+
+  // Radius that covers the viewport from the burger's centre.
+  const origin = () => {
+    const r = btn.getBoundingClientRect();
+    const x = r.left + r.width / 2, y = r.top + r.height / 2;
+    menu.style.setProperty('--mx', `${x}px`);
+    menu.style.setProperty('--my', `${y}px`);
+    return { x, y, R: Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)) + 20 };
+  };
+
+  const build = () => {
+    const { x, y, R } = origin();
+    const circle = (r: number) => `circle(${r}px at ${x}px ${y}px)`;
+    const t = gsap.timeline({ paused: true, defaults: { ease: 'expo.inOut' } });
+    t.set(menu, { visibility: 'visible' })
+      .fromTo(layers[0], { clipPath: circle(0) }, { clipPath: circle(R), duration: 0.9 }, 0)
+      .fromTo(layers[1], { clipPath: circle(0) }, { clipPath: circle(R), duration: 0.9 }, 0.08)
+      .fromTo(rules, { scaleX: 0 }, { scaleX: 1, duration: 1.1, stagger: 0.05, ease: 'expo.out' }, 0.45)
+      .fromTo(labels, { yPercent: 110, rotate: 4 }, { yPercent: 0, rotate: 0, duration: 1, stagger: 0.05, ease: 'expo.out' }, 0.5)
+      .fromTo(nums, { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.8, stagger: 0.05, ease: 'expo.out' }, 0.6)
+      .fromTo(foot, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.9, ease: 'expo.out' }, 0.8);
+    return t;
+  };
+
   const set = (open: boolean) => {
-    menu.classList.toggle('is-open', open);
+    if (open === isOpen) return;
+    isOpen = open;
     menu.setAttribute('aria-hidden', String(!open));
+    menu.toggleAttribute('inert', !open);
     btn.setAttribute('aria-expanded', String(open));
-    document.documentElement.style.overflow = open ? 'hidden' : '';
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    root.toggleAttribute('data-menu-open', open);
+    root.style.overflow = open ? 'hidden' : '';
     const l = (window as any).__lenis;
     if (l) open ? l.stop() : l.start();
-    if (open) close.focus();
+    if (reduced) {
+      menu.style.visibility = open ? 'visible' : 'hidden';
+      layers.forEach((el) => (el.style.clipPath = open ? 'none' : ''));
+      return;
+    }
+    if (open) {
+      tl?.kill();
+      tl = build();
+      menu.style.visibility = 'visible';
+      tl.timeScale(1).play(0);
+      setTimeout(() => (menu.querySelector('a') as HTMLElement | null)?.focus({ preventScroll: true }), 60);
+    } else if (tl) {
+      // Quicker on the way out: links drop, panel folds back into the burger.
+      tl.timeScale(1.6).reverse().eventCallback('onReverseComplete', () => {
+        menu.style.visibility = '';
+        btn.focus({ preventScroll: true });
+      });
+    }
   };
-  btn.addEventListener('click', () => set(true));
-  close.addEventListener('click', () => set(false));
+  btn.addEventListener('click', () => set(!isOpen));
   document.addEventListener('keydown', (e) => e.key === 'Escape' && set(false));
 </script>
