@@ -3,13 +3,17 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Arrow from '../components/Arrow.astro';
-import { site, reviews } from '../data/site';
+import { site } from '../data/site';
+import { getYelp } from '../lib/yelp';
+
+// Live Yelp rating, count and newest reviews (build time; falls back to site.ts).
+const yelp = await getYelp();
 ---
-<Base title="Reviews" description={`LNC Auto Group reviews — ${site.ratings.yelp.score} stars on Yelp from ${site.ratings.yelp.count} reviews and ${site.ratings.google.score} on Google.`}>
+<Base title="Reviews" description={`LNC Auto Group reviews — ${yelp.score} stars on Yelp from ${yelp.count} reviews and ${site.ratings.google.score} on Google.`}>
   <PageHero eyebrow="Reviews" title="In their words." lede="We don’t write our own reviews. These are from clients on Yelp — read every one of them there.">
     <div class="mt-12 grid max-w-3xl grid-cols-2 border-t border-white/15" data-hero-fade>
       {[
-        { k: 'Yelp', v: site.ratings.yelp.score, c: `${site.ratings.yelp.count} reviews`, h: site.ratings.yelp.href },
+        { k: 'Yelp', v: yelp.score, c: `${yelp.count} reviews`, h: yelp.href },
         { k: 'Google', v: site.ratings.google.score, c: `${site.ratings.google.count}+ reviews`, h: site.ratings.google.href },
       ].map((r, i) => (
         <a href={r.h} target="_blank" rel="noopener" class:list={['group pt-6', i && 'border-l border-white/15 pl-6']}>
@@ -22,10 +26,10 @@ import { site, reviews } from '../data/site';
   </PageHero>
   <section class="bg-paper pt-16 pb-28 md:pt-24">
     <div class="container-x columns-1 gap-10 md:columns-2 lg:columns-3">
-      {reviews.map((r) => (
+      {yelp.reviews.map((r) => (
         <figure class="mb-10 break-inside-avoid border-t border-line pt-6" data-reveal>
           <blockquote class="text-[1.15rem] leading-[1.6] font-light">“{r.quote}”</blockquote>
-          <figcaption class="eyebrow mt-6 text-mute">{r.name} · {r.car} · {r.source}</figcaption>
+          <figcaption class="eyebrow mt-6 text-mute">{r.name} · {r.car} · <a href={r.href ?? yelp.href} target="_blank" rel="noopener" class="underline-offset-4 hover:underline">{r.source} ↗</a></figcaption>
         </figure>
       ))}
     </div>

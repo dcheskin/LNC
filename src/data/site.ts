@@ -30,7 +30,7 @@ export const site = {
     { days: 'Sunday', time: 'Closed' },
   ],
   ratings: {
-    yelp: { score: '5.0', count: 186, href: 'https://www.yelp.com/biz/laguna-niguel-collision-laguna-niguel-3' },
+    yelp: { score: '5.0', count: 202, href: 'https://www.yelp.com/biz/laguna-niguel-collision-laguna-niguel-3' },
     google: { score: '4.8', count: 131, href: 'https://g.page/r/CTqwpGNzW4fPEAg/review' },
   },
   social: {
