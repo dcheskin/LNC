@@ -1,12 +1,11 @@
 ---
-import Logo from './Logo.astro';
 import { nav, site } from '../data/site';
 const path = Astro.url.pathname.replace(/\/$/, '');
 ---
 <header id="site-header" class="fixed inset-x-0 top-0 z-50 text-white">
   <div class="container-x flex h-[4.5rem] items-center justify-between gap-6 md:h-20">
-    <a href="/" class="block w-[84px] md:w-[100px]" aria-label="LNC Auto Group — home">
-      <Logo class="block h-auto w-full" />
+    <a href="/" class="wordmark font-serif text-[1.35rem] leading-none whitespace-nowrap md:text-[1.6rem]" aria-label="LNC Auto Group — home">
+      LNC <span class="text-white/60">Auto Group</span>
     </a>
 
     <nav class="hidden items-center gap-1 lg:flex" aria-label="Primary">
@@ -56,6 +55,8 @@ const path = Astro.url.pathname.replace(/\/$/, '');
 
 <style>
   #site-header { transition: transform 0.6s var(--ease-out-expo), background-color 0.4s; }
+  #site-header .wordmark { letter-spacing: 0.01em; transition: opacity 0.3s; }
+  #site-header .wordmark:hover { opacity: 0.75; }
   #site-header .nav-link { color: rgb(255 255 255 / 0.72); }
   #site-header .nav-link:hover { color: #fff; }
   #site-header .nav-link.is-active { color: #fff; box-shadow: inset 0 -1px 0 #fff; }
