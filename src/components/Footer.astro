@@ -22,7 +22,7 @@ const cols = [
       </div>
     </div>
 
-    <div class="mt-20 grid gap-10 pt-10 sm:grid-cols-2 lg:grid-cols-5">
+    <div class="mt-20 grid gap-10 pt-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-[repeat(3,minmax(0,1fr))_max-content_max-content] xl:gap-x-12">
       {cols.map((c) => (
         <div>
           <p class="eyebrow text-white/45">{c.h}</p>
@@ -35,13 +35,22 @@ const cols = [
       ))}
       <div>
         <p class="eyebrow text-white/45">Visit</p>
-        <a href={site.mapsHref} target="_blank" rel="noopener" class="mt-4 block leading-relaxed text-white/85 hover:text-white">{site.address.street}<br />{site.address.city}, {site.address.region} {site.address.zip}</a>
+        <a href={site.mapsHref} target="_blank" rel="noopener" class="mt-4 block text-[0.95rem] leading-relaxed text-white/85 hover:text-white">
+          {site.address.street.split(', ').map((part, i, all) => <><span class="whitespace-nowrap">{part}{i < all.length - 1 && ','}</span>{i < all.length - 1 && ' '}</>)}
+          <br />
+          <span class="whitespace-nowrap">{site.address.city}, {site.address.region} {site.address.zip}</span>
+        </a>
       </div>
       <div>
         <p class="eyebrow text-white/45">Hours</p>
-        <ul class="mt-4 space-y-1 text-white/85">
-          {site.hours.map((h) => <li class="flex justify-between gap-4"><span>{h.days}</span><span class="whitespace-nowrap text-white/55">{h.time}</span></li>)}
-        </ul>
+        <dl class="mt-4 grid grid-cols-[auto_1fr] gap-x-6 gap-y-2.5 text-[0.95rem] tabular-nums">
+          {site.hours.map((h) => (
+            <>
+              <dt class="text-white/85" title={h.days}>{h.short}</dt>
+              <dd class="whitespace-nowrap text-white/55">{h.time}</dd>
+            </>
+          ))}
+        </dl>
       </div>
     </div>
   </div>

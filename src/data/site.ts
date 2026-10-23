@@ -25,9 +25,9 @@ export const site = {
     'https://maps.google.com/maps?q=27622%20Camino%20Capistrano%20Suite%20D%2C%20Laguna%20Niguel%2C%20CA%2092677&z=15&output=embed',
   geo: { lat: 33.5617815, lng: -117.6742104 },
   hours: [
-    { days: 'Monday – Friday', time: '8:00 am – 5:30 pm' },
-    { days: 'Saturday', time: 'By appointment' }, // CONFIRM: sources disagree
-    { days: 'Sunday', time: 'Closed' },
+    { days: 'Monday – Friday', short: 'Mon – Fri', time: '8:00 am – 5:30 pm' },
+    { days: 'Saturday', short: 'Sat', time: 'By appointment' }, // CONFIRM: sources disagree
+    { days: 'Sunday', short: 'Sun', time: 'Closed' },
   ],
   ratings: {
     yelp: { score: '5.0', count: 202, href: 'https://www.yelp.com/biz/laguna-niguel-collision-laguna-niguel-3' },
