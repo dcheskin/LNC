@@ -37,11 +37,12 @@ const { b, next } = Astro.props;
     </div>
   </section>
 
-  {b.division === 'Accident Repair' && (
-    <section class="bg-paper py-24">
-      <div class="container-x"><BeforeAfter class="aspect-[16/9]" /></div>
-    </section>
-  )}
+  <section class="bg-paper py-24">
+    <div class="container-x">
+      <p class="eyebrow text-mute" data-reveal>Before / after</p>
+      <div class="mt-6" data-reveal data-cursor="Drag"><BeforeAfter file={`cases/${b.slug}`} class="aspect-[16/9]" beforeLabel={`${b.car} — before`} afterLabel={`${b.car} — after`} /></div>
+    </div>
+  </section>
 
   <a href={`/builds/${next.slug}`} class="group block bg-night py-20 text-white md:py-28">
     <div class="container-x flex items-end justify-between gap-6">

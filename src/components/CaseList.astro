@@ -1,0 +1,30 @@
+---
+// "What we did": every case as a before/after slider. Photos come from
+// public/media/cases/<slug>/before.jpg + after.jpg (see public/media/README.md).
+import BeforeAfter from './BeforeAfter.astro';
+import Arrow from './Arrow.astro';
+import { builds, type Build } from '../data/builds';
+interface Props {
+  division?: Build['division'];
+}
+const { division } = Astro.props;
+const list = builds.filter((b) => !division || b.division === division);
+---
+<ol class="border-t border-line">
+  {list.map((b, i) => (
+    <li class="grid gap-8 border-b border-line py-12 md:py-16 lg:grid-cols-12 lg:items-center">
+      <div class="lg:col-span-4" data-reveal>
+        <p class="eyebrow text-mute">{String(i + 1).padStart(2, '0')} · {b.division}</p>
+        <h3 class="display mt-3 text-[clamp(1.96rem,3.2vw,2.8rem)]">{b.car}</h3>
+        <p class="lede mt-3 text-ink-2">{b.title}</p>
+        <ul class="mt-6 flex flex-wrap gap-2">
+          {b.work.map((w) => <li class="border border-line px-2.5 py-1 text-sm">{w}</li>)}
+        </ul>
+        <a href={`/builds/${b.slug}`} class="link-arrow mt-8">Full case <Arrow /></a>
+      </div>
+      <div class="lg:col-span-8" data-reveal data-cursor="Drag">
+        <BeforeAfter file={`cases/${b.slug}`} class="aspect-[16/10]" beforeLabel={`${b.car} — before`} afterLabel={`${b.car} — after`} />
+      </div>
+    </li>
+  ))}
+</ol>

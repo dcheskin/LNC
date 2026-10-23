@@ -1,6 +1,8 @@
 ---
 import MediaSlot from './MediaSlot.astro';
+import { findImage } from '../lib/media';
 interface Props {
+  file?: string; // e.g. "cases/porsche-718" → public/media/cases/porsche-718/before.jpg + after.jpg
   before?: string; // image src when available
   after?: string;
   beforeLabel?: string;
@@ -8,8 +10,9 @@ interface Props {
   class?: string;
 }
 const {
-  before,
-  after,
+  file,
+  before = file && findImage(`${file}/before`),
+  after = file && findImage(`${file}/after`),
   beforeLabel = 'Before — damage on arrival',
   afterLabel = 'After — same angle, same light',
   class: cls = '',
@@ -17,10 +20,10 @@ const {
 ---
 <div class:list={['ba relative select-none overflow-hidden', cls]} style="--p:50%" data-ba>
   <div class="absolute inset-0">
-    {after ? <img src={after} alt={afterLabel} class="size-full object-cover" /> : <MediaSlot label={afterLabel} align="bottom-right" class="[&>div:last-child]:max-w-[42%]" />}
+    {after ? <img src={after} alt={afterLabel} loading="lazy" decoding="async" class="size-full object-cover" /> : <MediaSlot label={afterLabel} align="bottom-right" class="[&>div:last-child]:max-w-[42%]" />}
   </div>
   <div class="ba-before absolute inset-0">
-    {before ? <img src={before} alt={beforeLabel} class="size-full object-cover" /> : <MediaSlot label={beforeLabel} tone="dark" align="bottom-left" class="[&>div:last-child]:max-w-[42%]" />}
+    {before ? <img src={before} alt={beforeLabel} loading="lazy" decoding="async" class="size-full object-cover" /> : <MediaSlot label={beforeLabel} tone="dark" align="bottom-left" class="[&>div:last-child]:max-w-[42%]" />}
   </div>
   <span class="eyebrow absolute top-4 left-4 bg-ink px-2.5 py-1.5 text-white">Before</span>
   <span class="eyebrow absolute top-4 right-4 bg-white px-2.5 py-1.5 text-ink">After</span>

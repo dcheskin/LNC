@@ -15,6 +15,25 @@ shown on phones held upright; everything else gets the landscape file.
 Optional: a still image with the same name (`hero.jpg`, `film.jpg`, …) is shown
 while the video loads.
 
+## Case photos (before / after)
+
+Each case on the site has a folder in `cases/`, named after it. Put two photos
+in it, `before.jpg` and `after.jpg` — same angle, same light — and the
+before/after slider for that case shows them (Builds page, the case's own page,
+Accident Repair page). `after.jpg` is also the case's cover on the Builds grid.
+
+| Folder                          | Case                       |
+|---------------------------------|----------------------------|
+| `cases/aston-martin-collision/` | Aston Martin               |
+| `cases/ford-raptor-r/`          | Ford F-150 Raptor R        |
+| `cases/porsche-718/`            | Porsche 718                |
+| `cases/bmw-m235i/`              | BMW M235i                  |
+| `cases/mercedes-s63-coupe/`     | Mercedes-AMG S63 Coupe     |
+| `cases/exotic-widebody/`        | Next signature build       |
+
+New case: add it to `src/data/builds.ts` (the `slug` is the folder name).
+Photos: JPG or WebP, about 2000 px wide, under 1 MB each.
+
 **Format:** MP4 (H.264), 1920×1080 or smaller, ideally under 15 MB.
 iPhone `.mov` files in HEVC won't play in every browser — export as MP4.
 
