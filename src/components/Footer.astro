@@ -3,6 +3,8 @@ import Logo from './Logo.astro';
 import Stripe from './Stripe.astro';
 import { site } from '../data/site';
 const year = new Date().getFullYear();
+const [streetLine, ...unitParts] = site.address.street.split(', ');
+const unit = unitParts.join(', ');
 const cols = [
   { h: 'Services', links: [['Accident Repair', '/accident-repair'], ['Insurance claims', '/accident-repair/insurance'], ['Customization', '/customization'], ['Builds', '/builds']] },
   { h: 'Company', links: [['About', '/about'], ['Reviews', '/reviews'], ['LNC Supply', '/shop'], ['FAQ', '/faq'], ['Contact', '/contact']] },
@@ -22,9 +24,9 @@ const cols = [
       </div>
     </div>
 
-    <div class="mt-20 grid gap-10 pt-10 sm:grid-cols-2 lg:grid-cols-5">
+    <div class="mt-20 grid gap-x-8 gap-y-12 pt-10 sm:grid-cols-6 lg:grid-cols-12">
       {cols.map((c) => (
-        <div>
+        <div class="sm:col-span-2">
           <p class="eyebrow text-white/45">{c.h}</p>
           <ul class="mt-4 space-y-2.5">
             {c.links.map(([l, href]) => (
@@ -33,15 +35,19 @@ const cols = [
           </ul>
         </div>
       ))}
-      <div>
+      <div class="sm:col-span-3">
         <p class="eyebrow text-white/45">Visit</p>
-        <a href={site.mapsHref} target="_blank" rel="noopener" class="mt-4 block leading-relaxed text-white/85 hover:text-white">{site.address.street}<br />{site.address.city}, {site.address.region} {site.address.zip}</a>
+        <a href={site.mapsHref} target="_blank" rel="noopener" class="mt-4 block space-y-2.5 text-[0.95rem] text-white/85 hover:text-white">
+          <span class="block">{streetLine}</span>
+          {unit && <span class="block">{unit}</span>}
+          <span class="block whitespace-nowrap">{site.address.city}, {site.address.region} {site.address.zip}</span>
+        </a>
       </div>
-      <div>
+      <div class="sm:col-span-3">
         <p class="eyebrow text-white/45">Hours</p>
-        <ul class="mt-4 space-y-1 text-white/85">
-          {site.hours.map((h) => <li class="flex justify-between gap-4"><span>{h.days}</span><span class="whitespace-nowrap text-white/55">{h.time}</span></li>)}
-        </ul>
+        <dl class="mt-4 grid grid-cols-[max-content_1fr] gap-x-8 gap-y-2.5 text-[0.95rem]">
+          {site.hours.map((h) => <><dt class="whitespace-nowrap text-white/85">{h.days}</dt><dd class="whitespace-nowrap text-white/55">{h.time}</dd></>)}
+        </dl>
       </div>
     </div>
   </div>
