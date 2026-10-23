@@ -2,10 +2,10 @@
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import ServiceList from '../../components/ServiceList.astro';
-import BeforeAfter from '../../components/BeforeAfter.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import MediaSlot from '../../components/MediaSlot.astro';
 import Arrow from '../../components/Arrow.astro';
+import CaseGallery from '../../components/CaseGallery.astro';
 import { site, reviews } from '../../data/site';
 
 const services = [
@@ -60,12 +60,13 @@ const services = [
   </section>
 
   <section class="bg-white py-24 md:py-36">
-    <div class="container-x grid gap-12 lg:grid-cols-12 lg:items-center">
-      <div class="lg:col-span-4">
-        <p class="eyebrow text-mute" data-reveal>The finish</p>
-        <h2 class="display mt-5 text-[clamp(2.75rem,5.8vw,5.22rem)]" data-split>If you can find it, we’re not done.</h2>
-      </div>
-      <div class="lg:col-span-8" data-reveal><BeforeAfter class="aspect-[16/10]" /></div>
+    <div class="container-x">
+      <p class="eyebrow text-mute" data-reveal>The finish</p>
+      <h2 class="display mt-5 max-w-[16ch] text-[clamp(2.75rem,5.8vw,5.22rem)]" data-split>If you can find it, we’re not done.</h2>
+    </div>
+    <div class="container-x mt-14">
+      <CaseGallery division="Accident Repair" />
+      <a href="/builds#before-after" class="link-arrow mt-12" data-reveal>Every before &amp; after <Arrow /></a>
     </div>
   </section>
 

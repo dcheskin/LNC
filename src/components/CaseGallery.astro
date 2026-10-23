@@ -1,0 +1,29 @@
+---
+// Every before/after case from src/data/cases.ts as a drag-to-compare slider.
+import BeforeAfter from './BeforeAfter.astro';
+import { cases, caseImages, caseAspect, type Case } from '../data/cases';
+interface Props {
+  division?: Case['division'];
+  class?: string;
+}
+const { division, class: cls = '' } = Astro.props;
+const list = division ? cases.filter((c) => c.division === division) : cases;
+---
+<div class:list={['grid gap-x-6 gap-y-14 md:grid-cols-2', cls]}>
+  {list.map((c, i) => {
+    const img = caseImages(c);
+    return (
+      <figure class:list={[c.shape === 'tall' && 'md:row-span-2']} data-reveal style={`--d:${(i % 2) * 80}ms`}>
+        <div data-cursor="Drag">
+          <BeforeAfter before={img.before} after={img.after} beforeLabel={c.before} afterLabel={c.after} class={caseAspect[c.shape]} />
+        </div>
+        <figcaption class="mt-5">
+          <p class="eyebrow text-mute">{String(i + 1).padStart(2, '0')} · {c.division}</p>
+          <p class="display mt-2 text-[1.96rem]">{c.car}</p>
+          <p class="lede mt-2 text-ink-2">{c.title}</p>
+          <p class="mt-3 text-sm text-mute">{c.work.join(' · ')}</p>
+        </figcaption>
+      </figure>
+    );
+  })}
+</div>
