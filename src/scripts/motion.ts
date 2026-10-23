@@ -93,7 +93,6 @@ function preloader(lenis: Lenis): Promise<void> {
       .from(el.querySelector('.pl-logo'), { yPercent: 120, duration: 1, ease: EASE })
       .from(el.querySelector('.pl-cap'), { opacity: 0, duration: 0.8 }, 0.2)
       .to(o, { v: 100, duration: 1.7, ease: 'power2.inOut', onUpdate: () => (num.textContent = String(Math.round(o.v)).padStart(3, '0')) }, 0.1)
-      .to(el.querySelector('.pl-bar'), { scaleX: 1, duration: 1.7, ease: 'power2.inOut' }, 0.1)
       .to(el.querySelectorAll('.pl-logo, .pl-cap, .pl-num'), { yPercent: -120, opacity: 0, duration: 0.6, ease: 'power3.in' }, '+=0.1')
       .add(() => done(), '-=0.1')
       .to(el, { clipPath: 'inset(0 0 100% 0)', duration: 1.1, ease: 'expo.inOut' });
@@ -205,7 +204,6 @@ function sequences() {
     const steps = sec.querySelectorAll<HTMLElement>('[data-step]');
     const media = sec.querySelectorAll<HTMLElement>('[data-step-media]');
     const num = sec.querySelector('[data-step-num]');
-    const bar = sec.querySelector<HTMLElement>('[data-step-bar]');
     const n = steps.length;
     const mm = gsap.matchMedia();
     mm.add('(min-width: 1024px)', () => {
@@ -224,7 +222,6 @@ function sequences() {
           },
         },
       });
-      if (bar) tl.fromTo(bar, { scaleX: 1 / n }, { scaleX: 1, ease: 'none', duration: n - 1 }, 0);
       for (let i = 1; i < n; i++) {
         tl.to(steps[i - 1], { opacity: 0, y: -40, duration: 0.4 }, i - 0.6).to(steps[i], { opacity: 1, y: 0, duration: 0.4 }, i - 0.3);
         if (media[i]) tl.to(media[i], { clipPath: 'inset(0% 0 0 0)', duration: 0.7, ease: 'power2.inOut' }, i - 0.7);

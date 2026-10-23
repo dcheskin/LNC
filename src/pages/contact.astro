@@ -5,7 +5,7 @@ import { site } from '../data/site';
 
 // Set PUBLIC_FORM_ENDPOINT (e.g. a Formspree URL) in .env to make the form live.
 const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
-const field = 'mt-2 w-full border-0 border-b border-line bg-transparent py-3 text-[1.05rem] outline-none transition-colors focus:border-ink';
+const field = 'mt-2 w-full bg-ink/[0.045] px-4 py-3 text-[1.05rem] outline-none transition-colors focus:bg-ink/[0.08]';
 ---
 <Base title="Get a Quote" description="Request a quote or start an insurance claim with LNC Auto Group in Laguna Niguel. Call or text (949) 367-1080.">
   <PageHero eyebrow="Contact" title="Get a quote." lede="The fastest way: text photos to (949) 367-1080. Or fill this in and we’ll reply the same business day." />
@@ -17,7 +17,7 @@ const field = 'mt-2 w-full border-0 border-b border-line bg-transparent py-3 tex
           <legend class="eyebrow text-mute">I need help with</legend>
           <div class="mt-4 flex flex-wrap gap-2">
             {[['accident', 'Accident repair'], ['build', 'Customization'], ['other', 'Something else']].map(([v, l], i) => (
-              <label class="type-chip eyebrow cursor-pointer border border-line px-4 py-3">
+              <label class="type-chip eyebrow cursor-pointer bg-ink/[0.05] px-4 py-3 transition-colors hover:bg-ink/[0.09]">
                 <input type="radio" name="type" value={v} class="sr-only" checked={i === 0} />{l}
               </label>
             ))}
@@ -35,7 +35,7 @@ const field = 'mt-2 w-full border-0 border-b border-line bg-transparent py-3 tex
           <label class="block" data-claim><span class="eyebrow text-mute">Insurance company</span><input name="insurer" class={field} /></label>
           <label class="block sm:col-span-2" data-claim><span class="eyebrow text-mute">Claim number (if you have one)</span><input name="claim" class={field} /></label>
           <label class="block sm:col-span-2"><span class="eyebrow text-mute">Tell us what happened / what you have in mind</span><textarea name="message" rows="4" class={field + ' resize-y'}></textarea></label>
-          <label class="block cursor-pointer border border-dashed border-line px-6 py-8 text-center transition-colors hover:border-ink sm:col-span-2">
+          <label class="block cursor-pointer bg-ink/[0.045] px-6 py-8 text-center transition-colors hover:bg-ink/[0.08] sm:col-span-2">
             <span class="eyebrow text-mute">Photos (up to 10)</span>
             <span id="file-label" class="mt-2 block text-ink-2">Drop images here or tap to choose</span>
             <input id="files" name="photos" type="file" accept="image/*" multiple class="sr-only" />
@@ -50,16 +50,16 @@ const field = 'mt-2 w-full border-0 border-b border-line bg-transparent py-3 tex
       </form>
 
       <aside class="lg:col-span-4 lg:col-start-9" data-reveal>
-        <div class="border-t border-ink pt-6">
+        <div>
           <p class="eyebrow text-mute">Call or text</p>
           <a href={site.phoneHref} class="display-c mt-3 block text-[3.4rem]">{site.phone}</a>
           <a href={`mailto:${site.email}`} class="mt-2 block text-ink-2 hover:underline">{site.email}</a>
         </div>
-        <div class="mt-10 border-t border-line pt-6">
+        <div class="mt-10">
           <p class="eyebrow text-mute">Shop</p>
           <a href={site.mapsHref} target="_blank" rel="noopener" class="mt-3 block leading-relaxed hover:underline">{site.address.street}<br />{site.address.city}, {site.address.region} {site.address.zip}</a>
         </div>
-        <div class="mt-10 border-t border-line pt-6">
+        <div class="mt-10">
           <p class="eyebrow text-mute">Hours</p>
           <ul class="mt-3 grid gap-1.5">{site.hours.map((h) => <li class="flex justify-between"><span>{h.days}</span><span class="text-ink-2">{h.time}</span></li>)}</ul>
         </div>
@@ -69,7 +69,7 @@ const field = 'mt-2 w-full border-0 border-b border-line bg-transparent py-3 tex
 </Base>
 
 <style>
-  .type-chip:has(input:checked) { background: var(--color-ink); color: #fff; border-color: var(--color-ink); }
+  .type-chip:has(input:checked) { background: var(--color-ink); color: #fff; }
   .type-chip:has(input:focus-visible) { outline: 2px solid var(--color-teal); outline-offset: 2px; }
 </style>
 

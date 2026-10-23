@@ -101,13 +101,18 @@
     letter-spacing: 0.24em;
     text-transform: uppercase;
     line-height: 1;
-    opacity: 0.6;
+    opacity: 0.75;
   }
+  /* LNC colour DNA (teal / blue / red) as three small pips. */
   .tag::before {
     content: '';
-    width: 1.75rem;
-    height: 1px;
-    background: currentColor;
+    width: 5px;
+    height: 5px;
+    margin-right: 12px;
+    background: var(--color-teal);
+    box-shadow:
+      7px 0 0 var(--color-blue),
+      14px 0 0 var(--color-red);
   }
   /* Wide-tracked micro caps — Forge-style labels. */
   .eyebrow {
@@ -173,12 +178,10 @@
     font-weight: 500;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    padding-bottom: 0.35rem;
-    background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
-    transition: background-size 0.6s var(--ease-out-expo);
+    transition: opacity 0.3s;
   }
   .link-arrow:hover {
-    background-size: 30% 1px;
+    opacity: 0.7;
   }
   .link-arrow:hover .arrow {
     transform: translateX(4px);
@@ -187,10 +190,10 @@
     transition: transform 0.5s var(--ease-out-expo);
   }
   .btn-ghost {
-    border: 1px solid currentColor;
+    background: color-mix(in srgb, currentColor 12%, transparent);
   }
   .btn-ghost:hover {
-    background: color-mix(in srgb, currentColor 10%, transparent);
+    background: color-mix(in srgb, currentColor 20%, transparent);
   }
   .btn .arrow {
     transition: transform 0.4s var(--ease-out-expo);

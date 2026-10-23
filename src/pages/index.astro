@@ -39,18 +39,18 @@ const week = [
     <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-night via-transparent to-night/60"></div>
 
     <div class="container-x relative mt-auto pt-36 pb-8">
-      <p class="tag" data-hero-fade>Accident repair · Customization</p>
+      <p class="tag" data-hero-fade>Exotic & luxury · Accident repair · Customization</p>
       <h1 class="display mt-6 text-[clamp(3.6rem,12.5vw,14.5rem)]">
         <span class="block overflow-hidden pb-[0.04em]"><span class="block" data-hero-line>Do it once.</span></span>
         <span class="block overflow-hidden pb-[0.04em]"><span class="block text-white/45" data-hero-line>Do it right.</span></span>
       </h1>
-      <div class="mt-10 grid border-t border-white/15 sm:grid-cols-2 lg:grid-cols-4" data-hero-fade>
+      <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4" data-hero-fade>
         {[
           { k: 'Based in', v: `${site.address.city}, CA` },
           { k: 'Family owned', v: `Since ${site.founded}` },
           { k: 'Yelp', v: `★ ${yelp.score} · ${yelp.count} reviews` },
         ].map((c) => (
-          <div class="border-b border-white/15 py-4 sm:pr-6 lg:border-b-0 lg:border-r">
+          <div class="py-4 sm:pr-6">
             <p class="eyebrow text-white/50">{c.k}</p>
             <p class="display mt-2 text-[1.35rem]">{c.v}</p>
           </div>
@@ -68,8 +68,8 @@ const week = [
   </section>
 
   <!-- MARQUEE -->
-  <section class="border-y border-ink/10 bg-paper py-6 text-ink">
-    <Marquee items={['Accident repair', 'Customization', 'All insurance accepted', 'OEM-level', 'Undetectable paint']} />
+  <section class="bg-paper py-6 text-ink">
+    <Marquee items={['Exotic & luxury', 'Family owned & operated', '5-star reputation', 'All insurance accepted', 'OEM-level repairs', 'Exceptional paintwork']} />
   </section>
 
   <!-- INTRO + DIVISIONS -->
@@ -99,7 +99,7 @@ const week = [
               </div>
               <h3 class="display mt-8 text-[clamp(2.03rem,4.64vw,4.93rem)]">{d.name}</h3>
               <p class:list={['lede mt-4 max-w-[46ch]', d.tone === 'dark' ? 'text-white/70' : 'text-ink-2']}>{d.text}</p>
-              <ul class:list={['mt-8 grid grid-cols-2 gap-y-2 border-t pt-5', d.tone === 'dark' ? 'border-white/15' : 'border-line']}>
+              <ul class="mt-8 grid grid-cols-2 gap-y-2 pt-5">
                 {d.items.map((it) => <li class:list={['eyebrow', d.tone === 'dark' ? 'text-white/70' : 'text-ink-2']}>{it}</li>)}
               </ul>
             </div>
@@ -117,14 +117,14 @@ const week = [
         <p class="display-c mt-6 text-[clamp(10rem,34vw,30rem)] leading-[0.78]"><span data-odo={String(yelp.count)}>{yelp.count}</span></p>
         <p class="display mt-4 text-[clamp(2.32rem,4.93vw,4.64rem)]">Yelp reviews. <span class="text-white/50">{yelp.score} ★</span></p>
       </div>
-      <div class="grid grid-cols-2 border-t border-white/15 lg:col-span-5">
+      <div class="grid grid-cols-2 lg:col-span-5">
         {[
           { v: site.ratings.google.score, k: 'Google rating' },
           { v: String(site.founded), k: 'Family owned since' },
           { v: site.youtubeReach, k: 'On YouTube' },
           { v: '100', k: 'Percent of insurers accepted', suffix: '%' },
         ].map((s, i) => (
-          <div class:list={['border-b border-white/15 py-8', i % 2 && 'border-l pl-6']}>
+          <div class:list={['py-8', i % 2 && 'pl-6']}>
             <p class="display-c text-[clamp(3.4rem,6vw,5.6rem)]"><span data-odo={s.v}>{s.v}</span>{s.suffix}</p>
             <p class="eyebrow mt-3 text-white/55">{s.k}</p>
           </div>
@@ -147,7 +147,6 @@ const week = [
         <p class="tag">Insurance claims</p>
         <div class="mt-6 flex items-center gap-5">
           <span class="display-c text-[2.6rem] tabular-nums"><span data-step-num>01</span><span class="text-ink/30"> / {String(steps.length).padStart(2, '0')}</span></span>
-          <span class="h-[3px] flex-1 bg-ink/10"><span data-step-bar class="block h-[3px] origin-left bg-ink" style="transform:scaleX(0.333)"></span></span>
         </div>
         <div class="mt-10 grid gap-12 lg:gap-0">
           {steps.map((s, i) => (
@@ -176,11 +175,11 @@ const week = [
       </div>
 
       <div data-preview-table class="relative mt-14">
-        <div class="eyebrow hidden grid-cols-12 border-b border-white/15 pb-3 text-white/45 md:grid">
+        <div class="eyebrow hidden grid-cols-12 pb-3 text-white/45 md:grid">
           <span class="col-span-1">No.</span><span class="col-span-5">Car</span><span class="col-span-3">Division</span><span class="col-span-3 text-right">Work</span>
         </div>
         {builds.map((b, i) => (
-          <a href={`/builds/${b.slug}`} data-preview-row data-cursor="View" class="group grid grid-cols-12 items-center gap-y-2 border-b border-white/15 py-6 transition-colors hover:bg-white/[0.03] md:py-7">
+          <a href={`/builds/${b.slug}`} data-preview-row data-cursor="View" class="group grid grid-cols-12 items-center gap-y-2 py-6 transition-colors hover:bg-white/[0.03] md:py-7">
             <span class="display-c col-span-2 text-[2rem] text-white/40 transition-colors group-hover:text-white md:col-span-1">{String(i + 1).padStart(2, '0')}</span>
             <span class="display col-span-10 text-[clamp(1.81rem,3.77vw,3.33rem)] transition-transform duration-500 group-hover:translate-x-2 md:col-span-5">{b.car}</span>
             <span class="eyebrow col-span-6 col-start-3 text-white/60 md:col-span-3 md:col-start-auto">{b.division}</span>
@@ -226,7 +225,7 @@ const week = [
         </div>
         <ol class="lg:col-span-7 lg:col-start-6">
           {week.map((w, i) => (
-            <li data-day={w.d} class="week-row group grid text-white/55 grid-cols-12 items-center border-b border-white/15 py-5 first:border-t" data-reveal style={`--d:${i * 40}ms`}>
+            <li data-day={w.d} class="week-row group grid text-white/55 grid-cols-12 items-center py-5" data-reveal style={`--d:${i * 40}ms`}>
               <span class="display-c col-span-2 text-[1.8rem] text-white/35">{String(i + 1).padStart(2, '0')}</span>
               <span class="display col-span-6 text-[clamp(1.59rem,3.19vw,2.75rem)]">{w.n}</span>
               <span class="col-span-4 flex items-center justify-end gap-3 text-right">

@@ -10,7 +10,7 @@ const filters = ['All', 'Accident Repair', 'Customization'];
   <PageHero eyebrow="Selected work" title="The builds." lede="Repairs you can’t find and builds you can’t miss. Every project documented from arrival to handover." />
   <section class="bg-paper pt-16 pb-28 md:pt-24">
     <div class="container-x">
-      <div class="flex flex-wrap gap-2 border-b border-line pb-6" role="tablist" aria-label="Filter builds">
+      <div class="flex flex-wrap gap-2 pb-6" role="tablist" aria-label="Filter builds">
         {filters.map((f, i) => (
           <button class:list={['eyebrow filter-btn px-4 py-2.5', i === 0 && 'is-on']} data-filter={f} role="tab" aria-selected={i === 0 ? 'true' : 'false'}>{f}</button>
         ))}
@@ -31,8 +31,9 @@ const filters = ['All', 'Accident Repair', 'Customization'];
 </Base>
 
 <style>
-  .filter-btn { border: 1px solid var(--color-line); }
-  .filter-btn.is-on { background: var(--color-ink); color: #fff; border-color: var(--color-ink); }
+  .filter-btn { background: rgb(11 12 14 / 0.05); transition: background-color 0.3s; }
+  .filter-btn:hover { background: rgb(11 12 14 / 0.09); }
+  .filter-btn.is-on { background: var(--color-ink); color: #fff; }
 </style>
 <script>
   import { ScrollTrigger } from 'gsap/ScrollTrigger';

@@ -48,10 +48,9 @@ const dark = tone === 'dark';
   aria-label={`${kind === 'video' ? 'Video' : 'Photo'} placeholder: ${label}`}
 >
   <div class="slot-sheen absolute inset-0 -z-10"></div>
-  <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
   <div class:list={['flex max-w-[30ch] flex-col gap-2 px-6', pos]}>
     {kind === 'video' ? (
-      <span class:list={['grid size-11 place-items-center rounded-full border', dark ? 'border-white/30' : 'border-ink/25']}>
+      <span class:list={['grid size-11 place-items-center rounded-full', dark ? 'bg-white/10' : 'bg-ink/[0.07]']}>
         <svg viewBox="0 0 24 24" class="ml-0.5 size-4" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z" /></svg>
       </span>
     ) : (
@@ -70,17 +69,6 @@ const dark = tone === 'dark';
       repeating-linear-gradient(-55deg, transparent 0 14px, rgb(0 0 0 / 0.035) 14px 15px),
       radial-gradient(120% 80% at 80% 0%, rgb(255 255 255 / 0.55), transparent 60%);
   }
-  [data-slot] :global(.corner) {
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    border-color: currentColor;
-    opacity: 0.45;
-  }
-  .tl { top: 14px; left: 14px; border-top: 1px solid; border-left: 1px solid; }
-  .tr { top: 14px; right: 14px; border-top: 1px solid; border-right: 1px solid; }
-  .bl { bottom: 14px; left: 14px; border-bottom: 1px solid; border-left: 1px solid; }
-  .br { bottom: 14px; right: 14px; border-bottom: 1px solid; border-right: 1px solid; }
   .bg-night-2 .slot-sheen {
     background-image:
       repeating-linear-gradient(-55deg, transparent 0 14px, rgb(255 255 255 / 0.03) 14px 15px),
