@@ -5,7 +5,6 @@ import ServiceList from '../components/ServiceList.astro';
 import CtaBand from '../components/CtaBand.astro';
 import MediaSlot from '../components/MediaSlot.astro';
 import Arrow from '../components/Arrow.astro';
-import CaseGallery from '../components/CaseGallery.astro';
 import { builds } from '../data/builds';
 
 const services = [
@@ -60,16 +59,6 @@ const custom = builds.filter((b) => b.division === 'Customization');
           </div>
         ))}
       </div>
-    </div>
-  </section>
-
-  <section class="bg-white py-24 md:py-32">
-    <div class="container-x">
-      <div class="flex items-end justify-between gap-6">
-        <h2 class="display text-[clamp(2.75rem,5.8vw,5.22rem)]" data-split>Before &amp; after.</h2>
-        <a href="/builds#before-after" class="link-arrow" data-reveal>Every case <Arrow /></a>
-      </div>
-      <CaseGallery division="Customization" class="mt-12" />
     </div>
   </section>
 

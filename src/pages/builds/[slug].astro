@@ -6,7 +6,7 @@ import BeforeAfter from '../../components/BeforeAfter.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import Arrow from '../../components/Arrow.astro';
 import { builds } from '../../data/builds';
-import { cases, caseImages, caseAspect } from '../../data/cases';
+import { cases, caseImages } from '../../data/cases';
 
 export function getStaticPaths() {
   return builds.map((b, i) => ({ params: { slug: b.slug }, props: { b, next: builds[(i + 1) % builds.length] } }));
@@ -41,7 +41,7 @@ const match = cases.find((c) => c.build === b.slug);
 
   {match ? (
     <section class="bg-paper py-24">
-      <div class="container-x"><BeforeAfter {...caseImages(match)} beforeLabel={match.before} afterLabel={match.after} class={`${caseAspect[match.shape]} mx-auto max-w-5xl`} /></div>
+      <div class="container-x"><BeforeAfter {...caseImages(match)} beforeLabel={match.before} afterLabel={match.after} class="mx-auto aspect-[2/1] max-w-5xl" /></div>
     </section>
   ) : b.division === 'Accident Repair' && (
     <section class="bg-paper py-24">
