@@ -9,6 +9,9 @@ site automatically (live about 2 minutes after the upload).
 | `film.mp4`           | Home page, "Every build, on film" band      | 10–15 s montage                        |
 | `customization.mp4`  | Customization page, top film                | 20–30 s                                |
 
+Optional: `hero-portrait.mp4` (any slot name + `-portrait`) is a vertical cut
+shown on phones held upright; everything else gets the landscape file.
+
 Optional: a still image with the same name (`hero.jpg`, `film.jpg`, …) is shown
 while the video loads.
 

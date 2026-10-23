@@ -24,7 +24,15 @@ const dark = tone === 'dark';
 ---
 {video ? (
   <video class:list={['block size-full object-cover', cls]} autoplay muted loop playsinline preload="auto" poster={video.poster} aria-label={label} data-media-video>
-    <source src={video.src} type={video.type} />
+    {video.portrait ? (
+      <>
+        {/* Browsers that ignore `media` take the first (landscape) source. */}
+        <source src={video.src} type={video.type} media="(orientation: landscape)" />
+        <source src={video.portrait.src} type={video.portrait.type} />
+      </>
+    ) : (
+      <source src={video.src} type={video.type} />
+    )}
   </video>
 ) : image ? (
   <img src={image} alt={label} loading="lazy" decoding="async" class:list={['block size-full object-cover', cls]} />
