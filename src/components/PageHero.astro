@@ -4,7 +4,7 @@ interface Props {
   eyebrow: string;
   title: string;
   lede?: string;
-  media?: { label: string; note?: string; kind?: 'photo' | 'video' };
+  media?: { label: string; note?: string; kind?: 'photo' | 'video'; file?: string };
 }
 // Header is white-on-dark, so heroes open on night.
 const { eyebrow, title, lede, media } = Astro.props;
@@ -22,7 +22,7 @@ const { eyebrow, title, lede, media } = Astro.props;
     <div class="container-x pb-10 md:pb-14">
       <div class="aspect-[16/10] overflow-hidden md:aspect-[21/9]">
         <div class="size-full" data-hero-media>
-          <MediaSlot kind={media.kind ?? 'photo'} label={media.label} note={media.note} tone="dark" />
+          <MediaSlot file={media.file} kind={media.kind ?? 'photo'} label={media.label} note={media.note} tone="dark" />
         </div>
       </div>
     </div>

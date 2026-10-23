@@ -1,6 +1,9 @@
 ---
-// Placeholder for real LNC photo/video. Swap for <img>/<video> when assets arrive.
+// Placeholder for real LNC photo/video. Give it a `file` name and drop
+// public/media/<file>.mp4 (or .jpg for photos) to replace the placeholder.
+import { findImage, findVideo } from '../lib/media';
 interface Props {
+  file?: string;
   kind?: 'photo' | 'video';
   label: string;
   note?: string;
@@ -8,7 +11,9 @@ interface Props {
   align?: 'center' | 'top-right' | 'bottom-left' | 'bottom-right';
   class?: string;
 }
-const { kind = 'photo', label, note, tone = 'light', align = 'center', class: cls = '' } = Astro.props;
+const { file, kind = 'photo', label, note, tone = 'light', align = 'center', class: cls = '' } = Astro.props;
+const video = file && kind === 'video' ? findVideo(file) : undefined;
+const image = file && !video ? findImage(file) : undefined;
 const pos = {
   center: 'm-auto items-center text-center',
   'top-right': 'ml-auto mt-24 mr-[clamp(1rem,4vw,3rem)] items-end text-right md:mt-28',
@@ -17,6 +22,13 @@ const pos = {
 }[align];
 const dark = tone === 'dark';
 ---
+{video ? (
+  <video class:list={['block size-full object-cover', cls]} autoplay muted loop playsinline preload="auto" poster={video.poster} aria-label={label} data-media-video>
+    <source src={video.src} type={video.type} />
+  </video>
+) : image ? (
+  <img src={image} alt={label} loading="lazy" decoding="async" class:list={['block size-full object-cover', cls]} />
+) : (
 <div
   class:list={[
     'media-slot relative isolate flex h-full w-full overflow-hidden',
@@ -42,6 +54,7 @@ const dark = tone === 'dark';
     {note && <span class="text-xs leading-snug opacity-70">{note}</span>}
   </div>
 </div>
+)}
 
 <style>
   .slot-sheen {

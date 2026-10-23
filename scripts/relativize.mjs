@@ -35,7 +35,7 @@ for await (const file of walk(root)) {
     const depth = rel.split(sep).length - 1;
     const prefix = rel === '404.html' && base !== undefined ? `${base.replace(/\/$/, '')}/` : depth ? '../'.repeat(depth) : './';
     const src = await readFile(file, 'utf8');
-    const out = src.replace(/\b(href|src|action)=(["'])(\/(?!\/)[^"']*)\2/g, (_, a, q, p) => `${a}=${q}${fixPath(p, prefix)}${q}`);
+    const out = src.replace(/\b(href|src|action|poster)=(["'])(\/(?!\/)[^"']*)\2/g, (_, a, q, p) => `${a}=${q}${fixPath(p, prefix)}${q}`);
     if (out !== src) (await writeFile(file, out), count++);
   } else if (file.endsWith('.css')) {
     const src = await readFile(file, 'utf8');

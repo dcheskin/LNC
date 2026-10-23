@@ -8,9 +8,11 @@ import BleedTitle from '../components/BleedTitle.astro';
 import ShopClock from '../components/ShopClock.astro';
 import { site } from '../data/site';
 import { getYelp } from '../lib/yelp';
+import { findVideo } from '../lib/media';
 
 // Live Yelp rating, count and newest reviews (build time; falls back to site.ts).
 const yelp = await getYelp();
+const heroVideo = findVideo('hero');
 import { builds } from '../data/builds';
 
 const steps = [
@@ -31,8 +33,8 @@ const week = [
 <Base preloader>
   <!-- HERO -->
   <section data-hero class="bg-night relative flex min-h-[100svh] flex-col overflow-hidden text-white">
-    <div data-hero-media class="absolute inset-0 opacity-40 mix-blend-luminosity">
-      <MediaSlot kind="video" tone="dark" align="top-right" label="Hero film · 15–20s loop" note="Rolling shot of a finished build at night under shop lights, cut to the paint booth." />
+    <div data-hero-media class:list={['absolute inset-0', heroVideo ? 'opacity-70' : 'opacity-40 mix-blend-luminosity']}>
+      <MediaSlot file="hero" kind="video" tone="dark" align="top-right" label="Hero film · 15–20s loop" note="Rolling shot of a finished build at night under shop lights, cut to the paint booth." />
     </div>
     <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-night via-transparent to-night/60"></div>
 
@@ -241,7 +243,7 @@ const week = [
   <!-- FILM -->
   <section class="relative h-[85svh] min-h-[540px] overflow-hidden bg-night text-white">
     <div class="absolute inset-x-0 -top-[10%] h-[120%]" data-parallax="14">
-      <MediaSlot kind="video" tone="dark" align="top-right" label="Film band · YouTube cut-down" note="10–15s montage from the LNC Motorsport channel: sparks, sanding, clear coat, reveal." />
+      <MediaSlot file="film" kind="video" tone="dark" align="top-right" label="Film band · YouTube cut-down" note="10–15s montage from the LNC Motorsport channel: sparks, sanding, clear coat, reveal." />
     </div>
     <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-night via-night/20 to-night/50"></div>
     <div class="container-x relative flex h-full flex-col justify-end pb-14">
