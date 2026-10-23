@@ -7,6 +7,7 @@ import CtaBand from '../../components/CtaBand.astro';
 import MediaSlot from '../../components/MediaSlot.astro';
 import Arrow from '../../components/Arrow.astro';
 import { site, reviews } from '../../data/site';
+import { cases, caseImages } from '../../data/cases';
 
 const services = [
   { t: 'Collision & structural', d: 'Frame and unibody straightening, panel replacement and alignment back to manufacturer dimensions.' },
@@ -16,6 +17,7 @@ const services = [
   { t: 'Glass & lighting', d: 'Windshields, headlamps and taillights replaced with correct-spec parts.' },
   { t: 'Towing & transport', d: 'We arrange the tow locally and enclosed transport for clients outside Orange County.' },
 ];
+const spider = cases.find((c) => c.slug === 'ferrari-488-spider')!;
 ---
 <Base title="Accident Repair" description="Accident and collision repair in Laguna Niguel. OEM-level repairs, undetectable paintwork, every insurance company accepted. You choose your body shop in California.">
   <PageHero
@@ -65,7 +67,7 @@ const services = [
         <p class="eyebrow text-mute" data-reveal>The finish</p>
         <h2 class="display mt-5 text-[clamp(2.75rem,5.8vw,5.22rem)]" data-split>If you can find it, we’re not done.</h2>
       </div>
-      <div class="lg:col-span-8" data-reveal><BeforeAfter class="aspect-[16/10]" /></div>
+      <div class="lg:col-span-8" data-reveal data-cursor="Drag"><BeforeAfter {...caseImages(spider)} beforeLabel={spider.before} afterLabel={spider.after} class="aspect-[2/1]" /></div>
     </div>
   </section>
 

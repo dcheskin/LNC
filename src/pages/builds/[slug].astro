@@ -6,11 +6,13 @@ import BeforeAfter from '../../components/BeforeAfter.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import Arrow from '../../components/Arrow.astro';
 import { builds } from '../../data/builds';
+import { cases, caseImages } from '../../data/cases';
 
 export function getStaticPaths() {
   return builds.map((b, i) => ({ params: { slug: b.slug }, props: { b, next: builds[(i + 1) % builds.length] } }));
 }
 const { b, next } = Astro.props;
+const match = cases.find((c) => c.build === b.slug);
 ---
 <Base title={b.car} description={`${b.car} — ${b.title} ${b.summary}`}>
   <PageHero eyebrow={b.division} title={b.car} lede={b.title} media={{ label: `${b.car} — hero: ${b.shotList.at(-1)}` }} />
@@ -37,7 +39,11 @@ const { b, next } = Astro.props;
     </div>
   </section>
 
-  {b.division === 'Accident Repair' && (
+  {match ? (
+    <section class="bg-paper py-24">
+      <div class="container-x"><BeforeAfter {...caseImages(match)} beforeLabel={match.before} afterLabel={match.after} class="mx-auto aspect-[2/1] max-w-5xl" /></div>
+    </section>
+  ) : b.division === 'Accident Repair' && (
     <section class="bg-paper py-24">
       <div class="container-x"><BeforeAfter class="aspect-[16/9]" /></div>
     </section>

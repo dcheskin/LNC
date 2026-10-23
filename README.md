@@ -32,6 +32,7 @@ Replace it with media of the same aspect ratio, e.g.
 <video src="/media/hero.mp4" autoplay muted loop playsinline class="size-full object-cover"></video>
 ```
 - Before/after: `<BeforeAfter before="/media/x-before.jpg" after="/media/x-after.jpg" />`
+- Before/after cases ("What we did" on /builds, plus the home and /accident-repair sliders): add an entry to `src/data/cases.ts` and drop `public/media/cases/<slug>-before.jpg` + `-after.jpg`, shot from the same spot and angle, aligned and cropped to the same 2:1 frame. Strip EXIF/GPS before committing phone photos.
 - Scroll-scrubbed footage (Forge-style): `<video data-scrub src="…" muted playsinline preload="auto">` — scrubs with scroll automatically.
 - Put files in `public/media/`. Export video H.264 MP4, ≤ 8 MB for the hero.
 
