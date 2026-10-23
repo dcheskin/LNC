@@ -43,7 +43,23 @@ Set `PUBLIC_FORM_ENDPOINT` (e.g. a Formspree form URL) in `.env`. Without it the
 `.github/workflows/deploy.yml` builds and publishes the site on every push, once a day (fresh Yelp data) and on demand (Actions → Deploy site → Run workflow).
 
 - One-time: Settings → Pages → Source: **GitHub Actions**. Pages on a private repo needs a paid GitHub plan; otherwise make the repo public.
-- Live at `https://<user>.github.io/<repo>/` until a custom domain is added (Settings → Pages → Custom domain, e.g. `lncautogroup.com`, plus the DNS records GitHub lists).
+- Custom domain: **lncautogroup.com** (`public/CNAME`). To connect it:
+  1. Settings → Pages → Custom domain: `lncautogroup.com` → Save. (With Actions deploys this setting, not the CNAME file, is what GitHub uses.)
+  2. At the domain's DNS provider, replace any existing apex/`www` records with:
+     | Type  | Host | Value |
+     |-------|------|-------|
+     | A     | @    | 185.199.108.153 |
+     | A     | @    | 185.199.109.153 |
+     | A     | @    | 185.199.110.153 |
+     | A     | @    | 185.199.111.153 |
+     | AAAA  | @    | 2606:50c0:8000::153 |
+     | AAAA  | @    | 2606:50c0:8001::153 |
+     | AAAA  | @    | 2606:50c0:8002::153 |
+     | AAAA  | @    | 2606:50c0:8003::153 |
+     | CNAME | www  | dcheskin.github.io |
+  3. Once the DNS check passes (minutes to a few hours), tick **Enforce HTTPS**.
+  4. Recommended: Settings → Pages → Verify domain (account-level TXT record) so nobody else can claim it.
+- Until then it's live at `https://dcheskin.github.io/LNC/`.
 - `scripts/relativize.mjs` makes every link relative after the build, so the same output works on the Pages sub-path and on a custom domain.
 - Secrets (Settings → Secrets and variables → Actions): `YELP_API_KEY`, `PUBLIC_FORM_ENDPOINT`.
 

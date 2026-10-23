@@ -8,7 +8,7 @@ name: Deploy site
 
 on:
   push:
-    branches: [claude/wonderful-cray-1brbac, main]
+    branches: [claude/wonderful-cray-1brbac, claude/confident-babbage-4ntqsw, main]
   schedule:
     - cron: '17 13 * * *' # daily, ~6am Pacific
   workflow_dispatch:
