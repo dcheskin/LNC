@@ -8,6 +8,7 @@ site automatically (live about 2 minutes after the upload).
 | `hero.mp4`           | Home page, full-screen behind the headline  | 10–20 s loop, no sound needed          |
 | `film.mp4`           | Home page, "Every build, on film" band      | 10–15 s montage                        |
 | `customization.mp4`  | Customization page, top film                | 20–30 s                                |
+| `about.mp4`          | About page, full-screen behind the headline | 15–40 s loop, no sound needed          |
 
 Optional: `hero-portrait.mp4` (any slot name + `-portrait`) is a vertical cut
 shown on phones held upright; everything else gets the landscape file.

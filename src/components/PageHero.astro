@@ -5,12 +5,23 @@ interface Props {
   title: string;
   lede?: string;
   media?: { label: string; note?: string; kind?: 'photo' | 'video'; file?: string };
+  // Full-bleed film behind the headline (public/media/<file>.mp4), like the home hero.
+  background?: { file: string; label: string };
 }
 // Header is white-on-dark, so heroes open on night.
-const { eyebrow, title, lede, media } = Astro.props;
+const { eyebrow, title, lede, media, background } = Astro.props;
 ---
-<section data-hero class="bg-night relative overflow-hidden text-white">
-  <div class="container-x pt-36 pb-14 md:pt-48 md:pb-20">
+<section data-hero class:list={['bg-night relative overflow-hidden text-white', background && 'flex min-h-[100svh] flex-col']}>
+  {background && (
+    <>
+      <div data-hero-media class="absolute inset-0 opacity-75">
+        <MediaSlot file={background.file} kind="video" tone="dark" label={background.label} />
+      </div>
+      <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-night/85 via-night/35 to-transparent"></div>
+      <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-night via-transparent to-night/60"></div>
+    </>
+  )}
+  <div class:list={['container-x pt-36 pb-14 md:pt-48 md:pb-20', background && 'relative mt-auto']}>
     <span class="tag" data-hero-fade>{eyebrow}</span>
     <h1 class="display mt-7 max-w-[16ch] text-[clamp(3.33rem,8.99vw,9.57rem)]">
       {title.split('|').map((l) => <span class="block overflow-hidden pb-[0.04em]"><span class="block" data-hero-line>{l.trim()}</span></span>)}
