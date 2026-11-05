@@ -23,7 +23,8 @@ const pos = {
 const dark = tone === 'dark';
 ---
 {video ? (
-  <video class:list={['block size-full object-cover', cls]} autoplay muted loop playsinline preload="auto" poster={video.poster} aria-label={label} data-media-video>
+  /* Decorative background film: hidden from screen readers; Base adds a pause button (WCAG 2.2.2). */
+  <video class:list={['block size-full object-cover', cls]} autoplay muted loop playsinline preload="auto" poster={video.poster} aria-hidden="true" data-media-video>
     {video.portrait ? (
       <>
         {/* Browsers that ignore `media` take the first (landscape) source. */}

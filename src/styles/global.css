@@ -13,7 +13,7 @@
   --color-surface: #ffffff;
   --color-ink: #0b0c0e;
   --color-ink-2: #3d4046;
-  --color-mute: #7a7d83;
+  --color-mute: #5f6267; /* ≥4.5:1 on paper, white and line-grey (WCAG AA) */
   --color-line: #dfdfda;
   --color-night: #08090b;
   --color-night-2: #121418;
