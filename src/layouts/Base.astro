@@ -64,6 +64,14 @@ const business = {
     <meta name="twitter:card" content="summary_large_image" />
     <script is:inline>
       if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('js-motion');
+      // Safety net: if the motion script never starts (blocked, or a stale cached
+      // page pointing at files from an older deploy), show everything as-is.
+      setTimeout(function () {
+        if (window.__lenis) return;
+        document.documentElement.classList.remove('js-motion');
+        var p = document.getElementById('preloader');
+        if (p) p.remove();
+      }, 4000);
     </script>
     <script type="application/ld+json" set:html={JSON.stringify(business)} />
     {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
