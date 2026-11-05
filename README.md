@@ -14,7 +14,7 @@ Node 22.12+ (Astro 6). `vite` is pinned via `overrides` so Tailwind and Astro sh
 ## Structure
 ```
 src/data/site.ts        business facts (NAP, hours, ratings, reviews, FAQ) — single source of truth
-src/data/builds.ts      builds list → /builds and /builds/[slug]
+src/data/builds.ts      builds + their photos → /builds and /builds/[slug]
 src/components/         Header, Footer, Logo (flat vector), MediaSlot, BeforeAfter, PageHero, …
 src/scripts/motion.ts   all scroll/intro animation (respects prefers-reduced-motion)
 src/pages/              routes
@@ -33,6 +33,7 @@ Replace it with media of the same aspect ratio, e.g.
 ```
 - Before/after: `<BeforeAfter before="/media/x-before.jpg" after="/media/x-after.jpg" />`
 - Before/after cases ("What we did" on /builds, plus the home and /accident-repair sliders): add an entry to `src/data/cases.ts` and drop `public/media/cases/<slug>-before.jpg` + `-after.jpg`, shot from the same spot and angle, aligned and cropped to the same 2:1 frame. Strip EXIF/GPS before committing phone photos.
+- Builds (/builds, build pages, home "Hall of fame", /customization): each entry in `src/data/builds.ts` lists its photos in story order (Before → During → After) plus which one is the card `cover` and the page `hero`. Photos live in `public/media/builds/<slug>/NN.jpg` — resize to ~2000px, strip EXIF/GPS and blur readable plates first.
 - Scroll-scrubbed footage (Forge-style): `<video data-scrub src="…" muted playsinline preload="auto">` — scrubs with scroll automatically.
 - Put files in `public/media/`. Export video H.264 MP4, ≤ 8 MB for the hero.
 

@@ -4,7 +4,7 @@ interface Props {
   eyebrow: string;
   title: string;
   lede?: string;
-  media?: { label: string; note?: string; kind?: 'photo' | 'video'; file?: string };
+  media?: { label: string; note?: string; kind?: 'photo' | 'video'; file?: string; src?: string };
   // Full-bleed film behind the headline (public/media/<file>.mp4), like the home hero.
   background?: { file: string; label: string };
 }
@@ -33,7 +33,11 @@ const { eyebrow, title, lede, media, background } = Astro.props;
     <div class="container-x pb-10 md:pb-14">
       <div class="aspect-[16/10] overflow-hidden md:aspect-[21/9]">
         <div class="size-full" data-hero-media>
-          <MediaSlot file={media.file} kind={media.kind ?? 'photo'} label={media.label} note={media.note} tone="dark" />
+          {media.src ? (
+            <img src={media.src} alt={media.label} class="block size-full object-cover" fetchpriority="high" decoding="async" />
+          ) : (
+            <MediaSlot file={media.file} kind={media.kind ?? 'photo'} label={media.label} note={media.note} tone="dark" />
+          )}
         </div>
       </div>
     </div>

@@ -1,21 +1,27 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
-import MediaSlot from '../../components/MediaSlot.astro';
 import BeforeAfter from '../../components/BeforeAfter.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import Arrow from '../../components/Arrow.astro';
-import { builds } from '../../data/builds';
+import { builds, heroOf } from '../../data/builds';
 import { cases, caseImages } from '../../data/cases';
+import { jpegSize } from '../../lib/media';
 
 export function getStaticPaths() {
   return builds.map((b, i) => ({ params: { slug: b.slug }, props: { b, next: builds[(i + 1) % builds.length] } }));
 }
 const { b, next } = Astro.props;
 const match = cases.find((c) => c.build === b.slug);
+// Hero already shows one shot; the grid shows the rest in story order.
+const gallery = b.photos.filter((_, i) => i !== b.hero);
+// Odd count: lead with a full-width shot so the 2-column rows below stay even.
+const wideFirst = gallery.length % 2 === 1;
+// All-landscape galleries get 4:3 tiles; any portrait shot keeps 4:5 so rows line up.
+const tile = gallery.some((ph) => { const d = jpegSize(ph.src); return d && d.h > d.w; }) ? 'aspect-[4/5]' : 'aspect-[4/3]';
 ---
 <Base title={b.car} description={`${b.car} — ${b.title} ${b.summary}`}>
-  <PageHero eyebrow={b.division} title={b.car} lede={b.title} media={{ label: `${b.car} — hero: ${b.shotList.at(-1)}` }} />
+  <PageHero eyebrow={b.division} title={b.car} lede={b.title} media={{ label: heroOf(b).alt, src: heroOf(b).src }} />
 
   <section class="bg-white py-20 md:py-28">
     <div class="container-x grid gap-12 lg:grid-cols-12">
@@ -29,12 +35,15 @@ const match = cases.find((c) => c.build === b.slug);
     </div>
   </section>
 
-  <section class="bg-white pb-24">
+  <section class="bg-white pb-24" aria-label={`${b.car} photos`}>
     <div class="container-x grid gap-6 md:grid-cols-2">
-      {b.shotList.map((s, i) => (
-        <div class:list={['overflow-hidden', i === 0 ? 'aspect-[16/9] md:col-span-2' : 'aspect-[4/5]']} data-reveal>
-          <div class="size-full" data-zoom><MediaSlot label={s} tone={i % 2 ? 'dark' : 'light'} /></div>
-        </div>
+      {gallery.map((ph, i) => (
+        <figure class:list={['m-0', i === 0 && wideFirst && 'md:col-span-2']} data-reveal>
+          <div class:list={['overflow-hidden bg-paper', i === 0 && wideFirst ? 'aspect-[16/9]' : tile]}>
+            <img src={ph.src} alt={ph.alt} loading="lazy" decoding="async" class="block size-full object-cover" data-zoom />
+          </div>
+          {ph.stage && <figcaption class="eyebrow mt-3 text-mute">{ph.stage}</figcaption>}
+        </figure>
       ))}
     </div>
   </section>
@@ -43,11 +52,7 @@ const match = cases.find((c) => c.build === b.slug);
     <section class="bg-paper py-24">
       <div class="container-x"><BeforeAfter {...caseImages(match)} beforeLabel={match.before} afterLabel={match.after} class="mx-auto aspect-[2/1] max-w-5xl" /></div>
     </section>
-  ) : b.division === 'Accident Repair' && (
-    <section class="bg-paper py-24">
-      <div class="container-x"><BeforeAfter class="aspect-[16/9]" /></div>
-    </section>
-  )}
+  ) : null}
 
   <a href={`/builds/${next.slug}`} class="group block bg-night py-20 text-white md:py-28">
     <div class="container-x flex items-end justify-between gap-6">

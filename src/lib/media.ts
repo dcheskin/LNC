@@ -36,3 +36,20 @@ export function findImage(name: string) {
   const img = find(name, IMAGE);
   return img && `/media/${img.file}`;
 }
+
+// Pixel size of a JPEG in public/ (reads the SOF marker), e.g. to pick a tile
+// shape for a photo gallery. Returns undefined for anything it can't parse.
+import { readFileSync } from 'node:fs';
+export function jpegSize(publicPath: string): { w: number; h: number } | undefined {
+  try {
+    const b = readFileSync(join(process.cwd(), 'public', publicPath));
+    let i = 2;
+    while (i + 9 < b.length) {
+      if (b[i] !== 0xff) return;
+      const m = b[i + 1];
+      const len = b.readUInt16BE(i + 2);
+      if (m >= 0xc0 && m <= 0xcf && m !== 0xc4 && m !== 0xc8 && m !== 0xcc) return { h: b.readUInt16BE(i + 5), w: b.readUInt16BE(i + 7) };
+      i += 2 + len;
+    }
+  } catch {}
+}

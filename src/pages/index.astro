@@ -14,7 +14,7 @@ import { cases, caseImages } from '../data/cases';
 // Live Yelp rating, count and newest reviews (build time; falls back to site.ts).
 const yelp = await getYelp();
 const heroVideo = findVideo('hero');
-import { builds } from '../data/builds';
+import { builds, coverOf } from '../data/builds';
 
 const steps = [
   { t: 'Text us photos & your claim number.', d: 'Send a few photos of the damage to (949) 367-1080. In California, you choose the shop — not your insurer.', m: 'Phone in hand, texting damage photos' },
@@ -192,7 +192,7 @@ const spider = cases.find((c) => c.slug === 'ferrari-488-spider')!;
         <div data-preview-box class="pointer-events-none absolute top-0 left-0 z-10 hidden h-[260px] w-[340px] -translate-x-1/2 -translate-y-1/2 scale-[0.6] overflow-hidden opacity-0 md:block" aria-hidden="true">
           {builds.map((b, i) => (
             <div data-preview-slide class="absolute inset-0" style={`transform:translateY(${i * 100}%)`}>
-              <MediaSlot label={`${b.car} — ${b.shotList[0]}`} tone={i % 2 ? 'light' : 'dark'} />
+              <img src={coverOf(b).src} alt="" loading="lazy" decoding="async" class="block size-full object-cover" />
             </div>
           ))}
         </div>
