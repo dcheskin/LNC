@@ -38,11 +38,14 @@ Replace it with media of the same aspect ratio, e.g.
 - Put files in `public/media/`. Export video H.264 MP4, ≤ 8 MB for the hero.
 
 ## Contact form
-"Send request" on Get a Quote emails the request to ben@lnccollision.com (the `email` in `src/data/site.ts`) with the photos attached, through [FormSubmit](https://formsubmit.co) (free, no account or keys). Photos are shrunk in the browser first so a request stays under FormSubmit's 10 MB limit.
+"Send request" on Get a Quote emails the request to ben@lnccollision.com with the photos attached. The page sends it in the background (no page change, usually 2–4 s) to a small Google Apps Script web app that runs under your Google account: free, and on Google's servers. Photos are shrunk in the browser first (≈1600 px JPEG) so uploads are quick on a phone.
 
-- **One-time activation:** the very first request sends an "Activate form" email to that inbox. Click the button in it; until then requests aren't delivered. Send a test request right after deploying.
-- The activation email also gives a random alias. To hide the address from spam bots, set `PUBLIC_FORM_ENDPOINT=https://formsubmit.co/<alias>` (repo secret) and redeploy.
-- After sending, FormSubmit redirects back to `/contact/?sent=1`, which shows a thank-you line.
+One-time setup (≈3 minutes) — the code and steps are in `apps-script/quote-mailer.gs`:
+1. https://script.google.com → **New project** → paste the file → Save.
+2. **Deploy → New deployment →** type **Web app**; Execute as **Me**, Who has access **Anyone** → Deploy → Authorize.
+3. Put the Web app URL (`https://script.google.com/macros/s/…/exec`) in `src/data/site.ts` → `quoteEndpoint` (or the `PUBLIC_FORM_ENDPOINT` repo secret) and redeploy.
+
+Until that URL is set, the form asks visitors to call or text.
 
 ## Hosting (GitHub Pages)
 

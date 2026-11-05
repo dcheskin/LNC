@@ -13,6 +13,9 @@ export const site = {
   phoneHref: 'tel:+19493671080',
   smsHref: 'sms:+19493671080',
   email: 'ben@lnccollision.com',
+  // Google Apps Script web app that emails Get a Quote requests (with photos)
+  // to `email`. Code + deploy steps: apps-script/quote-mailer.gs.
+  quoteEndpoint: '',
   address: {
     street: '27622 Camino Capistrano, Suite D',
     city: 'Laguna Niguel',
