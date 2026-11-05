@@ -25,16 +25,6 @@ export const cases: Case[] = [
     before: 'White Ferrari 488 Spider with a crushed front end and deployed airbags',
     after: 'The same 488 Spider fully repaired, same angle outside LNC',
   },
-  {
-    slug: 'mercedes-s63-silver',
-    car: 'Mercedes-AMG S63 Coupe',
-    division: 'Customization',
-    title: 'GT-style grille, factory fit.',
-    work: ['GT-style grille supplied', 'Fit & finish'],
-    before: 'Silver Mercedes-AMG S63 Coupe with the factory grille',
-    after: 'The same S63 Coupe with a GT-style vertical-slat grille',
-    build: 'mercedes-s63-coupe',
-  },
 ];
 
 export const caseImages = (c: Case) => ({

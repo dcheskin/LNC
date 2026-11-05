@@ -152,11 +152,10 @@ export const builds: Build[] = [
     photos: [
       p('lamborghini-huracan-orange', 1, 'Orange Lamborghini Huracán with carbon hood and LNC windshield banner, outside the shop', 'After'),
       p('lamborghini-huracan-orange', 2, 'Orange Huracán head-on inside the LNC shop', 'After'),
-      p('lamborghini-huracan-orange', 3, 'Orange Huracán from behind, showing the rear wing and engine cover', 'After'),
-      p('lamborghini-huracan-orange', 4, 'Orange Huracán side view in the LNC lot', 'After'),
+      p('lamborghini-huracan-orange', 3, 'Orange Huracán side view in the LNC lot', 'After'),
     ],
-    cover: 3,
-    hero: 3,
+    cover: 2,
+    hero: 2,
   },
   {
     slug: 'lamborghini-huracan-green',
@@ -186,20 +185,6 @@ export const builds: Build[] = [
     ],
     cover: 0,
     hero: 0,
-  },
-  {
-    slug: 'mercedes-s63-coupe',
-    car: 'Mercedes-AMG S63 Coupe',
-    division: 'Customization',
-    title: 'GT-style face, factory fit.',
-    summary: 'A GT-style grille conversion for the S63 Coupe — a part LNC supplies, fits and finishes in-house.',
-    work: ['GT-style grille', 'Fit & finish', 'Detail'],
-    photos: [
-      { src: '/media/cases/mercedes-s63-silver-before.jpg', alt: 'Silver Mercedes-AMG S63 Coupe with the factory grille', stage: 'Before' },
-      { src: '/media/cases/mercedes-s63-silver-after.jpg', alt: 'The same S63 Coupe with a GT-style vertical-slat grille', stage: 'After' },
-    ],
-    cover: 1,
-    hero: 1,
   },
 ];
 

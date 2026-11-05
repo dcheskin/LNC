@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Arrow from '../components/Arrow.astro';
+import YouTubeCard from '../components/YouTubeCard.astro';
+import { channel, featured, popular, recent } from '../data/youtube';
+
+const stats = [
+  { v: channel.subscribers, k: 'Subscribers' },
+  { v: channel.videos, k: 'Videos' },
+  { v: featured.views, k: 'Views on the top video' },
+];
+---
+<Base title="YouTube — LNC Motorsport" description={`${channel.name} (${channel.handle}): Vlad’s channel of full rebuilds of wrecked Ferraris, Lamborghinis, Rolls-Royces and Porsches at LNC Auto Group. ${channel.subscribers} subscribers.`}>
+  <PageHero eyebrow={`${channel.name} · ${channel.handle}`} title="Every build,|on film." lede={channel.about}>
+    <div class="mt-10 flex flex-wrap gap-3" data-hero-fade>
+      <a href={channel.subscribe} target="_blank" rel="noopener" class="btn btn-light" data-magnetic>Subscribe on YouTube <Arrow /></a>
+      <a href={channel.url} target="_blank" rel="noopener" class="btn btn-ghost">Open the channel</a>
+    </div>
+  </PageHero>
+
+  <section class="bg-night pb-20 text-white md:pb-28">
+    <div class="container-x">
+      <dl class="grid grid-cols-3 gap-6 border-t border-white/15 pt-10">
+        {stats.map((s) => (
+          <div data-reveal>
+            <dt class="eyebrow text-white/55">{s.k}</dt>
+            <dd class="display-c mt-3 text-[clamp(2.6rem,7vw,6rem)] leading-none">{s.v}</dd>
+          </div>
+        ))}
+      </dl>
+      <div class="mt-16 md:mt-24">
+        <p class="eyebrow text-white/55" data-reveal>Most watched</p>
+        <div class="mt-6"><YouTubeCard v={featured} big dark /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-paper py-24 md:py-32">
+    <div class="container-x">
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <h2 class="display text-[clamp(2.75rem,5.8vw,5.22rem)]" data-split>Popular rebuilds.</h2>
+        <a href={`${channel.url}/videos?view=0&sort=p`} target="_blank" rel="noopener" class="link-arrow" data-reveal>All videos <Arrow /></a>
+      </div>
+      <div class="mt-12 grid gap-x-6 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
+        {popular.map((v) => <YouTubeCard v={v} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-24 md:py-32">
+    <div class="container-x">
+      <h2 class="display text-[clamp(2.75rem,5.8vw,5.22rem)]" data-split>Latest from the shop.</h2>
+      <div class="mt-12 grid gap-x-6 gap-y-14 md:grid-cols-2">
+        {recent.map((v) => <YouTubeCard v={v} />)}
+      </div>
+      <a href={channel.subscribe} target="_blank" rel="noopener" class="btn btn-ink mt-14 inline-flex" data-reveal>New videos weekly — subscribe <Arrow /></a>
+    </div>
+  </section>
+
+  <CtaBand title="Want your car in the next video?" text="Tell us about the build. Text a few photos and we’ll get back to you." />
+</Base>

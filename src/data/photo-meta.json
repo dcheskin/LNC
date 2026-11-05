@@ -73,16 +73,6 @@
   "w": 1125,
   "h": 2000,
   "box": [
-   0.0302,
-   0.349,
-   0.9556,
-   0.7535
-  ]
- },
- "/media/builds/lamborghini-huracan-orange/04.jpg": {
-  "w": 1125,
-  "h": 2000,
-  "box": [
    0.032,
    0.475,
    0.9013,
@@ -328,26 +318,6 @@
    0.3945,
    0.9716,
    0.7075
-  ]
- },
- "/media/cases/mercedes-s63-silver-after.jpg": {
-  "w": 936,
-  "h": 468,
-  "box": [
-   0.1036,
-   0.0,
-   0.9391,
-   0.9444
-  ]
- },
- "/media/cases/mercedes-s63-silver-before.jpg": {
-  "w": 936,
-  "h": 468,
-  "box": [
-   0.1004,
-   0.0,
-   0.9423,
-   0.938
   ]
  },
  "/media/team/family.jpg": {

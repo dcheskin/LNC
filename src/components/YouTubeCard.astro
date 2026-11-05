@@ -1,0 +1,37 @@
+---
+// Click-to-play YouTube video: shows the thumbnail, and only loads the
+// (privacy-enhanced) player when someone presses play.
+import { thumb, type Video } from '../data/youtube';
+interface Props { v: Video; big?: boolean; dark?: boolean }
+const { v, big = false, dark = false } = Astro.props;
+---
+<figure class="m-0" data-reveal>
+  <div class="yt relative aspect-video overflow-hidden bg-night" data-yt={v.id} data-title={v.title}>
+    <img src={thumb(v.id)} alt="" loading="lazy" decoding="async" class="absolute inset-0 size-full object-cover" onerror="this.remove()" />
+    <button type="button" class="yt-play group absolute inset-0 grid place-items-center bg-night/25 transition-colors hover:bg-night/10" aria-label={`Play video: ${v.title}`}>
+      <span class:list={['grid place-items-center rounded-full bg-white text-ink transition-transform group-hover:scale-110', big ? 'size-20 md:size-24' : 'size-14']}>
+        <svg viewBox="0 0 24 24" class:list={['ml-1', big ? 'size-7' : 'size-5']} fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z" /></svg>
+      </span>
+    </button>
+    {v.length && <span class="eyebrow pointer-events-none absolute right-3 bottom-3 bg-night/80 px-2 py-1 text-white">{v.length}</span>}
+  </div>
+  <figcaption class="mt-4">
+    <p class:list={['display leading-[1.1]', big ? 'text-[clamp(1.8rem,3vw,2.6rem)]' : 'text-[1.5rem]']}>{v.title}</p>
+    <p class:list={['eyebrow mt-2', dark ? 'text-white/55' : 'text-mute']}>{v.views} views</p>
+  </figcaption>
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-yt]').forEach((box) => {
+    box.querySelector('button')?.addEventListener('click', () => {
+      const f = document.createElement('iframe');
+      f.src = `https://www.youtube-nocookie.com/embed/${box.dataset.yt}?autoplay=1&rel=0`;
+      f.title = box.dataset.title || 'YouTube video';
+      f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      f.allowFullscreen = true;
+      f.className = 'absolute inset-0 size-full';
+      box.replaceChildren(f);
+      f.focus();
+    });
+  });
+</script>

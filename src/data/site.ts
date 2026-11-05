@@ -40,9 +40,9 @@ export const site = {
     instagram: 'https://www.instagram.com/lnc_oc/',
     instagramMotorsport: 'https://www.instagram.com/lncmotorsport/',
     facebook: 'https://www.facebook.com/LNCOC/',
-    youtube: 'https://www.youtube.com/channel/UCPf4jHW3UeGWw-rhb2cQADw',
+    youtube: 'https://www.youtube.com/@LNCVlad',
   },
-  youtubeReach: '450K+', // CONFIRM: taken from the @lnc_oc Instagram bio
+  youtubeReach: '450K+', // channel page, 5 Nov 2026: 456K subscribers
 };
 
 export const nav = [
@@ -50,6 +50,7 @@ export const nav = [
   { label: 'Customization', href: '/customization' },
   { label: 'Builds', href: '/builds' },
   { label: 'About', href: '/about' },
+  { label: 'YouTube', href: '/youtube' },
   { label: 'Supply', href: '/shop' },
 ];
 
