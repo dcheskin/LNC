@@ -38,7 +38,9 @@ Replace it with media of the same aspect ratio, e.g.
 - Put files in `public/media/`. Export video H.264 MP4, ≤ 8 MB for the hero.
 
 ## Contact form
-Set `PUBLIC_FORM_ENDPOINT` (e.g. a Formspree form URL) in `.env`. Without it the form validates and tells visitors to call/text.
+On "Send request" the Get a Quote form opens the visitor's Messages app with a text to (949) 367-1080, already filled in with everything they entered (service, name, phone, email, contact preference, vehicle, insurer/claim #, details). They tap Send and can attach photos there. No server or keys needed.
+
+Optional email copy: set `PUBLIC_FORM_ENDPOINT` (e.g. a Formspree form URL) in `.env` / as a repo secret and the same request (with photos) is posted there too.
 
 ## Hosting (GitHub Pages)
 

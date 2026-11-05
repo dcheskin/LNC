@@ -3,7 +3,8 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import { site } from '../data/site';
 
-// Set PUBLIC_FORM_ENDPOINT (e.g. a Formspree URL) in .env to make the form live.
+// Submitting opens the visitor's Messages app with a pre-filled text to the shop.
+// Optionally set PUBLIC_FORM_ENDPOINT (e.g. a Formspree URL) in .env for an email copy.
 const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
 const field = 'mt-2 w-full bg-ink/[0.045] px-4 py-3 text-[1.05rem] outline-none transition-colors focus:bg-ink/[0.08]';
 ---
@@ -45,6 +46,7 @@ const field = 'mt-2 w-full bg-ink/[0.045] px-4 py-3 text-[1.05rem] outline-none 
 
         <div class="mt-10 flex flex-wrap items-center gap-6">
           <button type="submit" class="btn btn-ink">Send request</button>
+          <p class="w-full text-sm text-ink-2">Opens your Messages app with everything filled in — tap Send and it goes straight to our phone.</p>
           <p id="form-status" class="text-sm text-ink-2" role="status" aria-live="polite"></p>
         </div>
       </form>
@@ -98,26 +100,78 @@ const field = 'mt-2 w-full bg-ink/[0.045] px-4 py-3 text-[1.05rem] outline-none 
     fileLabel.textContent = files.files?.length ? `${files.files.length} photo(s) selected` : 'Drop images here or tap to choose';
   });
 
-  form.addEventListener('submit', async (e) => {
+  // Every submit opens the visitor's Messages app with a text to the shop,
+  // already filled in with the form. If PUBLIC_FORM_ENDPOINT is set, the same
+  // request is also sent there (with photos) as an email backup.
+  const SHOP_SMS = '+19493671080';
+  const TYPE_LABEL: Record<string, string> = { accident: 'Accident repair', build: 'Customization', other: 'Something else' };
+
+  const smsBody = (data: FormData) => {
+    const v = (k: string) => String(data.get(k) ?? '').trim();
+    const accident = v('type') === 'accident';
+    const photos = files.files?.length ?? 0;
+    const lines = [
+      'Quote request (lncautogroup.com)',
+      `Service: ${TYPE_LABEL[v('type')] ?? v('type')}`,
+      `Name: ${v('name')}`,
+      `Phone: ${v('phone')}`,
+      v('email') && `Email: ${v('email')}`,
+      `Reach me by: ${v('contact_pref')}`,
+      `Vehicle: ${v('vehicle')}`,
+      accident && v('insurer') && `Insurance: ${v('insurer')}`,
+      accident && v('claim') && `Claim #: ${v('claim')}`,
+      v('message') && `Details: ${v('message')}`,
+      photos && `Photos: ${photos} — attaching them to this text.`,
+    ];
+    return lines.filter(Boolean).join('\n');
+  };
+
+  // `?&body=` is the form both iOS and Android Messages accept.
+  const smsHref = (body: string) => `sms:${SHOP_SMS}?&body=${encodeURIComponent(body)}`;
+
+  const showStatus = (text: string, href?: string) => {
+    status.textContent = text;
+    if (href) {
+      const a = document.createElement('a');
+      a.href = href;
+      a.className = 'ml-2 underline';
+      a.textContent = 'Didn’t open? Tap here';
+      status.append(' ', a, ' or text (949) 367-1080.');
+    }
+  };
+
+  const resetForm = () => {
+    form.reset();
+    syncClaim();
+    fileLabel.textContent = 'Drop images here or tap to choose';
+  };
+
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
-    if (!form.action || form.getAttribute('action') === null) {
-      status.textContent = 'Online form is being connected — please call or text (949) 367-1080 for now.';
-      return;
+    const data = new FormData(form);
+    if (String(data.get('_gotcha') ?? '')) return; // bot filled the honeypot
+    const href = smsHref(smsBody(data));
+    const hasPhotos = (files.files?.length ?? 0) > 0;
+
+    // Email backup: fire it first, but don't wait — the Messages app has to
+    // open inside the tap or the browser may block it.
+    if (form.getAttribute('action')) {
+      fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } }).catch(() => {});
     }
-    status.textContent = 'Sending…';
-    try {
-      const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
-      if (!res.ok) throw new Error(String(res.status));
-      form.reset();
-      syncClaim();
-      fileLabel.textContent = 'Drop images here or tap to choose';
-      status.textContent = 'Thanks — we’ll be in touch shortly.';
-    } catch {
-      status.textContent = 'Something went wrong. Please call or text (949) 367-1080.';
-    }
+
+    // Phones (and Macs with Messages) open the text right away.
+    window.location.href = href;
+
+    showStatus(
+      hasPhotos
+        ? 'Your Messages app should open with your request filled in. Attach your photos there and tap Send.'
+        : 'Your Messages app should open with your request filled in — just tap Send.',
+      href,
+    );
+    resetForm();
   });
 </script>
