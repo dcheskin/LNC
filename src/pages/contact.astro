@@ -3,9 +3,11 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import { site } from '../data/site';
 
-// Submitting opens the visitor's Messages app with a pre-filled text to the shop.
-// Optionally set PUBLIC_FORM_ENDPOINT (e.g. a Formspree URL) in .env for an email copy.
-const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
+// Quote requests are emailed to the shop, photos attached, through FormSubmit
+// (free, no account). The first request triggers an "Activate form" email to
+// that inbox; click it once. PUBLIC_FORM_ENDPOINT overrides the address, e.g.
+// with the random FormSubmit alias sent after activation.
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || `https://formsubmit.co/${site.email}`;
 const field = 'mt-2 w-full bg-ink/[0.045] px-4 py-3 text-[1.05rem] outline-none transition-colors focus:bg-ink/[0.08]';
 ---
 <Base title="Get a Quote" description="Request a quote or start an insurance claim with LNC Auto Group in Laguna Niguel. Call or text (949) 367-1080.">
@@ -13,7 +15,7 @@ const field = 'mt-2 w-full bg-ink/[0.045] px-4 py-3 text-[1.05rem] outline-none 
 
   <section class="bg-paper pt-16 pb-28 md:pt-24">
     <div class="container-x grid gap-16 lg:grid-cols-12">
-      <form id="quote" class="lg:col-span-7" action={endpoint || undefined} method="POST" enctype="multipart/form-data" novalidate data-reveal>
+      <form id="quote" class="lg:col-span-7" action={endpoint} method="POST" enctype="multipart/form-data" novalidate data-reveal>
         <fieldset>
           <legend class="eyebrow text-mute">I need help with</legend>
           <div class="mt-4 flex flex-wrap gap-2">
@@ -42,11 +44,10 @@ const field = 'mt-2 w-full bg-ink/[0.045] px-4 py-3 text-[1.05rem] outline-none 
             <input id="files" name="photos" type="file" accept="image/*" multiple class="sr-only" />
           </label>
         </div>
-        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
 
         <div class="mt-10 flex flex-wrap items-center gap-6">
           <button type="submit" class="btn btn-ink">Send request</button>
-          <p class="w-full text-sm text-ink-2">Opens your Messages app with everything filled in — tap Send and it goes straight to our phone.</p>
           <p id="form-status" class="text-sm text-ink-2" role="status" aria-live="polite"></p>
         </div>
       </form>
@@ -100,78 +101,104 @@ const field = 'mt-2 w-full bg-ink/[0.045] px-4 py-3 text-[1.05rem] outline-none 
     fileLabel.textContent = files.files?.length ? `${files.files.length} photo(s) selected` : 'Drop images here or tap to choose';
   });
 
-  // Every submit opens the visitor's Messages app with a text to the shop,
-  // already filled in with the form. If PUBLIC_FORM_ENDPOINT is set, the same
-  // request is also sent there (with photos) as an email backup.
-  const SHOP_SMS = '+19493671080';
+  // Submits go to the shop's inbox through FormSubmit as a normal multipart
+  // POST (its AJAX endpoint drops attachments), then FormSubmit redirects back
+  // here with ?sent=1. Photos are shrunk first: FormSubmit caps a request at
+  // 10 MB and phone photos are 3–5 MB each.
   const TYPE_LABEL: Record<string, string> = { accident: 'Accident repair', build: 'Customization', other: 'Something else' };
+  const MAX_TOTAL = 9 * 1024 * 1024;
+  const submitBtn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
 
-  const smsBody = (data: FormData) => {
-    const v = (k: string) => String(data.get(k) ?? '').trim();
-    const accident = v('type') === 'accident';
-    const photos = files.files?.length ?? 0;
-    const lines = [
-      'Quote request (lncautogroup.com)',
-      `Service: ${TYPE_LABEL[v('type')] ?? v('type')}`,
-      `Name: ${v('name')}`,
-      `Phone: ${v('phone')}`,
-      v('email') && `Email: ${v('email')}`,
-      `Reach me by: ${v('contact_pref')}`,
-      `Vehicle: ${v('vehicle')}`,
-      accident && v('insurer') && `Insurance: ${v('insurer')}`,
-      accident && v('claim') && `Claim #: ${v('claim')}`,
-      v('message') && `Details: ${v('message')}`,
-      photos && `Photos: ${photos} — attaching them to this text.`,
-    ];
-    return lines.filter(Boolean).join('\n');
-  };
+  if (new URLSearchParams(location.search).get('sent') === '1') {
+    status.textContent = 'Thanks — your request and photos reached us. We’ll reply the same business day.';
+    history.replaceState(null, '', location.pathname);
+    form.scrollIntoView({ block: 'end' });
+  }
 
-  // `?&body=` is the form both iOS and Android Messages accept.
-  const smsHref = (body: string) => `sms:${SHOP_SMS}?&body=${encodeURIComponent(body)}`;
-
-  const showStatus = (text: string, href?: string) => {
-    status.textContent = text;
-    if (href) {
-      const a = document.createElement('a');
-      a.href = href;
-      a.className = 'ml-2 underline';
-      a.textContent = 'Didn’t open? Tap here';
-      status.append(' ', a, ' or text (949) 367-1080.');
+  const shrink = async (file: File, maxSide: number, quality: number): Promise<File> => {
+    try {
+      const img = await createImageBitmap(file);
+      const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+      canvas.getContext('2d')!.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const blob = await new Promise<Blob | null>((r) => canvas.toBlob(r, 'image/jpeg', quality));
+      if (!blob || blob.size >= file.size) return file;
+      return new File([blob], file.name.replace(/\.\w+$/, '') + '.jpg', { type: 'image/jpeg' });
+    } catch {
+      return file; // format the browser can't decode (e.g. HEIC on Chrome): send as is
     }
   };
 
-  const resetForm = () => {
-    form.reset();
-    syncClaim();
-    fileLabel.textContent = 'Drop images here or tap to choose';
+  const preparePhotos = async (list: File[]) => {
+    let out = await Promise.all(list.map((f) => shrink(f, 1800, 0.82)));
+    const total = () => out.reduce((n, f) => n + f.size, 0);
+    if (total() > MAX_TOTAL) out = await Promise.all(list.map((f) => shrink(f, 1200, 0.7)));
+    while (out.length && total() > MAX_TOTAL) out.pop();
+    return { photos: out, dropped: list.length - out.length };
   };
 
-  form.addEventListener('submit', (e) => {
+  const add = (target: HTMLFormElement, name: string, value: string) => {
+    if (!value) return;
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+    target.append(input);
+  };
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
     const data = new FormData(form);
-    if (String(data.get('_gotcha') ?? '')) return; // bot filled the honeypot
-    const href = smsHref(smsBody(data));
-    const hasPhotos = (files.files?.length ?? 0) > 0;
+    if (String(data.get('_honey') ?? '')) return; // bot filled the honeypot
+    const v = (k: string) => String(data.get(k) ?? '').trim();
+    const accident = v('type') === 'accident';
 
-    // Email backup: fire it first, but don't wait — the Messages app has to
-    // open inside the tap or the browser may block it.
-    if (form.getAttribute('action')) {
-      fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } }).catch(() => {});
+    submitBtn.disabled = true;
+    status.textContent = files.files?.length ? 'Preparing photos…' : 'Sending…';
+    const { photos, dropped } = await preparePhotos(Array.from(files.files ?? []));
+    status.textContent = 'Sending…';
+
+    // A fresh form with readable field names, so the email reads cleanly.
+    const out = document.createElement('form');
+    out.method = 'POST';
+    out.action = form.action;
+    out.enctype = 'multipart/form-data';
+    out.hidden = true;
+    add(out, '_subject', `Quote request: ${TYPE_LABEL[v('type')] ?? v('type')} — ${v('vehicle')} — ${v('name')}`);
+    add(out, '_template', 'table');
+    add(out, '_captcha', 'false');
+    add(out, '_next', `${location.origin}${location.pathname}?sent=1`);
+    add(out, 'Service', TYPE_LABEL[v('type')] ?? v('type'));
+    add(out, 'Name', v('name'));
+    add(out, 'Phone', v('phone'));
+    add(out, 'email', v('email')); // FormSubmit uses this as Reply-To
+    add(out, 'Best way to reach', v('contact_pref'));
+    add(out, 'Vehicle', v('vehicle'));
+    if (accident) {
+      add(out, 'Insurance', v('insurer'));
+      add(out, 'Claim number', v('claim'));
     }
-
-    // Phones (and Macs with Messages) open the text right away.
-    window.location.href = href;
-
-    showStatus(
-      hasPhotos
-        ? 'Your Messages app should open with your request filled in. Attach your photos there and tap Send.'
-        : 'Your Messages app should open with your request filled in — just tap Send.',
-      href,
-    );
-    resetForm();
+    add(out, 'Details', v('message'));
+    if (dropped) add(out, 'Note', `${dropped} more photo(s) were too large to attach — ask the customer to text them.`);
+    photos.forEach((photo, i) => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.name = `Photo ${i + 1}`;
+      const dt = new DataTransfer();
+      dt.items.add(photo);
+      input.files = dt.files;
+      out.append(input);
+    });
+    document.body.append(out);
+    out.submit();
   });
+
+  // Back/forward cache: re-enable the button if the visitor comes back.
+  window.addEventListener('pageshow', () => (submitBtn.disabled = false));
 </script>

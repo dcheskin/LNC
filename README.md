@@ -38,9 +38,11 @@ Replace it with media of the same aspect ratio, e.g.
 - Put files in `public/media/`. Export video H.264 MP4, ≤ 8 MB for the hero.
 
 ## Contact form
-On "Send request" the Get a Quote form opens the visitor's Messages app with a text to (949) 367-1080, already filled in with everything they entered (service, name, phone, email, contact preference, vehicle, insurer/claim #, details). They tap Send and can attach photos there. No server or keys needed.
+"Send request" on Get a Quote emails the request to ben@lnccollision.com (the `email` in `src/data/site.ts`) with the photos attached, through [FormSubmit](https://formsubmit.co) (free, no account or keys). Photos are shrunk in the browser first so a request stays under FormSubmit's 10 MB limit.
 
-Optional email copy: set `PUBLIC_FORM_ENDPOINT` (e.g. a Formspree form URL) in `.env` / as a repo secret and the same request (with photos) is posted there too.
+- **One-time activation:** the very first request sends an "Activate form" email to that inbox. Click the button in it; until then requests aren't delivered. Send a test request right after deploying.
+- The activation email also gives a random alias. To hide the address from spam bots, set `PUBLIC_FORM_ENDPOINT=https://formsubmit.co/<alias>` (repo secret) and redeploy.
+- After sending, FormSubmit redirects back to `/contact/?sent=1`, which shows a thank-you line.
 
 ## Hosting (GitHub Pages)
 
