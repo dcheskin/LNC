@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import SubjectPhoto from '../components/SubjectPhoto.astro';
 import PageHero from '../components/PageHero.astro';
 import ServiceList from '../components/ServiceList.astro';
 import CtaBand from '../components/CtaBand.astro';
@@ -70,7 +71,7 @@ const custom = builds.filter((b) => b.division === 'Customization');
       <div class="mt-12 grid gap-6 md:grid-cols-2">
         {custom.map((b) => (
           <a href={`/builds/${b.slug}`} class="group block" data-reveal>
-            <div class="aspect-[16/10] overflow-hidden"><div class="size-full transition-transform duration-[1.2s] group-hover:scale-[1.03]"><img src={coverOf(b).src} alt={coverOf(b).alt} loading="lazy" decoding="async" class="block size-full object-cover" style={coverOf(b).pos && `object-position:${coverOf(b).pos}`} /></div></div>
+            <div class="aspect-[16/9] overflow-hidden"><SubjectPhoto src={coverOf(b).src} alt={coverOf(b).alt} ratio={16 / 9} /></div>
             <p class="eyebrow mt-5 text-mute">{b.division}</p>
             <p class="display mt-2 text-[1.96rem]">{b.car}</p>
           </a>

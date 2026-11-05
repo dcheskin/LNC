@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import SubjectPhoto from '../../components/SubjectPhoto.astro';
 import PageHero from '../../components/PageHero.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import CaseGallery from '../../components/CaseGallery.astro';
@@ -31,7 +32,7 @@ const filters = ['All', 'Accident Repair', 'Customization'];
       <div class="mt-12 grid gap-x-6 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
         {builds.map((b, i) => (
           <a href={`/builds/${b.slug}`} class="group block" data-cursor="View" data-division={b.division} data-reveal style={`--d:${(i % 3) * 80}ms`}>
-            <div class="aspect-[4/3] overflow-hidden"><div class="size-full transition-transform duration-[1.2s] group-hover:scale-[1.03]"><img src={coverOf(b).src} alt={coverOf(b).alt} loading="lazy" decoding="async" class="block size-full object-cover" style={coverOf(b).pos && `object-position:${coverOf(b).pos}`} /></div></div>
+            <div class="aspect-[16/9] overflow-hidden"><SubjectPhoto src={coverOf(b).src} alt={coverOf(b).alt} ratio={16 / 9} /></div>
             <p class="eyebrow mt-5 text-mute">{String(i + 1).padStart(2, '0')} · {b.division}</p>
             <p class="display mt-2 text-[1.96rem]">{b.car}</p>
             <p class="lede mt-2 text-ink-2">{b.title}</p>

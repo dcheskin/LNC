@@ -1,0 +1,122 @@
+---
+// A photo whose car/person stays sharp while the rest sits in soft focus;
+// hover, keyboard focus or a tap brings the whole picture into focus.
+// Layers come from scripts/subjects.py: <name>-fg.webp (cutout),
+// <name>-blur.jpg, and the subject box in src/data/photo-meta.json.
+//
+// Framing: pass `ratio` (width / height of the frame the parent gives it) and
+// the crop is positioned on the subject. If the subject can't fit in that
+// frame uncut, the whole photo is shown (contain) over a blurred fill instead.
+// Without `ratio` the photo keeps its own shape (no crop at all).
+//
+// `depth`: the cutout and the background drift apart with the pointer.
+import meta from '../data/photo-meta.json';
+
+interface Props {
+  src: string;
+  alt: string;
+  ratio?: number;
+  blur?: boolean; // false: just the framing, no focus effect
+  depth?: boolean;
+  eager?: boolean;
+  class?: string;
+}
+const { src, alt, ratio, blur = true, depth = false, eager = false, class: cls = '' } = Astro.props;
+type Meta = { w: number; h: number; box: number[]; depth?: boolean; plain?: boolean };
+const m = (meta as Record<string, Meta>)[src];
+const base = src.replace(/\.jpg$/, '');
+const layered = blur && m && !m.plain;
+const useDepth = layered && depth && m.depth;
+
+// Fit: 'natural' (own shape), 'cover' positioned on the subject, or 'contain'.
+let fit: 'natural' | 'cover' | 'contain' = ratio ? 'cover' : 'natural';
+let pos = '50% 50%';
+if (ratio && m) {
+  const R = m.w / m.h;
+  const [x0, y0, x1, y1] = m.box;
+  const pad = 0.015; // keep a sliver of air around the car
+  const place = (a: number, b: number, v: number) => {
+    if (b - a + 2 * pad > v + 1e-6) return null; // subject wider than the window
+    const start = Math.min(Math.max((a + b) / 2 - v / 2, 0), 1 - v);
+    return v >= 1 ? 50 : (start / (1 - v)) * 100;
+  };
+  if (Math.abs(R - ratio) < 0.01) pos = '50% 50%';
+  else if (R > ratio) {
+    const px = place(x0, x1, ratio / R);
+    px === null ? (fit = 'contain') : (pos = `${px.toFixed(1)}% 50%`);
+  } else {
+    const py = place(y0, y1, R / ratio);
+    py === null ? (fit = 'contain') : (pos = `50% ${py.toFixed(1)}%`);
+  }
+}
+const layer = fit === 'contain' ? 'sp-l object-contain' : fit === 'cover' ? 'sp-l object-cover' : 'sp-l object-cover';
+const style = `object-position:${pos}`;
+const frameStyle = fit === 'natural' && m ? `aspect-ratio:${m.w}/${m.h}` : undefined;
+const loading = eager ? 'eager' : 'lazy';
+---
+<div
+  class:list={['sp', fit === 'natural' ? 'w-full' : 'size-full', cls]}
+  style={frameStyle}
+  data-sp={layered ? '' : undefined}
+  data-depth={useDepth ? '' : undefined}
+  tabindex={layered ? 0 : undefined}
+  role="img"
+  aria-label={alt}
+>
+  {fit === 'contain' && <img src={`${base}-blur.jpg`} alt="" aria-hidden="true" class="sp-l object-cover sp-fill" loading={loading} decoding="async" />}
+  <div class="sp-move sp-back">
+    <img src={useDepth ? `${base}-bg.jpg` : src} alt="" class={layer} style={style} loading={loading} decoding="async" />
+    {layered && <img src={useDepth ? `${base}-bg-blur.jpg` : `${base}-blur.jpg`} alt="" aria-hidden="true" class:list={[layer, 'sp-blur']} style={style} loading={loading} decoding="async" />}
+  </div>
+  {layered && (
+    <div class="sp-move sp-front">
+      <img src={`${base}-fg.webp`} alt="" aria-hidden="true" class={layer} style={style} loading={loading} decoding="async" />
+    </div>
+  )}
+</div>
+
+<style is:global>
+  .sp { position: relative; overflow: hidden; display: block; background: #e7e7e2; outline-offset: 3px; }
+  .sp-l { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .sp-fill { transform: scale(1.08); }
+  .sp-move { position: absolute; inset: 0; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+  .sp-blur { transition: opacity 0.6s ease; }
+  .sp[data-sp] { cursor: zoom-in; }
+  a .sp[data-sp] { cursor: inherit; }
+  /* Reveal the whole picture: pointer over it (or its card link), keyboard focus, or a tap. */
+  .sp:hover .sp-blur,
+  .sp:focus-visible .sp-blur,
+  .sp.is-on .sp-blur,
+  a:hover .sp .sp-blur,
+  a:focus-visible .sp .sp-blur { opacity: 0; }
+  .sp[data-depth] .sp-back { transform: scale(1.04); }
+  @media (prefers-reduced-motion: reduce) {
+    .sp-move, .sp-blur { transition: none; }
+  }
+</style>
+
+<script>
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLElement>('[data-sp]').forEach((el) => {
+    // Tap toggles focus on touch screens (cards inside links just follow the link).
+    if (!el.closest('a')) {
+      el.addEventListener('click', () => el.classList.toggle('is-on'));
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') (e.preventDefault(), el.classList.toggle('is-on'));
+      });
+    }
+    if (!el.hasAttribute('data-depth') || reduce) return;
+    // Depth: the car and person follow the pointer; the shop behind drifts the other way.
+    const front = el.querySelector<HTMLElement>('.sp-front')!;
+    const back = el.querySelector<HTMLElement>('.sp-back')!;
+    const move = (x: number, y: number) => {
+      front.style.transform = `translate(${x * 10}px, ${y * 6}px)`;
+      back.style.transform = `scale(1.04) translate(${x * -5}px, ${y * -3}px)`;
+    };
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect();
+      move(((e.clientX - r.left) / r.width) * 2 - 1, ((e.clientY - r.top) / r.height) * 2 - 1);
+    });
+    el.addEventListener('pointerleave', () => move(0, 0));
+  });
+</script>

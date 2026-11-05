@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import SubjectPhoto from '../../components/SubjectPhoto.astro';
 import PageHero from '../../components/PageHero.astro';
 import BeforeAfter from '../../components/BeforeAfter.astro';
 import CtaBand from '../../components/CtaBand.astro';
@@ -16,7 +17,7 @@ const match = cases.find((c) => c.build === b.slug);
 const gallery = b.photos.filter((_, i) => i !== b.hero);
 ---
 <Base title={b.car} description={`${b.car} — ${b.title} ${b.summary}`}>
-  <PageHero eyebrow={b.division} title={b.car} lede={b.title} media={{ label: heroOf(b).alt, src: heroOf(b).src, pos: heroOf(b).pos }} />
+  <PageHero eyebrow={b.division} title={b.car} lede={b.title} media={{ label: heroOf(b).alt, src: heroOf(b).src }} />
 
   <section class="bg-white py-20 md:py-28">
     <div class="container-x grid gap-12 lg:grid-cols-12">
@@ -35,7 +36,7 @@ const gallery = b.photos.filter((_, i) => i !== b.hero);
     <div class:list={['container-x', gallery.length > 1 && 'gap-6 md:columns-2']}>
       {gallery.map((ph) => (
         <figure class="m-0 mb-8 break-inside-avoid" data-reveal>
-          <img src={ph.src} alt={ph.alt} loading="lazy" decoding="async" class="block h-auto w-full bg-paper" />
+          <SubjectPhoto src={ph.src} alt={ph.alt} />
           {ph.stage && <figcaption class="eyebrow mt-3 text-mute">{ph.stage}</figcaption>}
         </figure>
       ))}

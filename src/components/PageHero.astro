@@ -1,10 +1,11 @@
 ---
 import MediaSlot from './MediaSlot.astro';
+import SubjectPhoto from './SubjectPhoto.astro';
 interface Props {
   eyebrow: string;
   title: string;
   lede?: string;
-  media?: { label: string; note?: string; kind?: 'photo' | 'video'; file?: string; src?: string; pos?: string };
+  media?: { label: string; note?: string; kind?: 'photo' | 'video'; file?: string; src?: string };
   // Full-bleed film behind the headline (public/media/<file>.mp4), like the home hero.
   background?: { file: string; label: string };
 }
@@ -34,7 +35,7 @@ const { eyebrow, title, lede, media, background } = Astro.props;
       <div class:list={['overflow-hidden', media.src ? 'mx-auto aspect-[16/9] max-w-6xl' : 'aspect-[16/10] md:aspect-[21/9]']}>
         <div class="size-full" data-hero-media>
           {media.src ? (
-            <img src={media.src} alt={media.label} class="block size-full object-cover" style={media.pos && `object-position:${media.pos}`} fetchpriority="high" decoding="async" />
+            <SubjectPhoto src={media.src} alt={media.label} ratio={16 / 9} eager />
           ) : (
             <MediaSlot file={media.file} kind={media.kind ?? 'photo'} label={media.label} note={media.note} tone="dark" />
           )}

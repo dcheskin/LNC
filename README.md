@@ -33,7 +33,7 @@ Replace it with media of the same aspect ratio, e.g.
 ```
 - Before/after: `<BeforeAfter before="/media/x-before.jpg" after="/media/x-after.jpg" />`
 - Before/after cases ("What we did" on /builds, plus the home and /accident-repair sliders): add an entry to `src/data/cases.ts` and drop `public/media/cases/<slug>-before.jpg` + `-after.jpg`, shot from the same spot and angle, aligned and cropped to the same 2:1 frame. Strip EXIF/GPS before committing phone photos.
-- Builds (/builds, build pages, home "Hall of fame", /customization): each entry in `src/data/builds.ts` lists its photos in story order (Before → During → After) plus which one is the card `cover` and the page `hero`. Photos live in `public/media/builds/<slug>/NN.jpg` — resize to ~2000px, strip EXIF/GPS and blur readable plates first.
+- Builds (/builds, build pages, home "Hall of fame", /customization): each entry in `src/data/builds.ts` lists its photos in story order (Before → During → After) plus which one is the card `cover` and the page `hero`. Photos live in `public/media/builds/<slug>/NN.jpg` — resize to ~2000px, strip EXIF/GPS and blur readable plates first. Then run `python3 scripts/subjects.py` (needs `pip install "rembg[cpu]" opencv-python-headless`): it cuts out the car/person and writes the soft-focus layers and subject boxes used by `<SubjectPhoto>` (sharp car, blurred surroundings until hover/tap; crops are framed so the car is never cut).
 - Scroll-scrubbed footage (Forge-style): `<video data-scrub src="…" muted playsinline preload="auto">` — scrubs with scroll automatically.
 - Put files in `public/media/`. Export video H.264 MP4, ≤ 8 MB for the hero.
 

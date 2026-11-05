@@ -1,14 +1,13 @@
 // Builds shown on /builds, /builds/[slug], the home "Hall of fame" table and
 // /customization. Photos come from the shop's "Photos from iCloud-LNC" Drive
 // folder, resized to 2000px, EXIF/GPS stripped and vanity plates blurred:
-// public/media/builds/<slug>/NN.jpg.
+// public/media/builds/<slug>/NN.jpg. After adding photos run scripts/subjects.py.
 // Write-ups describe only what the photos show. CONFIRM details (model year,
 // kit/wheel brands, what was repaired) with the owner before launch.
 
 export type Stage = 'Before' | 'During' | 'After';
-// pos: CSS object-position for when the shot is cropped into a card/hero frame
-// (only needed for portrait shots, where the car sits low in the frame).
-export type Photo = { src: string; alt: string; stage?: Stage; pos?: string };
+// Framing for crops is automatic (subject boxes from scripts/subjects.py).
+export type Photo = { src: string; alt: string; stage?: Stage };
 
 export type Build = {
   slug: string;
@@ -22,11 +21,10 @@ export type Build = {
   hero: number; // index into photos for the wide hero on the build page (21:9)
 };
 
-const p = (slug: string, n: number, alt: string, stage?: Stage, pos?: string): Photo => ({
+const p = (slug: string, n: number, alt: string, stage?: Stage): Photo => ({
   src: `/media/builds/${slug}/${String(n).padStart(2, '0')}.jpg`,
   alt,
   stage,
-  pos,
 });
 
 export const builds: Build[] = [
@@ -112,22 +110,6 @@ export const builds: Build[] = [
     hero: 1,
   },
   {
-    slug: 'chevrolet-corvette-c8',
-    car: 'Chevrolet Corvette C8',
-    division: 'Accident Repair',
-    title: 'Front end destroyed. Put back together.',
-    summary:
-      'This C8 arrived with the whole front end crushed. Stripped to the structure, rebuilt with new panels and lighting, and reassembled in our shop.',
-    work: ['Front structure', 'Bumper, hood & headlights', 'Suspension & cooling parts', 'Refinish'],
-    photos: [
-      p('chevrolet-corvette-c8', 2, 'White Corvette C8 with red stripes and a crushed front end, as it arrived at LNC', 'Before'),
-      p('chevrolet-corvette-c8', 3, 'The Corvette stripped down in the shop, front structure exposed', 'During'),
-      p('chevrolet-corvette-c8', 1, 'The Corvette C8 rebuilt with a new white front end, in the LNC shop', 'After'),
-    ],
-    cover: 2,
-    hero: 2,
-  },
-  {
     slug: 'lamborghini-urus-white',
     car: 'White Lamborghini Urus',
     division: 'Customization',
@@ -171,9 +153,9 @@ export const builds: Build[] = [
       p('lamborghini-huracan-orange', 1, 'Orange Lamborghini Huracán with carbon hood and LNC windshield banner, outside the shop', 'After'),
       p('lamborghini-huracan-orange', 2, 'Orange Huracán head-on inside the LNC shop', 'After'),
       p('lamborghini-huracan-orange', 3, 'Orange Huracán from behind, showing the rear wing and engine cover', 'After'),
-      p('lamborghini-huracan-orange', 4, 'Orange Huracán side view in the LNC lot', 'After', '50% 66%'),
+      p('lamborghini-huracan-orange', 4, 'Orange Huracán side view in the LNC lot', 'After'),
     ],
-    cover: 0,
+    cover: 3,
     hero: 3,
   },
   {

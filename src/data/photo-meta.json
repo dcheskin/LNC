@@ -1,0 +1,364 @@
+{
+ "/media/builds/ferrari-roma/01.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.18,
+   0.1982,
+   0.7715,
+   0.8587
+  ]
+ },
+ "/media/builds/ferrari-roma/02.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.117,
+   0.08,
+   0.8565,
+   0.9351
+  ]
+ },
+ "/media/builds/ferrari-roma/03.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.1565,
+   0.1298,
+   0.8175,
+   0.7689
+  ]
+ },
+ "/media/builds/lamborghini-huracan-green/01.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.131,
+   0.2293,
+   0.8575,
+   0.8311
+  ]
+ },
+ "/media/builds/lamborghini-huracan-green/02.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.2155,
+   0.2231,
+   0.7285,
+   0.8756
+  ]
+ },
+ "/media/builds/lamborghini-huracan-orange/01.jpg": {
+  "w": 1125,
+  "h": 2000,
+  "box": [
+   0.0827,
+   0.35,
+   0.9289,
+   0.672
+  ]
+ },
+ "/media/builds/lamborghini-huracan-orange/02.jpg": {
+  "w": 1125,
+  "h": 2000,
+  "box": [
+   0.032,
+   0.3145,
+   1.0,
+   0.83
+  ]
+ },
+ "/media/builds/lamborghini-huracan-orange/03.jpg": {
+  "w": 1125,
+  "h": 2000,
+  "box": [
+   0.0302,
+   0.349,
+   0.9556,
+   0.7535
+  ]
+ },
+ "/media/builds/lamborghini-huracan-orange/04.jpg": {
+  "w": 1125,
+  "h": 2000,
+  "box": [
+   0.032,
+   0.475,
+   0.9013,
+   0.7125
+  ]
+ },
+ "/media/builds/lamborghini-huracan-white/01.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.1985,
+   0.136,
+   0.853,
+   0.8676
+  ]
+ },
+ "/media/builds/lamborghini-huracan-white/02.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.15,
+   0.1138,
+   0.85,
+   0.8844
+  ]
+ },
+ "/media/builds/lamborghini-huracan-white/03.jpg": {
+  "w": 1284,
+  "h": 671,
+  "box": [
+   0.1184,
+   0.1595,
+   0.796,
+   0.839
+  ]
+ },
+ "/media/builds/lamborghini-huracan-white/04.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.1705,
+   0.1831,
+   0.8365,
+   0.8818
+  ]
+ },
+ "/media/builds/lamborghini-urus-purple/01.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.221,
+   0.2338,
+   0.7895,
+   0.8453
+  ]
+ },
+ "/media/builds/lamborghini-urus-purple/02.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.1005,
+   0.2551,
+   0.935,
+   0.9031
+  ]
+ },
+ "/media/builds/lamborghini-urus-purple/03.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.0735,
+   0.328,
+   0.8655,
+   0.9289
+  ]
+ },
+ "/media/builds/lamborghini-urus-purple/04.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.1445,
+   0.2498,
+   0.7975,
+   0.848
+  ]
+ },
+ "/media/builds/lamborghini-urus-purple/05.jpg": {
+  "w": 1125,
+  "h": 2000,
+  "box": [
+   0.1449,
+   0.314,
+   0.84,
+   0.6135
+  ]
+ },
+ "/media/builds/lamborghini-urus-white/01.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.1015,
+   0.0382,
+   0.889,
+   0.8631
+  ]
+ },
+ "/media/builds/lamborghini-urus-white/02.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.1125,
+   0.1004,
+   0.8275,
+   0.824
+  ]
+ },
+ "/media/builds/lamborghini-urus-white/03.jpg": {
+  "w": 1500,
+  "h": 2000,
+  "box": [
+   0.054,
+   0.5185,
+   0.8573,
+   0.7725
+  ]
+ },
+ "/media/builds/lamborghini-urus-white/04.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.182,
+   0.3582,
+   0.7145,
+   0.8551
+  ]
+ },
+ "/media/builds/mclaren-720s-purple/01.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.2645,
+   0.1227,
+   0.798,
+   0.8311
+  ]
+ },
+ "/media/builds/mclaren-720s-purple/02.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.249,
+   0.2071,
+   0.782,
+   0.8596
+  ]
+ },
+ "/media/builds/mercedes-s-class-black/01.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.178,
+   0.2284,
+   0.8305,
+   0.8116
+  ]
+ },
+ "/media/builds/mercedes-s-class-black/02.jpg": {
+  "w": 1080,
+  "h": 1616,
+  "box": [
+   0.1148,
+   0.5557,
+   0.8898,
+   0.8317
+  ]
+ },
+ "/media/builds/mercedes-s-class-black/03.jpg": {
+  "w": 1061,
+  "h": 1587,
+  "box": [
+   0.05,
+   0.5608,
+   0.9491,
+   0.7902
+  ]
+ },
+ "/media/builds/porsche-911-gt3/01.jpg": {
+  "w": 2000,
+  "h": 1500,
+  "box": [
+   0.0175,
+   0.1733,
+   0.9705,
+   0.6
+  ]
+ },
+ "/media/builds/porsche-911-gt3/02.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.172,
+   0.3449,
+   0.8555,
+   0.8622
+  ]
+ },
+ "/media/builds/porsche-911-gt3/03.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0,
+   0,
+   1,
+   1
+  ],
+  "plain": true
+ },
+ "/media/builds/rolls-royce-wraith/01.jpg": {
+  "w": 2000,
+  "h": 1125,
+  "box": [
+   0.119,
+   0.2507,
+   0.881,
+   0.8347
+  ]
+ },
+ "/media/builds/rolls-royce-wraith/02.jpg": {
+  "w": 1125,
+  "h": 2000,
+  "box": [
+   0.1662,
+   0.416,
+   1.0,
+   0.7465
+  ]
+ },
+ "/media/builds/rolls-royce-wraith/03.jpg": {
+  "w": 1125,
+  "h": 2000,
+  "box": [
+   0.0,
+   0.3945,
+   0.9716,
+   0.7075
+  ]
+ },
+ "/media/cases/mercedes-s63-silver-after.jpg": {
+  "w": 936,
+  "h": 468,
+  "box": [
+   0.1036,
+   0.0,
+   0.9391,
+   0.9444
+  ]
+ },
+ "/media/cases/mercedes-s63-silver-before.jpg": {
+  "w": 936,
+  "h": 468,
+  "box": [
+   0.1004,
+   0.0,
+   0.9423,
+   0.938
+  ]
+ },
+ "/media/team/vlad.jpg": {
+  "w": 1126,
+  "h": 2000,
+  "box": [
+   0.0,
+   0.423,
+   0.9778,
+   0.811
+  ],
+  "depth": true
+ }
+}

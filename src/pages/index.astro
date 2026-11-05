@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import SubjectPhoto from '../components/SubjectPhoto.astro';
 import MediaSlot from '../components/MediaSlot.astro';
 import BeforeAfter from '../components/BeforeAfter.astro';
 import Arrow from '../components/Arrow.astro';
@@ -189,10 +190,10 @@ const spider = cases.find((c) => c.slug === 'ferrari-488-spider')!;
             <span class="col-span-4 text-right text-sm text-white/60 md:col-span-3">{b.work[0]}</span>
           </a>
         ))}
-        <div data-preview-box class="pointer-events-none absolute top-0 left-0 z-10 hidden h-[260px] w-[340px] -translate-x-1/2 -translate-y-1/2 scale-[0.6] overflow-hidden opacity-0 md:block" aria-hidden="true">
+        <div data-preview-box class="pointer-events-none absolute top-0 left-0 z-10 hidden h-[203px] w-[360px] -translate-x-1/2 -translate-y-1/2 scale-[0.6] overflow-hidden opacity-0 md:block" aria-hidden="true">
           {builds.map((b, i) => (
             <div data-preview-slide class="absolute inset-0" style={`transform:translateY(${i * 100}%)`}>
-              <img src={coverOf(b).src} alt="" loading="lazy" decoding="async" class="block size-full object-cover" style={coverOf(b).pos && `object-position:${coverOf(b).pos}`} />
+              <SubjectPhoto src={coverOf(b).src} alt="" ratio={16 / 9} blur={false} />
             </div>
           ))}
         </div>
