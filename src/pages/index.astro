@@ -192,7 +192,7 @@ const spider = cases.find((c) => c.slug === 'ferrari-488-spider')!;
         <div data-preview-box class="pointer-events-none absolute top-0 left-0 z-10 hidden h-[260px] w-[340px] -translate-x-1/2 -translate-y-1/2 scale-[0.6] overflow-hidden opacity-0 md:block" aria-hidden="true">
           {builds.map((b, i) => (
             <div data-preview-slide class="absolute inset-0" style={`transform:translateY(${i * 100}%)`}>
-              <img src={coverOf(b).src} alt="" loading="lazy" decoding="async" class="block size-full object-cover" />
+              <img src={coverOf(b).src} alt="" loading="lazy" decoding="async" class="block size-full object-cover" style={coverOf(b).pos && `object-position:${coverOf(b).pos}`} />
             </div>
           ))}
         </div>

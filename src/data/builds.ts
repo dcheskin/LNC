@@ -6,7 +6,9 @@
 // kit/wheel brands, what was repaired) with the owner before launch.
 
 export type Stage = 'Before' | 'During' | 'After';
-export type Photo = { src: string; alt: string; stage?: Stage };
+// pos: CSS object-position for when the shot is cropped into a card/hero frame
+// (only needed for portrait shots, where the car sits low in the frame).
+export type Photo = { src: string; alt: string; stage?: Stage; pos?: string };
 
 export type Build = {
   slug: string;
@@ -20,10 +22,11 @@ export type Build = {
   hero: number; // index into photos for the wide hero on the build page (21:9)
 };
 
-const p = (slug: string, n: number, alt: string, stage?: Stage): Photo => ({
+const p = (slug: string, n: number, alt: string, stage?: Stage, pos?: string): Photo => ({
   src: `/media/builds/${slug}/${String(n).padStart(2, '0')}.jpg`,
   alt,
   stage,
+  pos,
 });
 
 export const builds: Build[] = [
@@ -42,7 +45,7 @@ export const builds: Build[] = [
       p('lamborghini-urus-purple', 4, 'Purple Urus rear three-quarter view outside the shop', 'During'),
       p('lamborghini-urus-purple', 5, 'Finished purple Urus head-on in the LNC lot, flares painted to match', 'After'),
     ],
-    cover: 4,
+    cover: 0,
     hero: 0,
   },
   {
@@ -168,7 +171,7 @@ export const builds: Build[] = [
       p('lamborghini-huracan-orange', 1, 'Orange Lamborghini Huracán with carbon hood and LNC windshield banner, outside the shop', 'After'),
       p('lamborghini-huracan-orange', 2, 'Orange Huracán head-on inside the LNC shop', 'After'),
       p('lamborghini-huracan-orange', 3, 'Orange Huracán from behind, showing the rear wing and engine cover', 'After'),
-      p('lamborghini-huracan-orange', 4, 'Orange Huracán side view in the LNC lot', 'After'),
+      p('lamborghini-huracan-orange', 4, 'Orange Huracán side view in the LNC lot', 'After', '50% 66%'),
     ],
     cover: 0,
     hero: 3,

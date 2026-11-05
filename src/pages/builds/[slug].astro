@@ -6,7 +6,6 @@ import CtaBand from '../../components/CtaBand.astro';
 import Arrow from '../../components/Arrow.astro';
 import { builds, heroOf } from '../../data/builds';
 import { cases, caseImages } from '../../data/cases';
-import { jpegSize } from '../../lib/media';
 
 export function getStaticPaths() {
   return builds.map((b, i) => ({ params: { slug: b.slug }, props: { b, next: builds[(i + 1) % builds.length] } }));
@@ -15,13 +14,9 @@ const { b, next } = Astro.props;
 const match = cases.find((c) => c.build === b.slug);
 // Hero already shows one shot; the grid shows the rest in story order.
 const gallery = b.photos.filter((_, i) => i !== b.hero);
-// Odd count: lead with a full-width shot so the 2-column rows below stay even.
-const wideFirst = gallery.length % 2 === 1;
-// All-landscape galleries get 4:3 tiles; any portrait shot keeps 4:5 so rows line up.
-const tile = gallery.some((ph) => { const d = jpegSize(ph.src); return d && d.h > d.w; }) ? 'aspect-[4/5]' : 'aspect-[4/3]';
 ---
 <Base title={b.car} description={`${b.car} — ${b.title} ${b.summary}`}>
-  <PageHero eyebrow={b.division} title={b.car} lede={b.title} media={{ label: heroOf(b).alt, src: heroOf(b).src }} />
+  <PageHero eyebrow={b.division} title={b.car} lede={b.title} media={{ label: heroOf(b).alt, src: heroOf(b).src, pos: heroOf(b).pos }} />
 
   <section class="bg-white py-20 md:py-28">
     <div class="container-x grid gap-12 lg:grid-cols-12">
@@ -36,12 +31,11 @@ const tile = gallery.some((ph) => { const d = jpegSize(ph.src); return d && d.h 
   </section>
 
   <section class="bg-white pb-24" aria-label={`${b.car} photos`}>
-    <div class="container-x grid gap-6 md:grid-cols-2">
-      {gallery.map((ph, i) => (
-        <figure class:list={['m-0', i === 0 && wideFirst && 'md:col-span-2']} data-reveal>
-          <div class:list={['overflow-hidden bg-paper', i === 0 && wideFirst ? 'aspect-[16/9]' : tile]}>
-            <img src={ph.src} alt={ph.alt} loading="lazy" decoding="async" class="block size-full object-cover" data-zoom />
-          </div>
+    <!-- Whole photos at their own shape (no crop), two columns, in story order. -->
+    <div class:list={['container-x', gallery.length > 1 && 'gap-6 md:columns-2']}>
+      {gallery.map((ph) => (
+        <figure class="m-0 mb-8 break-inside-avoid" data-reveal>
+          <img src={ph.src} alt={ph.alt} loading="lazy" decoding="async" class="block h-auto w-full bg-paper" />
           {ph.stage && <figcaption class="eyebrow mt-3 text-mute">{ph.stage}</figcaption>}
         </figure>
       ))}
