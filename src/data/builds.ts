@@ -171,21 +171,7 @@ export const builds: Build[] = [
     cover: 0,
     hero: 0,
   },
-  {
-    slug: 'mercedes-s-class-black',
-    car: 'Mercedes-Benz S-Class',
-    division: 'Customization',
-    title: 'Lowered on monoblock wheels.',
-    summary: 'A black S-Class sitting low on polished monoblock wheels with a blacked-out AMG-style front end.',
-    work: ['Wheels', 'Stance', 'AMG-style front', 'Detail'],
-    photos: [
-      p('mercedes-s-class-black', 1, 'Black Mercedes S-Class on polished monoblock wheels outside LNC', 'After'),
-      p('mercedes-s-class-black', 2, 'Black S-Class front three-quarter view in the LNC lot', 'After'),
-      p('mercedes-s-class-black', 3, 'Black S-Class parked next to a black G-Class at LNC', 'After'),
-    ],
-    cover: 0,
-    hero: 0,
-  },
+
 ];
 
 export const coverOf = (b: Build) => b.photos[b.cover];

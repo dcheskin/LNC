@@ -229,36 +229,6 @@
    0.8596
   ]
  },
- "/media/builds/mercedes-s-class-black/01.jpg": {
-  "w": 2000,
-  "h": 1125,
-  "box": [
-   0.178,
-   0.2284,
-   0.8305,
-   0.8116
-  ]
- },
- "/media/builds/mercedes-s-class-black/02.jpg": {
-  "w": 1080,
-  "h": 1616,
-  "box": [
-   0.1148,
-   0.5557,
-   0.8898,
-   0.8317
-  ]
- },
- "/media/builds/mercedes-s-class-black/03.jpg": {
-  "w": 1061,
-  "h": 1587,
-  "box": [
-   0.05,
-   0.5608,
-   0.9491,
-   0.7902
-  ]
- },
  "/media/builds/porsche-911-gt3/01.jpg": {
   "w": 2000,
   "h": 1500,
