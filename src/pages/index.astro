@@ -149,7 +149,7 @@ const spider = cases.find((c) => c.slug === 'ferrari-488-spider')!;
       <div class="lg:col-span-5 lg:col-start-8">
         <p class="tag">Insurance claims</p>
         <div class="mt-6 flex items-center gap-5">
-          <span class="display-c text-[2.6rem] tabular-nums"><span data-step-num>01</span><span class="text-ink/30"> / {String(steps.length).padStart(2, '0')}</span></span>
+          <span class="display-c text-[2.6rem] tabular-nums"><span data-step-num>01</span><span class="text-ink/55"> / {String(steps.length).padStart(2, '0')}</span></span>
         </div>
         <div class="mt-10 grid gap-12 lg:gap-0">
           {steps.map((s, i) => (
@@ -183,7 +183,7 @@ const spider = cases.find((c) => c.slug === 'ferrari-488-spider')!;
         </div>
         {builds.map((b, i) => (
           <a href={`/builds/${b.slug}`} data-preview-row data-cursor="View" class="group grid grid-cols-12 items-center gap-y-2 py-6 transition-colors hover:bg-white/[0.03] md:py-7">
-            <span class="display-c col-span-2 text-[2rem] text-white/40 transition-colors group-hover:text-white md:col-span-1">{String(i + 1).padStart(2, '0')}</span>
+            <span class="display-c col-span-2 text-[2rem] text-white/60 transition-colors group-hover:text-white md:col-span-1">{String(i + 1).padStart(2, '0')}</span>
             <span class="display col-span-10 text-[clamp(1.81rem,3.77vw,3.33rem)] transition-transform duration-500 group-hover:translate-x-2 md:col-span-5">{b.car}</span>
             <span class="eyebrow col-span-6 col-start-3 text-white/60 md:col-span-3 md:col-start-auto">{b.division}</span>
             <span class="col-span-4 text-right text-sm text-white/60 md:col-span-3">{b.work[0]}</span>

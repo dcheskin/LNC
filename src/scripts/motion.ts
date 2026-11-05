@@ -277,7 +277,11 @@ function buildOdo(el: HTMLElement) {
   const value = el.dataset.odo!;
   el.textContent = '';
   el.classList.add('odo');
-  el.setAttribute('aria-label', value);
+  // The rolling digits are aria-hidden, so screen readers get the value from this.
+  const label = document.createElement('span');
+  label.className = 'sr-only';
+  label.textContent = value;
+  el.appendChild(label);
   const cols: { inner: HTMLElement; d: number }[] = [];
   [...value].forEach((ch, i) => {
     if (!/\d/.test(ch)) {

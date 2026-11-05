@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+const reviewed = 'November 2026';
+const sections = [
+  {
+    t: 'Our goal',
+    d: `We want everyone to be able to get a repair, a quote or an answer from ${site.name}. We aim for this site to meet the Web Content Accessibility Guidelines (WCAG) 2.1, level AA.`,
+  },
+  {
+    t: 'What we’ve done',
+    d: 'Text and buttons meet AA colour contrast. Every page works with a keyboard and shows where focus is, with a “Skip to content” link first. Images have text descriptions and form fields are labelled. Background videos are silent, carry no information and have a pause button. Animation switches off when your device is set to reduce motion.',
+  },
+  {
+    t: 'Known limits',
+    d: 'Some photos of repairs and builds are shown to compare before and after; they have text descriptions, but fine visual detail may not come across in words. Links to Yelp, Google, Instagram and YouTube go to sites we don’t control.',
+  },
+];
+---
+<Base title="Accessibility" description={`Accessibility statement for ${site.name}: how we make this site usable for everyone and how to reach us if something doesn’t work.`}>
+  <PageHero eyebrow="Accessibility" title="Built to be|used by everyone." />
+  <section class="bg-paper pt-16 pb-28 md:pt-24">
+    <div class="container-x max-w-4xl space-y-12">
+      {sections.map((s) => (
+        <div data-reveal>
+          <h2 class="display text-[2.17rem]">{s.t}</h2>
+          <p class="lede mt-4 max-w-[62ch] text-ink-2">{s.d}</p>
+        </div>
+      ))}
+      <div data-reveal>
+        <h2 class="display text-[2.17rem]">Something not working?</h2>
+        <p class="lede mt-4 max-w-[62ch] text-ink-2">
+          If any part of this site is hard to use, tell us and we’ll help you directly and fix it.
+          Call or text <a href={site.phoneHref} class="underline underline-offset-4">{site.phone}</a>
+          or email <a href={`mailto:${site.email}`} class="underline underline-offset-4">{site.email}</a>.
+        </p>
+      </div>
+      <p class="eyebrow text-mute">Last reviewed {reviewed}</p>
+    </div>
+  </section>
+</Base>
