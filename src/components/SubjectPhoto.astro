@@ -89,7 +89,8 @@ const loading = eager ? 'eager' : 'lazy';
   .sp.is-on .sp-blur,
   a:hover .sp .sp-blur,
   a:focus-visible .sp .sp-blur { opacity: 0; }
-  .sp[data-depth] .sp-back { transform: scale(1.04); }
+  .sp[data-depth] .sp-back,
+  .sp[data-depth] .sp-front { transform: scale(1.04); }
   @media (prefers-reduced-motion: reduce) {
     .sp-move, .sp-blur { transition: none; }
   }
@@ -110,8 +111,8 @@ const loading = eager ? 'eager' : 'lazy';
     const front = el.querySelector<HTMLElement>('.sp-front')!;
     const back = el.querySelector<HTMLElement>('.sp-back')!;
     const move = (x: number, y: number) => {
-      front.style.transform = `translate(${x * 10}px, ${y * 6}px)`;
-      back.style.transform = `scale(1.04) translate(${x * -5}px, ${y * -3}px)`;
+      front.style.transform = `scale(1.04) translate(${x * 7}px, ${y * 4}px)`;
+      back.style.transform = `scale(1.04) translate(${x * -3}px, ${y * -2}px)`;
     };
     el.addEventListener('pointermove', (e) => {
       const r = el.getBoundingClientRect();

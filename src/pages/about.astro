@@ -12,12 +12,6 @@ const values = [
   { t: 'Every car matters.', d: 'A Hyundai gets the same paint match as a Ferrari. Our reviews say it better than we can.' },
   { t: 'We work for you.', d: 'Not a volume shop, not part of any insurer’s network. Our client is the person who owns the car.' },
 ];
-// CONFIRM names, roles and photos with the owner before launch.
-const team: { n: string; r: string; s: string; photo?: string }[] = [
-  { n: 'Ben', r: 'Estimates & client care', s: 'Portrait: Ben at the front desk' },
-  { n: 'Dmitriy Solovyev', r: 'Co-owner', s: 'Portrait: Dmitriy in the shop' },
-  { n: 'Vlad', r: 'LNC Motorsport · YouTube', s: 'Vlad sitting on the front of a red Ferrari mid-repair in the LNC shop', photo: '/media/team/vlad.jpg' },
-];
 ---
 <Base title="About" description={`LNC Auto Group is a family-owned body shop in Laguna Niguel, California, est. ${site.founded}. Accident repair and car customization.`}>
   <PageHero
@@ -48,17 +42,9 @@ const team: { n: string; r: string; s: string; photo?: string }[] = [
     <div class="container-x">
       <p class="eyebrow text-mute" data-reveal>The people</p>
       <h2 class="display mt-5 text-[clamp(2.75rem,5.8vw,5.22rem)]" data-split>Who you’ll meet.</h2>
-      <div class="mt-14 grid gap-6 md:grid-cols-3">
-        {team.map((m) => (
-          <figure data-reveal>
-            <div class="aspect-[4/5] overflow-hidden">{m.photo ? <SubjectPhoto src={m.photo} alt={m.s} ratio={4 / 5} depth /> : <MediaSlot label={m.s} />}</div>
-            <figcaption class="mt-5">
-              <p class="display text-[1.96rem]">{m.n}</p>
-              <p class="eyebrow mt-2 text-mute">{m.r}</p>
-            </figcaption>
-          </figure>
-        ))}
-      </div>
+      <figure class="mt-14" data-reveal>
+        <SubjectPhoto src="/media/team/family.jpg" alt="The LNC family together under autumn trees, little ones in arms" depth />
+      </figure>
     </div>
   </section>
 

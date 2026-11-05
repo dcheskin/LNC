@@ -16,11 +16,11 @@ from rembg import new_session, remove
 
 PUB = 'public'
 PHOTOS = sorted(glob.glob(f'{PUB}/media/builds/*/[0-9][0-9].jpg')) + [
-    f'{PUB}/media/team/vlad.jpg',
+    f'{PUB}/media/team/family.jpg',
     f'{PUB}/media/cases/mercedes-s63-silver-before.jpg',
     f'{PUB}/media/cases/mercedes-s63-silver-after.jpg',
 ]
-DEPTH = {f'{PUB}/media/team/vlad.jpg'}
+DEPTH = {f'{PUB}/media/team/family.jpg'}
 # Shots with no single car/person to isolate (e.g. an interior): shown plain.
 PLAIN = {f'{PUB}/media/builds/porsche-911-gt3/03.jpg'}
 META = 'src/data/photo-meta.json'
