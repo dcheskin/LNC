@@ -4,12 +4,12 @@ import PageHero from '../components/PageHero.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Arrow from '../components/Arrow.astro';
 import YouTubeCard from '../components/YouTubeCard.astro';
-import { channel, featured, popular, recent } from '../data/youtube';
+import { channel, popular, recent } from '../data/youtube';
 
 const stats = [
   { v: channel.subscribers, k: 'Subscribers' },
   { v: channel.videos, k: 'Videos' },
-  { v: featured.views, k: 'Views on the top video' },
+  { v: channel.totalViews, k: 'Total channel views' },
 ];
 ---
 <Base title="YouTube — LNC Motorsport" description={`${channel.name} (${channel.handle}): Vlad’s channel of full rebuilds of wrecked Ferraris, Lamborghinis, Rolls-Royces and Porsches at LNC Auto Group. ${channel.subscribers} subscribers.`}>
@@ -30,12 +30,6 @@ const stats = [
           </div>
         ))}
       </dl>
-      <div class="mt-16 md:mt-24">
-        <div class="mx-auto max-w-4xl text-center">
-          <p class="eyebrow text-white/55" data-reveal>Most watched</p>
-          <div class="mt-6"><YouTubeCard v={featured} big dark /></div>
-        </div>
-      </div>
     </div>
   </section>
 
