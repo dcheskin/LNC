@@ -14,8 +14,7 @@ export const channel = {
 export type Video = { id: string; title: string; views: string; length: string };
 
 // Most watched (channel "Popular videos"), then the next nine by views.
-// Checked 6 Nov 2026. "I bought a wrecked 2019 Mercedes S560 for myself"
-// (~1M views) belongs between #6 and #7 — add it when its link is known.
+// Checked 6 Nov 2026.
 export const featured: Video = { id: 'KV9pGtThwG8', title: 'Rebuilding crashed Ferrari 488 in 20 minutes', views: '7.6M', length: '20:50' };
 
 export const popular: Video[] = [
