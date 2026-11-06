@@ -13,7 +13,9 @@ export const channel = {
 
 export type Video = { id: string; title: string; views: string; length: string };
 
-// Most watched (channel "Popular videos").
+// Most watched (channel "Popular videos"), then the next nine by views.
+// Checked 6 Nov 2026. "I bought a wrecked 2019 Mercedes S560 for myself"
+// (~1M views) belongs between #6 and #7 — add it when its link is known.
 export const featured: Video = { id: 'KV9pGtThwG8', title: 'Rebuilding crashed Ferrari 488 in 20 minutes', views: '7.6M', length: '20:50' };
 
 export const popular: Video[] = [
@@ -22,6 +24,10 @@ export const popular: Video[] = [
   { id: 'wDaWyugUiLs', title: 'Rebuilding a salvage Rolls-Royce in 12 minutes', views: '2.6M', length: '11:44' },
   { id: 'bJMWCttutVQ', title: 'Rebuilding a salvage Lamborghini Huracán in 10 minutes', views: '1.9M', length: '10:31' },
   { id: 'oGDygeDzOsg', title: 'Rebuilding crashed Porsche Cayenne Turbo in 16 minutes', views: '1.5M', length: '16:55' },
+  { id: '7mn2JiTa70g', title: 'Rebuilding an abandoned Ferrari 488 GTB — Part 4: paint time', views: '397K', length: '25:35' },
+  { id: 'd_B0Gbip8Zk', title: 'Rebuilding a crashed 2017 Mercedes S550 from Copart — Part 1', views: '375K', length: '20:24' },
+  { id: 'W-IZN3-nXzE', title: 'Rebuilding a wrecked Ferrari 488 Spider — Part 1', views: '270K', length: '21:24' },
+  { id: 'vupr0qZ2dWw', title: 'I found an abandoned Ferrari 488 GTB in a storage unit — Part 1', views: '244K', length: '16:08' },
 ];
 
 export const recent: Video[] = [

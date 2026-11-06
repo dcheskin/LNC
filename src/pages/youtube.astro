@@ -32,7 +32,7 @@ const stats = [
       </dl>
       <div class="mt-16 md:mt-24">
         <p class="eyebrow text-white/55" data-reveal>Most watched</p>
-        <div class="mt-6"><YouTubeCard v={featured} big dark /></div>
+        <div class="mt-6 max-w-2xl"><YouTubeCard v={featured} dark /></div>
       </div>
     </div>
   </section>
@@ -40,7 +40,7 @@ const stats = [
   <section class="bg-paper py-24 md:py-32">
     <div class="container-x">
       <div class="flex flex-wrap items-end justify-between gap-6">
-        <h2 class="display text-[clamp(2.75rem,5.8vw,5.22rem)]" data-split>Popular rebuilds.</h2>
+        <h2 class="display text-[clamp(2.75rem,5.8vw,5.22rem)]" data-split>Most popular.</h2>
         <a href={`${channel.url}/videos?view=0&sort=p`} target="_blank" rel="noopener" class="link-arrow" data-reveal>All videos <Arrow /></a>
       </div>
       <div class="mt-12 grid gap-x-6 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
