@@ -36,6 +36,8 @@ Replace it with media of the same aspect ratio, e.g.
 - Builds (/builds, build pages, home "Hall of fame", /customization): each entry in `src/data/builds.ts` lists its photos in story order (Before → During → After) plus which one is the card `cover` and the page `hero`. Photos live in `public/media/builds/<slug>/NN.jpg` — resize to ~2000px, strip EXIF/GPS and blur readable plates first. Then run `python3 scripts/subjects.py` (needs `pip install "rembg[cpu]" opencv-python-headless`): it cuts out the car/person and writes the soft-focus layers and subject boxes used by `<SubjectPhoto>` (sharp car, blurred surroundings until hover/tap; crops are framed so the car is never cut).
 - Scroll-scrubbed footage (Forge-style): `<video data-scrub src="…" muted playsinline preload="auto">` — scrubs with scroll automatically.
 - Put files in `public/media/`. Export video H.264 MP4, ≤ 8 MB for the hero.
+- Photo and film slots and their file names are listed in `public/media/README.md`. `scripts/media/` holds the crop/grade and Ken Burns film scripts used for the current set.
+- LNC Supply tiles (`<SupplyTile>`) are line drawings of each piece until product photos exist.
 
 ## Contact form
 "Send request" on Get a Quote emails the request to ben@lnccollision.com with the photos attached. The page sends it in the background (no page change, usually 2–4 s) to a small Google Apps Script web app that runs under your Google account: free, and on Google's servers. Photos are shrunk in the browser first (≈1600 px JPEG) so uploads are quick on a phone.

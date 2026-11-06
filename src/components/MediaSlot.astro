@@ -9,9 +9,12 @@ interface Props {
   note?: string;
   tone?: 'light' | 'dark';
   align?: 'center' | 'top-right' | 'bottom-left' | 'bottom-right';
+  // Once a real photo is in: alt text (defaults to label) and focal point for the crop.
+  alt?: string;
+  pos?: string;
   class?: string;
 }
-const { file, kind = 'photo', label, note, tone = 'light', align = 'center', class: cls = '' } = Astro.props;
+const { file, kind = 'photo', label, note, tone = 'light', align = 'center', alt, pos: focal, class: cls = '' } = Astro.props;
 const video = file && kind === 'video' ? findVideo(file) : undefined;
 const image = file && !video ? findImage(file) : undefined;
 const pos = {
@@ -36,7 +39,7 @@ const dark = tone === 'dark';
     )}
   </video>
 ) : image ? (
-  <img src={image} alt={label} loading="lazy" decoding="async" class:list={['block size-full object-cover', cls]} />
+  <img src={image} alt={alt ?? label} loading="lazy" decoding="async" class:list={['block size-full object-cover', cls]} style={focal ? `object-position:${focal}` : undefined} />
 ) : (
 <div
   class:list={[

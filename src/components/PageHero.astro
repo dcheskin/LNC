@@ -1,16 +1,19 @@
 ---
 import MediaSlot from './MediaSlot.astro';
 import SubjectPhoto from './SubjectPhoto.astro';
+import CasePair from './CasePair.astro';
 interface Props {
   eyebrow: string;
   title: string;
   lede?: string;
   media?: { label: string; note?: string; kind?: 'photo' | 'video'; file?: string; src?: string };
+  // Before / after side by side (shot from different angles), e.g. from cases.ts.
+  pair?: { before: string; after: string; beforeLabel: string; afterLabel: string };
   // Full-bleed film behind the headline (public/media/<file>.mp4), like the home hero.
   background?: { file: string; label: string };
 }
 // Header is white-on-dark, so heroes open on night.
-const { eyebrow, title, lede, media, background } = Astro.props;
+const { eyebrow, title, lede, media, pair, background } = Astro.props;
 ---
 <section data-hero class:list={['bg-night relative overflow-hidden text-white', background && 'flex min-h-[100svh] flex-col']}>
   {background && (
@@ -30,10 +33,19 @@ const { eyebrow, title, lede, media, background } = Astro.props;
     {lede && <p class="lede mt-8 max-w-[54ch] text-white/70" data-hero-fade>{lede}</p>}
     <slot />
   </div>
+  {pair && (
+    <div class="container-x pb-10 md:pb-14">
+      <div class="aspect-[2/1] overflow-hidden md:aspect-[21/9]">
+        <div class="size-full" data-hero-media="inline">
+          <CasePair {...pair} eager class="size-full" />
+        </div>
+      </div>
+    </div>
+  )}
   {media && (
     <div class="container-x pb-10 md:pb-14">
       <div class:list={['overflow-hidden', media.src ? 'mx-auto aspect-[16/9] max-w-6xl' : 'aspect-[16/10] md:aspect-[21/9]']}>
-        <div class="size-full" data-hero-media>
+        <div class="size-full" data-hero-media="inline">
           {media.src ? (
             <SubjectPhoto src={media.src} alt={media.label} ratio={16 / 9} eager />
           ) : (

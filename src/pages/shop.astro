@@ -1,10 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
-import MediaSlot from '../components/MediaSlot.astro';
+import SupplyTile from '../components/SupplyTile.astro';
 import Arrow from '../components/Arrow.astro';
 import { site } from '../data/site';
-const items = ['Heavyweight black tee — boxy fit, embroidered mark', 'Suede cap', 'Plate frame', 'Beanie'];
+const items = [
+  { p: 'Heavyweight black tee — boxy fit, embroidered mark', item: 'tee' },
+  { p: 'Suede cap', item: 'cap' },
+  { p: 'Plate frame', item: 'frame' },
+  { p: 'Beanie', item: 'beanie' },
+] as const;
 ---
 <Base title="LNC Supply" description="LNC Supply — apparel and accessories from LNC Auto Group. First drop coming soon.">
   <PageHero eyebrow="LNC Supply" title="First drop.|Coming soon." lede="An automotive lifestyle label first, shop merch second. Heavyweight, boxy, a small embroidered mark — no phone numbers, no service lists. Made to be worn whether or not you own the car.">
@@ -12,11 +17,10 @@ const items = ['Heavyweight black tee — boxy fit, embroidered mark', 'Suede ca
   </PageHero>
   <section class="bg-night pb-28 text-white">
     <div class="container-x grid grid-cols-2 gap-4 md:grid-cols-4">
-      {items.map((p) => (
-        <div data-reveal>
-          <div class="aspect-[3/4]"><MediaSlot tone="dark" label={p} note="Product shot on neutral backdrop" /></div>
+      {items.map(({ p, item }, i) => (
+        <div data-reveal style={`--d:${(i % 4) * 70}ms`}>
+          <div class="aspect-[3/4]"><SupplyTile item={item} n={i + 1} of={items.length} /></div>
           <p class="eyebrow mt-4 text-white/70">{p}</p>
-          <p class="eyebrow mt-1 text-white/60">Coming soon</p>
         </div>
       ))}
     </div>

@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import SubjectPhoto from '../components/SubjectPhoto.astro';
 import MediaSlot from '../components/MediaSlot.astro';
+import SupplyTile from '../components/SupplyTile.astro';
 import BeforeAfter from '../components/BeforeAfter.astro';
 import Arrow from '../components/Arrow.astro';
 import Marquee from '../components/Marquee.astro';
@@ -18,9 +19,9 @@ const heroVideo = findVideo('hero');
 import { builds, coverOf } from '../data/builds';
 
 const steps = [
-  { t: 'Text us photos & your claim number.', d: 'Send a few photos of the damage to (949) 367-1080. In California, you choose the shop — not your insurer.', m: 'Phone in hand, texting damage photos' },
-  { t: 'We deal with the insurance company.', d: 'Adjuster, inspection, supplements, rental and towing — handled. We work for you, not the insurer.', m: 'Ben walking the car with an adjuster' },
-  { t: 'Pick it up. Find nothing.', d: 'OEM-level repair, color-matched in the booth. If you can find the repair, we aren’t done.', m: 'Finished car, paint reflections in sunlight' },
+  { t: 'Text us photos & your claim number.', d: 'Send a few photos of the damage to (949) 367-1080. In California, you choose the shop — not your insurer.', m: 'Phone in hand, texting damage photos', file: 'claim-1', alt: 'Close-up of a crumpled front fender on a white Ferrari 488 Spider — the kind of photo to text us', pos: '50% 50%' },
+  { t: 'We deal with the insurance company.', d: 'Adjuster, inspection, supplements, rental and towing — handled. We work for you, not the insurer.', m: 'Ben walking the car with an adjuster', file: 'claim-2', alt: 'Lamborghini Huracán Performante in the LNC shop, rear quarter rebuilt in filler and primer', pos: '50% 50%' },
+  { t: 'Pick it up. Find nothing.', d: 'OEM-level repair, color-matched in the booth. If you can find the repair, we aren’t done.', m: 'Finished car, paint reflections in sunlight', file: 'claim-3', alt: 'Flawless white Rolls-Royce Cullinan hood and grille reflecting the sky', pos: '50% 60%' },
 ];
 const week = [
   { d: 1, n: 'Monday', t: '08:00 – 17:30' },
@@ -91,11 +92,11 @@ const spider = cases.find((c) => c.slug === 'ferrari-488-spider')!;
 
       <div class="mt-20 grid gap-6 md:grid-cols-2">
         {[
-          { n: '01', name: 'Accident Repair', href: '/accident-repair', text: 'Collision and body repair to manufacturer standards, with every insurance company. Towing, rental and the adjuster — handled.', items: ['Collision & structural', 'Paint & color match', 'Aluminum & frame', 'Dent & scratch'], slot: 'Booth shot: car mid-refinish, technician in suit', cta: 'Start a claim', tone: 'light' },
-          { n: '02', name: 'Customization', href: '/customization', text: 'Wide-body, wheels, suspension, exhaust and custom paint — designed with you and built in-house with the same factory discipline.', items: ['Wide-body & body kits', 'Wheels & suspension', 'Exhaust', 'Custom paint'], slot: 'Detail shot: wide-body fender & wheel, dark studio', cta: 'Plan a build', tone: 'dark' },
+          { n: '01', name: 'Accident Repair', href: '/accident-repair', text: 'Collision and body repair to manufacturer standards, with every insurance company. Towing, rental and the adjuster — handled.', items: ['Collision & structural', 'Paint & color match', 'Aluminum & frame', 'Dent & scratch'], slot: 'Booth shot: car mid-refinish, technician in suit', file: 'home-repair', alt: 'Lamborghini Huracán Performante mid-repair in the LNC bays, quarter panel in filler', cta: 'Start a claim', tone: 'light' },
+          { n: '02', name: 'Customization', href: '/customization', text: 'Wide-body, wheels, suspension, exhaust and custom paint — designed with you and built in-house with the same factory discipline.', items: ['Wide-body & body kits', 'Wheels & suspension', 'Exhaust', 'Custom paint'], slot: 'Detail shot: wide-body fender & wheel, dark studio', file: 'home-custom', alt: 'Black Porsche 911 GT2 conversion with bronze wheels and a tall rear wing, side profile', cta: 'Plan a build', tone: 'dark' },
         ].map((d) => (
           <a href={d.href} class:list={['group relative flex flex-col overflow-hidden', d.tone === 'dark' ? 'bg-night text-white' : 'bg-white text-ink']} data-reveal data-cursor="Enter">
-            <div class="aspect-[16/11] overflow-hidden"><div class="size-full transition-transform duration-[1.4s] ease-[var(--ease-out-expo)] group-hover:scale-[1.05]"><MediaSlot label={d.slot} tone={d.tone as 'light' | 'dark'} /></div></div>
+            <div class="aspect-[16/11] overflow-hidden"><div class="size-full transition-transform duration-[1.4s] ease-[var(--ease-out-expo)] group-hover:scale-[1.05]"><MediaSlot file={d.file} alt={d.alt} label={d.slot} tone={d.tone as 'light' | 'dark'} /></div></div>
             <div class="flex flex-1 flex-col p-7 md:p-10">
               <div class="flex items-center justify-between">
                 <span class="tag">{d.n}</span>
@@ -138,25 +139,25 @@ const spider = cases.find((c) => c.slug === 'ferrari-488-spider')!;
   </section>
 
   <!-- CLAIM SEQUENCE (pinned, 01/03) -->
-  <section data-sequence class="relative bg-paper lg:h-screen">
-    <div class="container-x grid h-full gap-12 py-24 lg:grid-cols-12 lg:items-center lg:gap-10 lg:py-0">
+  <section data-sequence class="relative bg-paper lg:[.js-motion_&]:h-screen">
+    <div class="container-x grid h-full gap-12 py-24 lg:grid-cols-12 lg:items-center lg:gap-10 lg:[.js-motion_&]:py-0">
       <div class="relative aspect-[4/5] overflow-hidden lg:col-span-6 lg:aspect-auto lg:h-[76vh]">
         {steps.map((s, i) => (
-          <div data-step-media class:list={['absolute inset-0', i > 0 && 'hidden lg:block']}>
-            <MediaSlot label={s.m} tone={i === 1 ? 'dark' : 'light'} />
+          <div data-step-media class:list={['absolute inset-0', i > 0 && 'hidden lg:[.js-motion_&]:block']}>
+            <MediaSlot file={s.file} alt={s.alt} pos={s.pos} label={s.m} tone={i === 1 ? 'dark' : 'light'} />
           </div>
         ))}
       </div>
       <div class="lg:col-span-5 lg:col-start-8">
         <p class="tag">Insurance claims</p>
-        <div class="mt-6 flex items-center gap-5">
+        <div class="mt-6 hidden items-center gap-5 lg:[.js-motion_&]:flex">
           <span class="display-c text-[2.6rem] tabular-nums"><span data-step-num>01</span><span class="text-ink/55"> / {String(steps.length).padStart(2, '0')}</span></span>
         </div>
-        <div class="mt-10 grid gap-12 lg:gap-0">
+        <div class="mt-10 grid gap-12 lg:[.js-motion_&]:gap-0">
           {steps.map((s, i) => (
-            <div data-step class="lg:[grid-area:1/1]">
-              <p class="eyebrow text-mute lg:hidden">{String(i + 1).padStart(2, '0')}</p>
-              <h3 class="display mt-3 text-[clamp(2.75rem,4.64vw,4.64rem)] lg:mt-0">{s.t}</h3>
+            <div data-step class="lg:[.js-motion_&]:[grid-area:1/1]">
+              <p class="eyebrow text-mute lg:[.js-motion_&]:hidden">{String(i + 1).padStart(2, '0')}</p>
+              <h3 class="display mt-3 text-[clamp(2.75rem,4.64vw,4.64rem)] lg:[.js-motion_&]:mt-0">{s.t}</h3>
               <p class="lede mt-6 max-w-[42ch] text-ink-2">{s.d}</p>
             </div>
           ))}
@@ -235,7 +236,7 @@ const spider = cases.find((c) => c.slug === 'ferrari-488-spider')!;
               <span class="display col-span-6 text-[clamp(1.59rem,3.19vw,2.75rem)]">{w.n}</span>
               <span class="col-span-4 flex items-center justify-end gap-3 text-right">
                 <span class="today tag hidden">Today</span>
-                <span class="eyebrow text-white/70">{w.t}</span>
+                <span class="eyebrow whitespace-nowrap text-white/70">{w.t}</span>
               </span>
             </li>
           ))}
@@ -295,9 +296,9 @@ const spider = cases.find((c) => c.slug === 'ferrari-488-spider')!;
         <a href={site.social.instagram} target="_blank" rel="noopener" class="link-arrow mt-8" data-reveal>Follow for the drop <Arrow /></a>
       </div>
       <div class="grid grid-cols-3 gap-4 lg:col-span-8">
-        {['Heavyweight black tee', 'Suede cap', 'Plate frame'].map((p, i) => (
+        {([['Heavyweight black tee', 'tee'], ['Suede cap', 'cap'], ['Plate frame', 'frame']] as const).map(([p, item], i, all) => (
           <div data-reveal style={`--d:${i * 80}ms`}>
-            <div class="aspect-[3/4] overflow-hidden"><MediaSlot tone="dark" label={p} /></div>
+            <div class="aspect-[3/4] overflow-hidden"><SupplyTile item={item} n={i + 1} of={all.length} /></div>
             <p class="eyebrow mt-4 text-white/70">{p}</p>
           </div>
         ))}
@@ -309,5 +310,5 @@ const spider = cases.find((c) => c.slug === 'ferrari-488-spider')!;
 <style>
   .week-row[data-today] { color: #fff; }
   .week-row[data-today] .display { font-weight: 500; }
-  .week-row[data-today] .today { display: inline-flex; }
+  @media (min-width: 640px) { .week-row[data-today] .today { display: inline-flex; } }
 </style>

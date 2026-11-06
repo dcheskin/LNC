@@ -1,0 +1,96 @@
+---
+// LNC Supply teaser: a spec-drawing of the piece (hairline outline that draws
+// itself in on scroll) carrying the real LNC mark, on a dark studio backdrop.
+// Swap for product photography once the first drop is shot.
+import { LETTERS } from '../assets/logo-paths';
+interface Props {
+  item: 'tee' | 'cap' | 'frame' | 'beanie';
+  n: number;
+  of: number;
+  class?: string;
+}
+const { item, n, of, class: cls = '' } = Astro.props;
+const pad = (v: number) => String(v).padStart(2, '0');
+// Where the mark sits on each piece (x, y, width) in the 200×240 drawing.
+const mark = { tee: [81, 82, 38], cap: [83, 102, 40], frame: [70, 161, 60], beanie: [76, 157, 48] }[item];
+const s = mark[2] / LETTERS.w;
+---
+<div class:list={['supply group relative isolate size-full overflow-hidden', cls]} data-draw>
+  <div class="supply-grid absolute inset-0 -z-10" aria-hidden="true"></div>
+  <svg viewBox="0 0 200 240" class="absolute inset-0 m-auto size-[84%] text-white transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.04]" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+    {item === 'tee' && (
+      <>
+        <path pathLength="1" d="M72 46 L58 52 L28 82 L46 102 L60 90 L60 206 L140 206 L140 90 L154 102 L172 82 L142 52 L128 46 Q116 60 100 60 Q84 60 72 46 Z" />
+        <path pathLength="1" d="M78 49 Q88 56 100 56 Q112 56 122 49" class="opacity-60" />
+        <path pathLength="1" d="M60 196 L140 196 M46 102 L40 95 M154 102 L160 95" class="opacity-40" />
+      </>
+    )}
+    {item === 'cap' && (
+      <>
+        <path pathLength="1" d="M44 150 Q40 84 100 78 Q158 76 162 142 L162 150 Z" />
+        <path pathLength="1" d="M100 78 Q96 110 98 150 M70 86 Q62 116 66 150 M132 84 Q140 114 136 150" class="opacity-40" />
+        <path pathLength="1" d="M148 146 Q186 142 196 160 Q168 168 132 158" />
+        <circle pathLength="1" cx="100" cy="79" r="3.5" class="opacity-60" />
+      </>
+    )}
+    {item === 'frame' && (
+      <>
+        <rect pathLength="1" x="22" y="80" width="156" height="104" rx="12" />
+        <rect pathLength="1" x="34" y="90" width="132" height="64" rx="5" class="opacity-50" />
+        <path pathLength="1" d="M44 101 L52 101 M148 101 L156 101 M44 143 L52 143 M148 143 L156 143" class="opacity-40" />
+      </>
+    )}
+    {item === 'beanie' && (
+      <>
+        <path pathLength="1" d="M56 186 L56 128 Q56 66 100 62 Q144 66 144 128 L144 186 Z" />
+        <path pathLength="1" d="M56 146 L144 146" />
+        <path pathLength="1" d="M66 186 L66 146 M76 186 L76 146 M86 186 L86 146 M114 186 L114 146 M124 186 L124 146 M134 186 L134 146" class="opacity-30" />
+        <path pathLength="1" d="M100 62 L100 54" class="opacity-60" />
+      </>
+    )}
+    <path d={LETTERS.d} fill="currentColor" stroke="none" fill-rule="evenodd" class="supply-mark" transform={`translate(${mark[0]} ${mark[1]}) scale(${s})`} />
+  </svg>
+  <div class="supply-meta eyebrow absolute inset-x-4 top-4 flex justify-between text-white/45 md:inset-x-5 md:top-5">
+    <span>Drop 01</span><span>{pad(n)} / {pad(of)}</span>
+  </div>
+  <span class="supply-meta eyebrow absolute bottom-4 left-4 text-white/60 md:bottom-5 md:left-5">Coming soon</span>
+</div>
+
+<style>
+  .supply {
+    container-type: inline-size;
+    background:
+      radial-gradient(90% 70% at 50% 18%, rgb(255 255 255 / 0.09), transparent 70%),
+      linear-gradient(180deg, #16181d, #0b0c0e);
+  }
+  .supply-grid {
+    background-image:
+      linear-gradient(rgb(255 255 255 / 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+    background-size: 24px 24px;
+    mask-image: radial-gradient(70% 60% at 50% 45%, #000, transparent);
+  }
+  .supply svg { opacity: 0.82; }
+  /* Narrow tiles (three across on a phone): just the drawing. */
+  @container (max-width: 11rem) {
+    .supply-meta { display: none; }
+  }
+  .supply-mark { opacity: 0.9; }
+  /* Light sweep across the piece. */
+  .supply::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 40%, rgb(255 255 255 / 0.07) 50%, transparent 60%);
+    transform: translateX(-100%);
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .supply::after { animation: supply-sweep 6s var(--ease-out-expo) infinite; }
+    .supply:hover::after { animation-duration: 2.4s; }
+  }
+  @keyframes supply-sweep {
+    0%, 55% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+</style>

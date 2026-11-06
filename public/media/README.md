@@ -10,6 +10,23 @@ site automatically (live about 2 minutes after the upload).
 | `customization.mp4`  | Customization page, top film                | 20–30 s                                |
 | `about.mp4`          | About page, full-screen behind the headline | 15–40 s loop, no sound needed          |
 
+**Photo slots** (a `.jpg` with the slot name replaces the grey placeholder):
+
+| File name            | Where it shows                                   | Frame |
+|----------------------|--------------------------------------------------|-------|
+| `home-repair.jpg`    | Home, "Accident Repair" card                     | 16:11 |
+| `home-custom.jpg`    | Home, "Customization" card                       | 16:11 |
+| `claim-1/2/3.jpg`    | Home, the 01 / 02 / 03 insurance-claim steps     | 4:5   |
+| `repair-choice.jpg`  | Accident Repair, "Your car. Your choice of shop" | 4:5   |
+| `about-shop.jpg`     | About, the shop                                  | 4:3   |
+| `about-detail.jpg`   | About, detail shot next to it                    | 4:5   |
+
+The current photos and films were picked from the shared Drive "photos" folder
+and finished with `scripts/media/` (crop, grade, EXIF stripped; the films are
+Ken Burns cuts of the stills). To redo one: put the originals in `drive-photos/`
+(git-ignored), `pip install pillow-heif opencv-python-headless`, then
+`python3 scripts/media/stills.py claim-1` or `python3 scripts/media/films.py film`.
+
 Optional: `hero-portrait.mp4` (any slot name + `-portrait`) is a vertical cut
 shown on phones held upright; everything else gets the landscape file.
 

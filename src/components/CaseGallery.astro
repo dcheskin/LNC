@@ -1,6 +1,8 @@
 ---
-// Every before/after case from src/data/cases.ts as a drag-to-compare slider.
+// Every before/after case from src/data/cases.ts: a drag-to-compare slider, or
+// two frames side by side when the photos weren't shot from the same angle.
 import BeforeAfter from './BeforeAfter.astro';
+import CasePair from './CasePair.astro';
 import { cases, caseImages } from '../data/cases';
 interface Props {
   class?: string;
@@ -10,9 +12,13 @@ const { class: cls = '' } = Astro.props;
 <div class:list={['grid gap-x-6 gap-y-14 md:grid-cols-2', cls]}>
   {cases.map((c, i) => (
     <figure data-reveal style={`--d:${(i % 2) * 80}ms`}>
-      <div data-cursor="Drag">
-        <BeforeAfter {...caseImages(c)} beforeLabel={c.before} afterLabel={c.after} class="aspect-[2/1]" />
-      </div>
+      {c.layout === 'pair' ? (
+        <CasePair {...caseImages(c)} beforeLabel={c.before} afterLabel={c.after} class="aspect-[2/1]" />
+      ) : (
+        <div data-cursor="Drag">
+          <BeforeAfter {...caseImages(c)} beforeLabel={c.before} afterLabel={c.after} class="aspect-[2/1]" />
+        </div>
+      )}
       <figcaption class="mt-5">
         <p class="eyebrow text-mute">{String(i + 1).padStart(2, '0')} · {c.division}</p>
         <p class="display mt-2 text-[1.96rem]">{c.car}</p>

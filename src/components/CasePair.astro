@@ -1,0 +1,24 @@
+---
+// Before/after shot from different angles: two frames side by side instead of
+// a slider. The "after" frame wipes in when it scrolls into view.
+interface Props {
+  before: string;
+  after: string;
+  beforeLabel: string;
+  afterLabel: string;
+  eager?: boolean;
+  class?: string;
+}
+const { before, after, beforeLabel, afterLabel, eager = false, class: cls = '' } = Astro.props;
+const loading = eager ? 'eager' : 'lazy';
+---
+<div class:list={['grid grid-cols-2 gap-1.5 sm:gap-2', cls]} data-pair>
+  <div class="relative overflow-hidden" data-pair-before>
+    <img src={before} alt={beforeLabel} loading={loading} decoding="async" class="size-full object-cover" />
+    <span class="eyebrow absolute top-3 left-3 bg-ink px-2.5 py-1.5 text-white sm:top-4 sm:left-4">Arrived</span>
+  </div>
+  <div class="relative overflow-hidden" data-pair-after>
+    <img src={after} alt={afterLabel} loading={loading} decoding="async" class="size-full object-cover" />
+    <span class="eyebrow absolute top-3 right-3 bg-white px-2.5 py-1.5 text-ink sm:top-4 sm:right-4">Delivered</span>
+  </div>
+</div>

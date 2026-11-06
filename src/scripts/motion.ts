@@ -42,6 +42,8 @@ export function initMotion() {
     scrubVideos();
     odometers(false);
     imageZooms();
+    drawLines();
+    pairs();
     previewTables();
     footerGlow();
     ScrollTrigger.refresh();
@@ -116,10 +118,13 @@ function heroIntro(tl: gsap.core.Timeline) {
     { opacity: 1, y: 0, duration: 1, stagger: 0.06, ease: EASE },
     0.65,
   );
+  // Background films sink and fade as the hero scrolls away; inline media
+  // (a photo or film under the headline) only drifts, so it stays readable.
+  const inline = (media as HTMLElement | null)?.dataset.heroMedia === 'inline';
   if (media)
     gsap.to(media, {
-      yPercent: 16,
-      opacity: 0.4,
+      yPercent: inline ? 6 : 16,
+      opacity: inline ? 1 : 0.4,
       ease: 'none',
       scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true },
     });
@@ -159,7 +164,37 @@ function parallax() {
 
 function imageZooms() {
   document.querySelectorAll<HTMLElement>('[data-zoom]').forEach((el) => {
+    // The frame wipes open from the bottom once, then the photo settles with scroll.
+    const frame = el.parentElement;
+    if (frame) gsap.from(frame, { clipPath: 'inset(100% 0% 0% 0%)', duration: 1.4, ease: 'expo.inOut', scrollTrigger: { trigger: frame, start: 'top 88%', once: true } });
     gsap.fromTo(el, { scale: 1.14 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: el, start: 'top bottom', end: 'center center', scrub: true } });
+  });
+}
+
+/* ---------- Supply drawings: hairlines draw in, then the mark appears ---------- */
+function drawLines() {
+  document.querySelectorAll<HTMLElement>('[data-draw]').forEach((el, i) => {
+    const lines = el.querySelectorAll('[pathLength]');
+    const mark = el.querySelector('.supply-mark');
+    gsap.set(lines, { strokeDasharray: 1, strokeDashoffset: 1 });
+    if (mark) gsap.set(mark, { opacity: 0 });
+    const tl = gsap.timeline({ delay: (i % 4) * 0.12, scrollTrigger: { trigger: el, start: 'top 85%', once: true } });
+    tl.to(lines, { strokeDashoffset: 0, duration: 1.6, stagger: 0.14, ease: 'power2.inOut' });
+    if (mark) tl.to(mark, { opacity: 0.9, duration: 0.9, ease: 'power1.out' }, '-=0.6');
+  });
+}
+
+/* ---------- Arrived / Delivered pairs: each frame wipes open, after follows ---------- */
+function pairs() {
+  document.querySelectorAll<HTMLElement>('[data-pair]').forEach((el) => {
+    const before = el.querySelector('[data-pair-before]');
+    const after = el.querySelector('[data-pair-after]');
+    const inHero = !!el.closest('[data-hero]');
+    const tl = gsap.timeline({ delay: inHero ? 0.35 : 0, scrollTrigger: inHero ? undefined : { trigger: el, start: 'top 82%', once: true } });
+    tl.from(before, { clipPath: 'inset(0% 100% 0% 0%)', duration: 1.2, ease: 'expo.inOut' })
+      .from(after, { clipPath: 'inset(0% 0% 0% 100%)', duration: 1.2, ease: 'expo.inOut' }, 0.45)
+      .from(el.querySelectorAll('img'), { scale: 1.2, duration: 2, stagger: 0.45, ease: EASE }, 0)
+      .from(el.querySelectorAll('.eyebrow'), { opacity: 0, y: 8, duration: 0.6, stagger: 0.45, ease: 'power2.out' }, 0.8);
   });
 }
 
@@ -210,22 +245,24 @@ function sequences() {
       gsap.set([...steps].slice(1), { opacity: 0, y: 40 });
       gsap.set([...media].slice(1), { clipPath: 'inset(100% 0 0 0)' });
       const tl = gsap.timeline({
+        // Counter follows the (scrubbed) timeline: it flips mid-crossfade.
+        onUpdate: () => {
+          const k = Math.min(n - 1, Math.max(0, Math.floor(tl.time() + 0.25)));
+          if (num) num.textContent = String(k + 1).padStart(2, '0');
+        },
         scrollTrigger: {
           trigger: sec,
           start: 'top top',
           end: `+=${n * 90}%`,
           pin: true,
           scrub: 0.6,
-          onUpdate: (st) => {
-            const i = Math.min(n - 1, Math.floor(st.progress * n));
-            if (num) num.textContent = String(i + 1).padStart(2, '0');
-          },
         },
       });
       for (let i = 1; i < n; i++) {
         tl.to(steps[i - 1], { opacity: 0, y: -40, duration: 0.4 }, i - 0.6).to(steps[i], { opacity: 1, y: 0, duration: 0.4 }, i - 0.3);
         if (media[i]) tl.to(media[i], { clipPath: 'inset(0% 0 0 0)', duration: 0.7, ease: 'power2.inOut' }, i - 0.7);
       }
+      tl.to({}, { duration: 0.9 }); // hold the last step before the section unpins
       return () => gsap.set([...steps, ...media], { clearProps: 'all' });
     });
   });
