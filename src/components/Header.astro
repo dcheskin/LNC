@@ -28,7 +28,9 @@ const path = Astro.url.pathname.replace(/\/$/, '');
 <div id="mobile-menu" class="fixed inset-0 z-[45] flex flex-col text-white" aria-hidden="true" inert>
   <div class="menu-under absolute inset-0 bg-night-2"></div>
   <div class="menu-panel absolute inset-0 bg-night"></div>
-  <div class="relative flex min-h-0 flex-1 flex-col overflow-y-auto pt-[4.5rem] md:pt-20">
+  <!-- data-lenis-prevent: while the menu is open Lenis is stopped and cancels every touch/wheel
+       event on the page, so the menu's own scroller must opt out or it can't be scrolled. -->
+  <div class="menu-scroll relative flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain mt-[4.5rem] md:mt-20" data-lenis-prevent>
     <nav class="container-x mt-6 flex flex-col md:mt-10" aria-label="Menu">
       {[{ label: 'Home', href: '/' }, ...nav, { label: 'Reviews', href: '/reviews' }, { label: 'FAQ', href: '/faq' }, { label: 'Contact', href: '/contact' }].map((n, i) => (
         <a href={n.href} class:list={['menu-item group relative flex items-baseline justify-between py-2.5 md:py-3', path === n.href.replace(/\/$/, '') && 'is-current']}>
